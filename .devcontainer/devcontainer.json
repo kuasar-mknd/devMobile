@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node-mongo
+{
+    "name": "Ionic Vue.js & MongoDB",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "frontend",
+    "workspaceFolder": "/workspaces/frontend",
+
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "mongodb.mongodb-vscode",
+                "ms-azuretools.vscode-docker",
+                "esbenp.prettier-vscode",
+                "GitHub.copilot",
+                "GitHub.copilot-labs",
+                "GitHub.copilot-chat",
+                "dbaeumer.vscode-eslint",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "VisualStudioExptTeam.intellicode-api-usage-examples",
+                "christian-kohler.npm-intellisense",
+                "bierner.markdown-mermaid",
+                "github.vscode-github-actions"
+            ],
+            "settings": {
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.eslint": true
+                },
+                "eslint.validate": [
+                    "javascript",
+                    "javascriptreact",
+                    "typescript",
+                    "typescriptreact"
+                ]
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {}
+    },
+    "forwardPorts": [3000, 27017, 8100],
+    "postCreateCommand": "npm install"
+}

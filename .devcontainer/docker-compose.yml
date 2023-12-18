@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+    db:
+        image: mongo:latest
+        restart: unless-stopped
+        volumes:
+            - mongodb-data:/data/db
+        environment:
+            MONGO_INITDB_DATABASE: homeGarden
+
+    backend:   
+        image: homegarden-api
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
+        environment:
+            JWT_SECRET: apiArchiOWeb
+            SERVER_URL: http://localhost:3000    
+        depends_on:
+            - db
+
+    frontend:
+        build:
+            context: ./path/to/frontend
+            dockerfile: Dockerfile
+        volumes:
+            - ../..:/workspaces/frontend:cached
+        ports:
+            - "8100:8100"
+        depends_on:
+            - backend
+            - db
+
+volumes:
+    mongodb-data:
