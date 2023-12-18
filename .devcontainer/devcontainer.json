@@ -43,5 +43,5 @@
         "ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {}
     },
     "forwardPorts": [3000, 27017, 8100],
-    "postCreateCommand": "cd ./home-garden && npm install"
+    "postCreateCommand": "cd ./home-garden && npm install && ionic serve --external"
 }
