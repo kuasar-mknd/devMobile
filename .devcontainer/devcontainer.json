@@ -23,7 +23,8 @@
                 "VisualStudioExptTeam.intellicode-api-usage-examples",
                 "christian-kohler.npm-intellisense",
                 "bierner.markdown-mermaid",
-                "github.vscode-github-actions"
+                "github.vscode-github-actions",
+                "Ionic.ionic"
             ],
             "settings": {
                 "editor.codeActionsOnSave": {
@@ -42,5 +43,5 @@
         "ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {}
     },
     "forwardPorts": [3000, 27017, 8100],
-    "postCreateCommand": "npm install"
+    "postCreateCommand": "cd ./home-garden && npm install"
 }
