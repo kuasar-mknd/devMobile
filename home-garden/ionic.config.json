@@ -1,0 +1,7 @@
+{
+  "name": "HomeGarden",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
