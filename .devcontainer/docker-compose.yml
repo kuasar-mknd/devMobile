@@ -12,7 +12,7 @@ services:
             - "27017:27017"    
 
     backend:   
-        image: homegarden-api
+        image: kuasar/homegarden-api:latest
         restart: unless-stopped
         ports:
             - "3000:3000"
