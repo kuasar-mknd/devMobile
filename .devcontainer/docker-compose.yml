@@ -28,7 +28,7 @@ services:
             context: .
             dockerfile: Dockerfile
         volumes:
-            - ../..:/workspaces/frontend:cached
+            - ../..:/workspaces:cached
         command: sleep infinity    
         ports:
             - "8100:8100"
