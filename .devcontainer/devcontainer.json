@@ -24,7 +24,8 @@
                 "christian-kohler.npm-intellisense",
                 "bierner.markdown-mermaid",
                 "github.vscode-github-actions",
-                "Ionic.ionic"
+                "Ionic.ionic",
+                "Vue.volar"
             ],
             "settings": {
                 "editor.codeActionsOnSave": {
