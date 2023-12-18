@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install -g @ionic/cli @vue/cli
 
 # Installation des dépendances du projet
-RUN npm install
+# RUN npm install
 
 # Copier les fichiers et dossiers restants du projet dans le conteneur
 COPY . .
@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 8100
 
 # Commande pour démarrer l'application
-CMD ["ionic", "serve", "--external"]
+# CMD ["ionic", "serve", "--external"]

@@ -4,7 +4,7 @@
     "name": "Ionic Vue.js & MongoDB",
     "dockerComposeFile": "docker-compose.yml",
     "service": "frontend",
-    "workspaceFolder": "/workspaces/frontend",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
     // Configure tool-specific properties.
     "customizations": {

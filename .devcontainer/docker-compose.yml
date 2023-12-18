@@ -8,6 +8,8 @@ services:
             - mongodb-data:/data/db
         environment:
             MONGO_INITDB_DATABASE: homeGarden
+        ports:
+            - "27017:27017"    
 
     backend:   
         image: homegarden-api
@@ -17,12 +19,13 @@ services:
         environment:
             JWT_SECRET: apiArchiOWeb
             SERVER_URL: http://localhost:3000    
+            DATABASE_URL: mongodb://db:27017/homeGarden
         depends_on:
             - db
 
     frontend:
         build:
-            context: ./path/to/frontend
+            context: .
             dockerfile: Dockerfile
         volumes:
             - ../..:/workspaces/frontend:cached
