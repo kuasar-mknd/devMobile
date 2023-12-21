@@ -36,6 +36,7 @@
 <script lang="ts">
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { 
   IonPage, 
   IonHeader, 
@@ -63,6 +64,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRouter();
     const userData = ref({
       identifier: '',
       firstName: '',
@@ -73,6 +75,7 @@ export default {
 
     const registerUser = async () => {
       await store.dispatch('register', userData.value);
+      route.push('/');
     };
 
     return { userData, registerUser };
