@@ -21,15 +21,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { IonTabBar, IonTabButton, IonTabs, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { location, person, home, leaf } from 'ionicons/icons';
 
-const activeTab = ref('tab1'); // Default active tab
+const activeTab = ref(localStorage.getItem('activeTab') || 'tab1');
 
 const setActiveTab = (tab: string) => {
-  activeTab.value = tab;
+  activeTab.value = tab; // Update active tab
+  localStorage.setItem('activeTab', tab); // Save the active tab to localStorage
 };
+
+onMounted(() => {
+  const storedTab = localStorage.getItem('activeTab');
+  if (storedTab) {
+    activeTab.value = storedTab;
+  }
+});
 </script>
 <style>
 .ripple {
