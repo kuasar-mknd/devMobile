@@ -3,16 +3,16 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button @click="setActiveTab('tab1')" tab="tab1" href="/tabs/home">
+        <ion-tab-button class="ripple" @click="setActiveTab('tab1')" tab="tab1" href="/tabs/home">
           <ion-icon :class="{active: activeTab === 'tab1'}" aria-hidden="true" :icon="home" />
         </ion-tab-button>
-        <ion-tab-button @click="setActiveTab('tab2')" tab="tab2" href="/tabs/jardin">
+        <ion-tab-button class="ripple" @click="setActiveTab('tab2')" tab="tab2" href="/tabs/jardin">
           <ion-icon :class="{active: activeTab === 'tab2'}" aria-hidden="true" :icon="leaf" />
         </ion-tab-button>
-        <ion-tab-button @click="setActiveTab('tab3')" tab="tab3" href="/tabs/map">
+        <ion-tab-button  class="ripple" @click="setActiveTab('tab3')" tab="tab3" href="/tabs/map">
           <ion-icon :class="{active: activeTab === 'tab3'}" aria-hidden="true" :icon="location" />
         </ion-tab-button>
-        <ion-tab-button @click="setActiveTab('tab4')" tab="tab4" href="/tabs/user">
+        <ion-tab-button  class="ripple" @click="setActiveTab('tab4')" tab="tab4" href="/tabs/user">
           <ion-icon :class="{active: activeTab === 'tab4'}" aria-hidden="true" :icon="person" />
         </ion-tab-button>
       </ion-tab-bar>
@@ -32,6 +32,9 @@ const setActiveTab = (tab: string) => {
 };
 </script>
 <style>
+.ripple {
+  --ripple-color: #37AA9F !important;
+}
 
 ion-tab-button:hover ion-icon {
     color: #37AA9F !important;  
