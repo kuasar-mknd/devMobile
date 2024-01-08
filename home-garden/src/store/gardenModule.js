@@ -1,4 +1,5 @@
 import { gardenService } from '@/services/gardenService';
+import axios from 'axios';
 
 const state = {
   gardens: [],
@@ -17,7 +18,23 @@ const actions = {
       const gardens = await gardenService.fetchGardens();
       commit('setGardens', gardens);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -26,7 +43,23 @@ const actions = {
       const garden = await gardenService.getGarden(id);
       commit('setGarden', garden);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -35,7 +68,29 @@ const actions = {
       const newGarden = await gardenService.createGarden(gardenData);
       commit('newGarden', newGarden);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 401:
+            commit('setError', '');
+            break;
+          case 488:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -44,7 +99,32 @@ const actions = {
       const updatedGarden = await gardenService.updateGarden(id, gardenData);
       commit('updateGarden', updatedGarden);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 401:
+            commit('setError', '');
+            break;
+          case 403:
+            commit('setError', '');
+            break;
+          case 404:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -53,7 +133,32 @@ const actions = {
       await gardenService.deleteGarden(id);
       commit('deleteGarden', id);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 401:
+            commit('setError', '');
+            break;
+          case 403:
+            commit('setError', '');
+            break;
+          case 404:
+            commit('setError', '');
+            break;  
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -62,7 +167,23 @@ const actions = {
       const gardens = await gardenService.fetchGardensByLocation(longitude, latitude, radius);
       commit('setGardens', gardens);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -71,7 +192,32 @@ const actions = {
       const plants = await gardenService.fetchGardenPlants(gardenId);
       commit('setGardenPlants', { gardenId, plants });
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 401:
+            commit('setError', '');
+            break;
+          case 403:
+            commit('setError', '');
+            break;
+          case 404:
+            commit('setError', '');
+            break;  
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -80,7 +226,32 @@ const actions = {
       const aggregatedData = await gardenService.aggregateGardenPlants(gardenId);
       commit('setAggregatedPlants', { gardenId, aggregatedData });
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 401:
+            commit('setError', '');
+            break;
+          case 403:
+            commit('setError', '');
+            break;
+          case 404:
+            commit('setError', '');
+            break;  
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 
@@ -89,7 +260,23 @@ const actions = {
       const paginatedGardens = await gardenService.fetchGardensWithPagination(page, limit);
       commit('setPaginatedGardens', paginatedGardens);
     } catch (error) {
-      commit('setError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   }
 };
