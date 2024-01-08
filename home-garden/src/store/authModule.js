@@ -1,4 +1,5 @@
 import { registerUser, loginUser, logoutUser } from '@/services/authService';
+import axios from 'axios';
 
 const state = {
   user: JSON.parse(localStorage.getItem('user')),
@@ -10,18 +11,62 @@ const actions = {
     try {
       const data = await registerUser(userData);
       commit('setUser', data);
+      commit('setAuthError', null); // Réinitialiser les erreurs précédentes
     } catch (error) {
-      commit('setAuthError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setAuthError', 'Mauvaise requête, l\'utilisateur existe déjà.');
+            break;
+          case 488:
+            commit('setAuthError', 'Un email valide est requis ou le mot de passe doit comporter au moins 6 caractères.');
+            break;
+          case 500:
+            commit('setAuthError', 'Erreur interne du serveur.');
+            break;
+          default:
+            commit('setAuthError', 'Une erreur inconnue est survenue.');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setAuthError', errorMessage);
+      }
     }
   },
   async login({ commit }, userData) {
     try {
       const data = await loginUser(userData);
       commit('setUser', data);
+      commit('setAuthError', null);
     } catch (error) {
-      commit('setAuthError', error.message);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setAuthError', 'Données d\'entrée invalides.');
+            break;
+          case 401:
+            commit('setAuthError', 'Authentification échouée.');
+            break;
+          case 488:
+            commit('setAuthError', 'Une adresse mail valide ou un mot de passe de 6 caractères minimum est requis.');
+            break;
+          case 500:
+            commit('setAuthError', 'Erreur interne du serveur.');
+            break;
+          default:
+            commit('setAuthError', 'Une erreur inconnue est survenue.');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setAuthError', errorMessage);
+      }
     }
   },
+  
   async logout({ commit }) {
     try {
       await logoutUser();

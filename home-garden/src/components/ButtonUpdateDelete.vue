@@ -1,6 +1,6 @@
 <template>
     <div>
-      <img src="../../resources/dots_menu.png" alt="altMenu">
+      <img class="menuIcon" src="../../resources/dots_menu.png" alt="altMenu">
     </div>
   </template>
     
@@ -8,7 +8,7 @@
   </script>
     
     <style>
-      img {
+      .menuIcon {
         width: 20px;
         height: 20px;
         margin: 0 10px;

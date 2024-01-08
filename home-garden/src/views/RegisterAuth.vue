@@ -27,6 +27,9 @@
           <ion-label>Mot de Passe</ion-label>
           <ion-input type="password" v-model="userData.password"></ion-input>
         </ion-item>
+        <div v-if="authError" class="error-message">
+            {{ authError }}
+          </div>
         <ion-button expand="full" type="submit">S'inscrire</ion-button>
       </form>
     </ion-content>
@@ -34,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { 
@@ -64,7 +67,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    const route = useRouter();
+    const router = useRouter();
     const userData = ref({
       identifier: '',
       firstName: '',
@@ -73,12 +76,16 @@ export default {
       password: ''
     });
 
+    const authError = computed(() => store.state.auth.authError);
+
     const registerUser = async () => {
       await store.dispatch('register', userData.value);
-      route.push('/');
+      if (!authError.value) {
+          router.push('/'); // Redirection après connexion réussie
+        }
     };
 
-    return { userData, registerUser };
+    return { userData, registerUser, authError };
   }
 };
 </script>
