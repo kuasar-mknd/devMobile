@@ -29,6 +29,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/HomePage.vue')
       },
       {
+        path: 'jardin',
+        component: () => import('@/views/JardinPage.vue')
+      },
+      {
         path: 'user',
         component: () => import('@/views/UserProfile.vue')
       },
