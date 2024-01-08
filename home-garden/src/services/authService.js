@@ -8,12 +8,12 @@ const registerUser = async (userData) => {
     return response.data;
   }
   catch (error) {
-    throw new Error(error.response.data.message || error.message);
+    return Promise.reject(error);
   }
 };
 
 const loginUser = async (userData) => {
-  try{
+  try {
     const response = await axios.post(API_URL + 'login', userData);
     if (response.data.token) {
       localStorage.setItem('user', JSON.stringify(response.data));
@@ -21,7 +21,8 @@ const loginUser = async (userData) => {
     return response.data;
   }
   catch (error) {
-    throw new Error(error.response.data.message || error.message);
+    // Ne relancez pas l'erreur, retournez plutôt l'objet d'erreur complet
+    return Promise.reject(error);
   }
 };
 
