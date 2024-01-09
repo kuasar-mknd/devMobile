@@ -52,7 +52,7 @@
     props: {
     label: String as PropType<string>,
     imageSrc: String as PropType<string>,
-    localisation: String as PropType<string>,
+    localisation: Array as PropType<string[]>,
     },
     setup() {
       return { chevronForward, listCircle };
