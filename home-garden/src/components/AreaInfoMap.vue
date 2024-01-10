@@ -20,7 +20,13 @@
           </ion-card-header>
           <ion-card-content>
             <!-- Contenu de votre modal -->
-            <p>Informations sur la plante</p>
+            <ion-chip color="success">
+              <ion-label>Jardin qui vous apprtient</ion-label>
+            </ion-chip>
+
+            <ion-chip color="warning">
+              <ion-label>Ce et ces jardins ne vous appartiennent pas</ion-label>
+            </ion-chip>
             
           </ion-card-content>
         </ion-card>
@@ -36,7 +42,7 @@ import { closeCircleOutline } from 'ionicons/icons';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
-  name: 'AreaInfoPlant',
+  name: 'AreaInfoMap',
   components: {
     ButtonInformation,
     IonModal,
@@ -103,5 +109,9 @@ export default defineComponent({
   right: -22px;
   --color: #353535 !important; /* Couleur du bouton */
   font-size: 1.5rem;
+}
+ion-card-title {
+  font-size: 17px;
+  color: #353535;
 }
 </style>
