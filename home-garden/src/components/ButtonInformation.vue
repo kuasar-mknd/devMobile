@@ -10,6 +10,7 @@
   import { defineComponent } from 'vue';
 
   export default defineComponent({
+    name: 'ButtonInformation',
     components: { IonChip, IonIcon },
     setup() {
       return {
