@@ -104,4 +104,11 @@ export default defineComponent({
   --color: #353535 !important; /* Couleur du bouton */
   font-size: 1.5rem;
 }
+ion-card-title {
+  font-size: 17px;
+  color: #353535;
+}
+
+
+
 </style>
