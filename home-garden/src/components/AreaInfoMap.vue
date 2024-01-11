@@ -14,20 +14,21 @@
           <ion-card-header>
             <ion-card-title>Informations</ion-card-title>
             <!-- Ajoutez un bouton de fermeture -->
-            <ion-button @click="closeModal" class="close-button" fill="clear" >
+            <ion-button @click="closeModal" class="close-button" fill="clear">
               <ion-icon :icon="closeCircleOutline"></ion-icon>
             </ion-button>
           </ion-card-header>
           <ion-card-content>
             <!-- Contenu de votre modal -->
-            <ion-chip color="success">
-              <ion-label>Jardin qui vous apprtient</ion-label>
+            <ion-chip class="ownership-chip">
+              <ion-icon :icon="ellipseSharp" class="green-icon"></ion-icon>
+              <ion-label>Jardin qui vous appartient</ion-label>
             </ion-chip>
 
-            <ion-chip color="warning">
+            <ion-chip class="ownership-chip">
+              <ion-icon :icon="ellipseSharp" class="orange-icon"></ion-icon>
               <ion-label>Ce et ces jardins ne vous appartiennent pas</ion-label>
             </ion-chip>
-            
           </ion-card-content>
         </ion-card>
       </ion-content>
@@ -38,7 +39,7 @@
 <script lang="ts">
 import ButtonInformation from '@/components/ButtonInformation.vue';
 import { IonModal, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon } from '@ionic/vue';
-import { closeCircleOutline } from 'ionicons/icons';
+import { closeCircleOutline, ellipseSharp } from 'ionicons/icons';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
@@ -70,6 +71,7 @@ export default defineComponent({
       openModal,
       closeModal,
       closeCircleOutline,
+      ellipseSharp,
     };
   },
 });
@@ -110,8 +112,19 @@ export default defineComponent({
   --color: #353535 !important; /* Couleur du bouton */
   font-size: 1.5rem;
 }
+
 ion-card-title {
   font-size: 17px;
   color: #353535;
+}
+
+/* Style pour les puces avec des couleurs spécifiques */
+
+.green-icon {
+  color: #37AA9F !important;
+}
+
+.orange-icon {
+  color: #FDAE36 !important; /* Rouge */
 }
 </style>
