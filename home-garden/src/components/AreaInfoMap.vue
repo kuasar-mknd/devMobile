@@ -27,7 +27,7 @@
 
             <ion-chip class="ownership-chip">
               <ion-icon :icon="ellipseSharp" class="orange-icon"></ion-icon>
-              <ion-label>Ce et ces jardins ne vous appartiennent pas</ion-label>
+              <ion-label>Jardin qui ne vous appartienne pas</ion-label>
             </ion-chip>
           </ion-card-content>
         </ion-card>
@@ -38,13 +38,14 @@
 
 <script lang="ts">
 import ButtonInformation from '@/components/ButtonInformation.vue';
-import { IonModal, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon } from '@ionic/vue';
+import { IonModal, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonLabel } from '@ionic/vue';
 import { closeCircleOutline, ellipseSharp } from 'ionicons/icons';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'AreaInfoMap',
   components: {
+    IonLabel,
     ButtonInformation,
     IonModal,
     IonContent,
@@ -118,13 +119,32 @@ ion-card-title {
   color: #353535;
 }
 
-/* Style pour les puces avec des couleurs spécifiques */
+@media (max-width: 600px) {
+  /* Styles pour les écrans de moins de 600px de largeur (mobile) */
+  .modal-card {
+    width: 90%; /* Ajustez la largeur pour les écrans mobiles */
+  }
 
+  .close-button {
+    top: -12px;
+    right: -18px;
+    font-size: 1.2rem; /* Ajustez la taille pour les écrans mobiles */
+  }
+
+  ion-card-title {
+    font-size: 16px; /* Ajustez la taille pour les écrans mobiles */
+  }
+}
 .green-icon {
   color: #37AA9F !important;
 }
 
 .orange-icon {
   color: #FDAE36 !important; /* Rouge */
+}
+
+ion-label {
+  font-size: 14px;
+  --color: #353535 !important;
 }
 </style>
