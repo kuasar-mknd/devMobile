@@ -5,6 +5,17 @@
   </template>
     
   <script>
+  export default {
+    name: 'ButtonUpdateDelete',
+    props: {
+      id: {
+        type: String,
+        required: true
+      }
+    },
+    setup() {
+    }
+  }
   </script>
     
     <style>
