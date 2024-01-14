@@ -1,11 +1,27 @@
 <template>
-    <div></div>
-  </template>
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="../../resources/icons/season/season.png">
+    </ion-avatar>
+    <ion-label>
+      {{ season }}
+    </ion-label>
+  </ion-item>
+</template>
     
   <script>
-  </script>
+  export default {
+  name: 'DetailPlantSeason',
+  props: {
+    season: {
+      type: String,
+      required: true
+    }
+  }
+}
+
+</script>
     
-    <style>
-    /* Style personnalisé pour la carte, si nécessaire */
-    </style>
-    
+  <style scoped>
+  </style>
+```

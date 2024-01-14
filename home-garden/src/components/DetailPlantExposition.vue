@@ -1,11 +1,27 @@
 <template>
-    <div></div>
-  </template>
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="../../resources/icons/exposure/exposure.png">
+    </ion-avatar>
+    <ion-label>
+      {{ exposure }}
+    </ion-label>
+  </ion-item>
+</template>
     
   <script>
-  </script>
+  export default {
+  name: 'DetailPlantExposition',
+  props: {
+    exposure: {
+      type: String,
+      required: true
+    }
+  }
+}
+
+</script>
     
-    <style>
-    /* Style personnalisé pour la carte, si nécessaire */
-    </style>
-    
+  <style scoped>
+  </style>
+```
