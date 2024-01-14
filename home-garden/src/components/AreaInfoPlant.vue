@@ -21,7 +21,12 @@
           <ion-card-content>
             <!-- Contenu de votre modal -->
             <p>Informations sur la plante</p>
-            
+            <DetailPlantSeason season="Printemps" />
+            <DetailPlantHeight height="1m" />
+            <DetailPlantWatering watering="1 fois par semaine" />
+            <DetailPlantExposition exposure="Soleil" />
+            <DetailPlantColor color="Rouge" />
+            <DetailPlantBloom bloomSeason="Été" />
           </ion-card-content>
         </ion-card>
       </ion-content>
@@ -34,6 +39,12 @@ import ButtonInformation from '@/components/ButtonInformation.vue';
 import { IonModal, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon } from '@ionic/vue';
 import { closeCircleOutline } from 'ionicons/icons';
 import { defineComponent, ref } from 'vue';
+import DetailPlantBloom from './DetailPlantBloom.vue';
+import DetailPlantColor from './DetailPlantColor.vue';
+import DetailPlantHeight from './DetailPlantHeight.vue';
+import DetailPlantExposition from './DetailPlantExposition.vue';
+import DetailPlantSeason from './DetailPlantSeason.vue';
+import DetailPlantWatering from './DetailPlantWatering.vue';
 
 export default defineComponent({
   name: 'AreaInfoPlant',
@@ -47,6 +58,12 @@ export default defineComponent({
     IonCardContent,
     IonButton,
     IonIcon,
+    DetailPlantBloom,
+    DetailPlantColor,
+    DetailPlantHeight,
+    DetailPlantExposition,
+    DetailPlantSeason,
+    DetailPlantWatering,
   },
   setup() {
     const showModal = ref(false);
