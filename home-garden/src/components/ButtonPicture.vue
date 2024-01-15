@@ -19,6 +19,7 @@
   <script setup lang="ts">
   import { ref } from 'vue';
   import { cameraOutline } from 'ionicons/icons';
+  import { IonButton, IonIcon, IonContent } from '@ionic/vue';
   
   const fileInput = ref<HTMLInputElement | null>(null);
   
