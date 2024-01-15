@@ -83,7 +83,7 @@ import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
   };
   </script>
   
-  <style>
+  <style >
 
 .button-container {
   display: flex;
