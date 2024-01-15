@@ -12,17 +12,21 @@
       :buttons="actionSheetButtons"
       @didDismiss="logResult($event)"
     ></ion-action-sheet>
+    <EditForm v-if="showEditForm" />
   </div>
 </template>
 
 
 <script lang="ts">
   import { IonActionSheet, IonButton } from '@ionic/vue';
+  import { defineComponent, ref } from 'vue';
+  import EditForm from './EditForm.vue';
 
-  export default {
-    components: { IonActionSheet, IonButton },
+  export default defineComponent({
+    components: { IonActionSheet, IonButton, EditForm },
     name:"AreaUpdateDelete",
     setup() {
+      const showEditForm = ref(false);
       const actionSheetButtons = [
         {
           text: 'Supprimer',
@@ -36,7 +40,10 @@
           data: {
             action: 'Modifier',
           },
-        },
+          handler: () => {
+            showEditForm.value = true;
+          }
+      },
         {
           text: 'Annuler',
           role: 'cancel',
@@ -53,10 +60,11 @@
 
       return {
         actionSheetButtons,
+        showEditForm,
         logResult,
       };
     },
-  };
+  });
 </script>
 
 <style>

@@ -23,7 +23,7 @@
       </div>
         <div class="profile-detail">
           <label>Nom</label>
-          <span>Froggy</span>
+          <span>The Frog</span>
         </div>
         <div class="profile-detail">
           <label>Prénom</label>
