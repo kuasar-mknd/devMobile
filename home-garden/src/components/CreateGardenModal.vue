@@ -73,9 +73,8 @@ export default defineComponent({
                 },
             };
             await store.dispatch('addGarden', userData);
-            console.log(store.state.garden.error)
             if (!error.value) {
-                //close();
+                close();
             }
         };
 
