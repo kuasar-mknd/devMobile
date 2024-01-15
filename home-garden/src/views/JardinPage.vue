@@ -25,17 +25,20 @@
     <ion-title color="tertiary" class="ion-margin-bottom">Mes jardins</ion-title>
     <SearchBar></SearchBar>
     <CardGarden
+    @navigate="goToJardinSpecifique"
     label="Jardin au Chalet"
     localisation="123.345, 456.789"
     imageSrc="../resources/garden1.jpeg"/> 
     
     <CardGarden
+    @navigate="goToJardinSpecifique"
     label="Jardin Maison"
     localisation="123.345, 456.789"
     imageSrc="../resources/garden 2.jpeg"/> 
     
     
     <CardGarden
+    @navigate="goToJardinSpecifique"
     label="Jardin Mamie"
     localisation="123.345, 456.789"
     imageSrc="../resources/garden3.jpeg"/> 
@@ -58,6 +61,7 @@ import { IonGrid, IonPage,IonRow, IonCol,IonImg,IonTitle, IonContent,IonText } f
 import SearchBar from '../components/SearchBar.vue';
 import CardGarden from '../components/CardGarden.vue';
 import ButtonAdd from '../components/ButtonAdd.vue';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
@@ -72,6 +76,17 @@ export default {
     CardGarden,
     ButtonAdd,
     IonText
+  },
+  setup() {
+    const router = useRouter();
+
+    const goToJardinSpecifique = () => {
+      router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
+    };
+
+    return {
+      goToJardinSpecifique,
+    };
   }
 }
 

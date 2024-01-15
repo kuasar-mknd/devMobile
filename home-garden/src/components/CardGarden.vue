@@ -1,12 +1,14 @@
 <template>
 
     <ion-list :inset="true">
+      <div @click="navigateToGarden">
       <ion-item :button="true" :detail="true" class="custom-detail-icon">
         <ion-img slot="start" :src="imageSrc"></ion-img>
         <ion-label>{{ label }}
           <p>{{ localisation }}</p>
         </ion-label>
       </ion-item>
+    </div>
     </ion-list>
 
 
@@ -44,6 +46,11 @@
     imageSrc: String as PropType<string>,
     localisation: Array as PropType<string[]>,
     },
+    methods: {
+    navigateToGarden() {
+      this.$emit('navigate');
+    }
+  },
     setup() {
       return { chevronForward, listCircle };
     },

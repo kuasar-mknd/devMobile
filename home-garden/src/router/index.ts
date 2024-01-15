@@ -8,6 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/tabs/home'
   },
   {
+    path: '/jardin-specifique',
+    name: 'JardinSpecifique',
+    component: () => import('@/views/JardinSpecifique.vue')
+  },
+  {
     path: '/login',
     component: () => import('@/views/LoginAuth.vue') // Ajouter la route de connexion
   },
