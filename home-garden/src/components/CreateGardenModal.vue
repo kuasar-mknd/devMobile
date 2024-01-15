@@ -1,5 +1,5 @@
 <template>
-    <ion-modal :is-open="isOpen" @ionModalDidDismiss="handleDismiss">
+    <ion-modal :is-open="isOpen" @ionModalDidDismiss="handleDismiss" class="modal-garden">
       <ion-header translucent>
         <ion-toolbar>
           <ion-title>Créer un jardin</ion-title>
@@ -10,10 +10,15 @@
       </ion-header>
   
       <ion-content class="ion-padding">
+        <ion-list class="gardenCreate-form">
         <ion-item>
-          <ion-label position="floating">Nom du jardin</ion-label>
+          <ion-label position="stacked">Nom du jardin</ion-label>
           <ion-input v-model="gardenName" type="text"></ion-input>
         </ion-item>
+        <div v-if="error" class="error-message">
+            {{ error }}
+        </div>
+      </ion-list>
         <div class="map-container">
             <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
         </div>
@@ -25,7 +30,7 @@
 <script lang="ts">
 import { 
   IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-  IonContent, IonItem, IonLabel, IonInput
+  IonContent, IonItem, IonLabel, IonInput, IonList,
 } from '@ionic/vue';
 
 import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed } from 'vue';
@@ -33,12 +38,11 @@ import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed
 import CardMapContainer from '@/components/CardMapContainer.vue';
 
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
     components: {
         IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-        IonContent, IonItem, IonLabel, IonInput, CardMapContainer,
+        IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList,
     },
     setup(_, { emit }) {
         const isOpen = ref(true); // You can control the visibility with this ref
@@ -47,7 +51,7 @@ export default defineComponent({
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
-        const authError = computed(() => store.state.auth.authError);
+        const error = computed(() => store.state.garden.error);
 
         const handleDismiss = () => {
             close(); 
@@ -61,13 +65,18 @@ export default defineComponent({
         };
 
         const createGarden = async() => {
-            console.log(gardenName.value, gardenLocation.value); 
             const userData = {
                 name: gardenName.value,
-                location: gardenLocation.value,
+                location: {
+                  type: 'Point',
+                  coordinates: gardenLocation.value,
+                },
             };
-            console.log(userData);
             await store.dispatch('addGarden', userData);
+            console.log(store.state.garden.error)
+            if (!error.value) {
+                //close();
+            }
         };
 
         const updateGardenLocation = (newLocation) => {
@@ -91,7 +100,8 @@ export default defineComponent({
         createGarden,
         close,
         cardMapContainerRef,
-        updateGardenLocation 
+        updateGardenLocation,
+        error 
         };
     }
 });
@@ -103,5 +113,27 @@ export default defineComponent({
     height: 300px;
 }
 
-/* You may want to add additional global styles */
+.gardenCreate-form{
+  width: 100%;
+  padding-top: 5%;
+  gap: 10px; 
+}
+
+.error-message {
+  font-size: small;
+    color: red;
+  }
+
+  ion-item {
+--padding-start: 0;
+--padding-end: 0;
+--inner-padding-end: 0;
+--inner-padding-start: 0;
+--min-height: 40px;
+margin-bottom: 1rem;
+}
+
+.modal-garden{
+  height: auto;
+}
 </style>
