@@ -1,34 +1,24 @@
+<!-- InputText.vue -->
 <template>
-  <div>
-    <label for="myInput">Nom</label>
-    <div>
-      <input
-        type="number"
-        id="myInput"
-        style="
-          width: 216px;
-          height: 44px;
-          background-color: #f0f5f2;
-          border: 1px solid #000;
-          border-radius: 5px;
-        "
-      />
-    </div>
-  </div>
+  <ion-input
+    :label="internalLabelText"
+    label-placement="floating"
+    fill="outline"
+    :placeholder="placeholderText"
+    type="number"
+    :style="{ width: '216px', height: '40px', borderRadius: '5px' }"
+    class="custom-input"
+  ></ion-input>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref, defineProps } from 'vue';
 
-  export default defineComponent({
-    name: 'InputNumber',
-  });
-
+const props = defineProps(['labelText']);
+const placeholderText = ref("Entrez le nombre"); // Modifiez le texte du placeholder ici
+const internalLabelText = props.labelText || "Nom"; // Utilisez la prop ou une valeur par défaut
 </script>
 
 <style scoped>
-  label {
-  display: block;
-  margin-bottom: 5px;
-}
+/* Style personnalisé pour la carte, si nécessaire */
 </style>
