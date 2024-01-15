@@ -10,6 +10,10 @@
     </ion-page>
   </template>
   
-  <script setup lang="ts">
+<script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 </script>
+
+<style>
+/* Style personnalisé pour la carte, si nécessaire */
+</style>
