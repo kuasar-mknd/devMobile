@@ -39,6 +39,14 @@
     label="Jardin Mamie"
     localisation="123.345, 456.789"
     imageSrc="../resources/garden3.jpeg"/> 
+
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="3">
+          <ButtonAdd></ButtonAdd>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     
   </ion-content>
 </ion-page>
@@ -46,9 +54,10 @@
 
 
 <script lang="ts">
-import { IonGrid, IonPage,IonRow, IonCol,IonImg, IonHeader, IonToolbar, IonTitle, IonContent,IonText } from '@ionic/vue';
+import { IonGrid, IonPage,IonRow, IonCol,IonImg,IonTitle, IonContent,IonText } from '@ionic/vue';
 import SearchBar from '../components/SearchBar.vue';
 import CardGarden from '../components/CardGarden.vue';
+import ButtonAdd from '../components/ButtonAdd.vue';
 
 export default {
   components: {
@@ -57,12 +66,11 @@ export default {
     IonCol,
     IonImg,
     IonPage,
-    IonHeader,
-    IonToolbar,
     IonTitle,
     IonContent,
     SearchBar,
     CardGarden,
+    ButtonAdd,
     IonText
   }
 }
@@ -75,6 +83,13 @@ export default {
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+}
+
+ion-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 
