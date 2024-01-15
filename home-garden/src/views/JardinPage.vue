@@ -56,11 +56,11 @@
     <ion-grid>
       <ion-row class="ion-justify-content-center">
         <ion-col size="3">
-          <ButtonAdd></ButtonAdd>
+          <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         </ion-col>
       </ion-row>
     </ion-grid>
-    
+    <CreateGardenModal v-if="showModal" @close="showModal = false" />
   </ion-content>
 </ion-page>
 </template>
@@ -73,6 +73,8 @@ import CardGarden from '../components/CardGarden.vue';
 import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
+import CreateGardenModal from '@/components/CreateGardenModal.vue';
+import { ref } from 'vue';
 
 export default {
   components: {
@@ -87,7 +89,8 @@ export default {
     SearchBar,
     CardGarden,
     ButtonAdd,
-    IonText
+    IonText,
+    CreateGardenModal,
   },
   data() {
     return {
@@ -96,6 +99,14 @@ export default {
   },
   setup() {
     const router = useRouter();
+
+    const showModal = ref(false);
+
+    const openCreateGardenModal = () => {
+      console.log(showModal.value);
+      showModal.value = true;
+    };
+
     
     const goToJardinSpecifique = () => {
       router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
@@ -103,6 +114,8 @@ export default {
     
     return {
       goToJardinSpecifique,
+      showModal,
+      openCreateGardenModal
     };
   }
 }
