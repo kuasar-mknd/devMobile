@@ -120,5 +120,4 @@ ion-col {
   text-align: center;
 }
 
-
 </style>

@@ -1,56 +1,72 @@
 <template>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Mes jardins</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div id="mapid" style="height: 400px;"></div>
+    <ion-card-content style="height: 100%;">
+      <div id="mapid" style="height: 100%;"></div>
     </ion-card-content>
-    <ion-button expand="block">Créer un nouveau jardin</ion-button>
-  </ion-card>
 </template>
 
 <script>
-import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton } from '@ionic/vue';
+import { IonCardContent } from '@ionic/vue';
 import L from 'leaflet';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 export default {
   components: {
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
     IonCardContent,
-    IonButton
   },
-  setup() {
+  props: {
+    gardenLocation: {
+      type: Array,
+      required: true
+    }
+  },
+  setup(props, { emit }) {
     const map = ref(null);
+
+    const gardenLocation = ref('');
+
+    const updateUserLocationAddress = (userLocation) => {
+      console.log(userLocation);
+      emit('update:location', userLocation);
+    };
 
     onMounted(() => {
       // Retarder l'initialisation de la carte
       setTimeout(() => {
         map.value = L.map('mapid').setView([51.505, -0.09], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
-        }).addTo(map.value);
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map.value);
 
-        // Obtenir la position de l'utilisateur
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            const userLocation = [position.coords.latitude, position.coords.longitude];
-            map.value.setView(userLocation, 13); // Centrer la carte sur la position de l'utilisateur
-            L.marker(userLocation).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
-          }, () => {
-            console.error("Unable to retrieve your location");
-          });
-        }
+      // Lancer la localisation de l'utilisateur
+      map.value.locate({ setView: true, maxZoom: 16 });
+
+      // L'événement 'locationfound' est déclenché si la localisation est réussie
+      map.value.on('locationfound', (e) => {
+        const userLocation = [e.latlng.lat, e.latlng.lng];
+        L.marker(userLocation).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
+      });
+
+      // L'événement 'locationerror' est déclenché si la localisation échoue
+      map.value.on('locationerror', (e) => {
+        console.error("Erreur lors de la localisation : ", e.message);
+      });
       }, 500);
+
+    });
+
+    watch(map, (newMap) => {
+      if (newMap) {
+        newMap.on('locationfound', (e) => {
+          updateUserLocationAddress([e.latitude, e.longitude]);
+        });
+      }
     });
 
 
 
     return {
-      map
+      map,
+      gardenLocation
     };
   },
   methods: {
