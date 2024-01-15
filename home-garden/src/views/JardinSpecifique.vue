@@ -21,18 +21,23 @@
             </ion-row>
         </ion-grid>
         
+        
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <ProxiMap></ProxiMap>
+                    <div class="map-container">
+                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
+                    </div>
                 </ion-col>
-                <ion-col>
+                <ion-col size="auto">
+                    <div style="width: 150px">
                     <MeteoComponent></MeteoComponent>
+                    </div>
                 </ion-col>
             </ion-row>
         </ion-grid>
         
-        <ion-title color="tertiary" class="ion-margin-bottom">Jardin au Chalet</ion-title>        
+        <ion-title color="tertiary" class="ion-text-start ion-margin-bottom">Jardin au Chalet</ion-title>        
         <ion-grid>
             <ion-row class="ion-justify-content-center">
                 <ion-col size="3">
@@ -50,13 +55,15 @@
 import { IonBackButton, IonButtons, IonHeader, IonToolbar, IonGrid, IonPage,IonRow, IonCol,IonImg,IonTitle, IonContent,IonText } from '@ionic/vue';
 import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
-import ProxiMap from "../views/ProxiMap.vue";
+import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
     components: {
         MeteoComponent,
-        ProxiMap,
+        CardMapContainer,
         IonBackButton, 
         IonButtons, 
         IonHeader, 
@@ -70,15 +77,66 @@ export default {
         IonContent,
         ButtonAdd,
     },
-    setup() {
-        const router = useRouter();
+    setup(_, { emit }) {
+        
+        const router = useRouter(); 
         
         const goToJardinSpecifique = () => {
             router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
+        }; 
+        
+        const isOpen = ref(true); // You can control the visibility with this ref
+        const gardenName = ref('');
+        const gardenLocation = ref([]);
+        const cardMapContainerRef = ref(null);
+        const { proxy } = getCurrentInstance();
+        const store = useStore();
+        const authError = computed(() => store.state.auth.authError);
+        
+        const handleDismiss = () => {
+            close(); 
         };
         
+        const close = () => {
+            isOpen.value = false;
+            if (proxy) {
+                proxy.$emit('close'); // Émet l'événement 'close'
+            }
+        };
+        
+        const createGarden = async() => {
+            console.log(gardenName.value, gardenLocation.value); 
+            const userData = {
+                name: gardenName.value,
+                location: gardenLocation.value,
+            };
+            console.log(userData);
+            await store.dispatch('addGarden', userData);
+        };
+        
+        const updateGardenLocation = (newLocation) => {
+            gardenLocation.value = newLocation;
+        };
+        
+        onMounted(() => {
+            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+            nextTick(() => {
+                if (cardMapContainerRef.value) {
+                    cardMapContainerRef.value.invalidateMapSize();
+                }
+            });
+        });
+        
         return {
+            isOpen,
+            gardenName,
+            gardenLocation,
+            handleDismiss,
+            createGarden,
+            close,
+            cardMapContainerRef,
             goToJardinSpecifique,
+            updateGardenLocation 
         };
     }
 }
@@ -100,5 +158,9 @@ ion-col {
     text-align: center;
 }
 
+.map-container{
+    height: 300px;
+    width: 100%;
+}
 
 </style>
