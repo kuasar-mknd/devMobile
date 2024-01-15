@@ -22,7 +22,7 @@
       </ion-row>
     </ion-grid>
 
-    <ion-title>Mes jardins</ion-title>
+    <ion-title class="ion-margin-bottom">Mes jardins</ion-title>
     <SearchBar></SearchBar>
     <CardGarden
     label="Jardin au Chalet"
