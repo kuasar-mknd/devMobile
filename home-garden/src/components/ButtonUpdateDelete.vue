@@ -5,26 +5,29 @@
     </div>
   </template>
   
-  <script>
-  import { ref } from 'vue';
+  <script lang="ts">
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
   import AreaUpdateDelete from './AreaUpdateDelete.vue';
   
-  export default {
+  export default defineComponent({
     name: 'ButtonUpdateDelete',
-    components: {
-      AreaUpdateDelete
-    },
+    components: { AreaUpdateDelete },
     setup() {
+      const internalInstance = getCurrentInstance();
       const isMenuVisible = ref(false);
   
       function toggleMenu() {
         isMenuVisible.value = !isMenuVisible.value;
+        if (isMenuVisible.value) {
+          internalInstance?.emit('open-action-sheet');
+        }
       }
   
       return { isMenuVisible, toggleMenu };
     }
-  }
+  })
   </script>
+  
   
   <style>
   .button-container {
