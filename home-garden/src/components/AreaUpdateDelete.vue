@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <ion-button id="open-action-sheet">Open</ion-button>
+    <!-- Ion Button avec une image -->
+    <ion-button class="buttonUpdateDelete" id="open-action-sheet">
+      <div class="imgTroisPoints">
+      <img class="button-image" src="../../resources/dots_menu.png" alt="Description de l'image">
+    </div>
+    </ion-button>
     <ion-action-sheet
       trigger="open-action-sheet"
       class="my-custom-class"
@@ -9,6 +14,7 @@
     ></ion-action-sheet>
   </div>
 </template>
+
 
 <script lang="ts">
   import { IonActionSheet, IonButton } from '@ionic/vue';
@@ -54,7 +60,24 @@
 </script>
 
 <style>
-
+.imgTroisPoints{
+  width: 25px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+  }
+  .buttonUpdateDelete .button-image {
+    width: 100%; /* Ajuster selon vos besoins */
+    height: 100%; /* Ajuster selon vos besoins */
+  }
 ion-action-sheet.my-custom-class .action-sheet-cancel {
   color: #A99F9F !important; /* Change text color */
 }
@@ -66,7 +89,10 @@ ion-action-sheet.my-custom-class .action-sheet-cancel {
     height: 100%;
     flex-direction: column;
   }
-
+  .button-container {
+    width: 100%;
+    height: 100%;
+  }
   ion-action-sheet.my-custom-class .action-sheet-group {
     background: rgba(212, 230, 219, 1);
   }

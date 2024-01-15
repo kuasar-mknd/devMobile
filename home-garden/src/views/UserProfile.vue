@@ -8,10 +8,10 @@
       </ion-header>
       <ion-label>
         <ion-buttons slot="end">
-            <ButtonUpdateDelete class="btnUpdDel"/>
+            <AreaUpdateDelete class="btnUpdDel"/>
         </ion-buttons>
         <h1 class="titrePage">Profil</h1>
-        <ProfilUser class="profilUsr" name="Emma Watson" imgURL="https://img-19.commentcamarche.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg" />
+        <ProfilUser class="profilUsr" name="Kermit" imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399" />
       </ion-label>
       <div class="titrePage">
       <div><h3>3 Jardins</h3></div>
@@ -19,15 +19,15 @@
     <div class="profile-section">
       <div class="profile-detail">
         <label>Identifiant</label>
-        <span>Emmaaa</span>
+        <span>Kermit</span>
       </div>
         <div class="profile-detail">
           <label>Nom</label>
-          <span>Watson</span>
+          <span>Froggy</span>
         </div>
         <div class="profile-detail">
           <label>Prénom</label>
-          <span>Emma</span>
+          <span>Kermit</span>
         </div>
         <div class="profile-detail">
           <label>Date de naissance</label>
@@ -44,7 +44,7 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import ButtonUpdateDelete from '@/components/ButtonUpdateDelete.vue';
+import AreaUpdateDelete from '@/components/AreaUpdateDelete.vue';
 import ProfilUser from '@/components/ProfilUser.vue';
 
 export default {
@@ -56,7 +56,7 @@ export default {
     IonTitle,
     IonContent,
     IonButton,
-    ButtonUpdateDelete,
+    AreaUpdateDelete,
     ProfilUser
 },
   setup() {
