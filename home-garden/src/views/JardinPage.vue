@@ -24,7 +24,11 @@
     
     <ion-title color="tertiary" class="ion-margin-bottom">Mes jardins</ion-title>
     <SearchBar></SearchBar>
-
+    
+    <ion-text  color="tertiary">
+      <h1 class="titre">Mes jardins</h1>
+    </ion-text>
+    
     <ion-nav-link router-direction="forward" :component="component">
       <CardGarden
       @navigate="goToJardinSpecifique"
@@ -34,20 +38,20 @@
     </ion-nav-link>
     
     <ion-nav-link router-direction="forward" :component="component">
-    <CardGarden
-    @navigate="goToJardinSpecifique"
-    label="Jardin Maison"
-    localisation="123.345, 456.789"
-    imageSrc="../resources/garden 2.jpeg"/> 
-  </ion-nav-link>
+      <CardGarden
+      @navigate="goToJardinSpecifique"
+      label="Jardin Maison"
+      localisation="123.345, 456.789"
+      imageSrc="../resources/garden 2.jpeg"/> 
+    </ion-nav-link>
     
-  <ion-nav-link router-direction="forward" :component="component"> 
-    <CardGarden
-    @navigate="goToJardinSpecifique"
-    label="Jardin Mamie"
-    localisation="123.345, 456.789"
-    imageSrc="../resources/garden3.jpeg"/> 
-  </ion-nav-link>
+    <ion-nav-link router-direction="forward" :component="component"> 
+      <CardGarden
+      @navigate="goToJardinSpecifique"
+      label="Jardin Mamie"
+      localisation="123.345, 456.789"
+      imageSrc="../resources/garden3.jpeg"/> 
+    </ion-nav-link>
     
     <ion-grid>
       <ion-row class="ion-justify-content-center">
@@ -119,5 +123,7 @@ ion-col {
   justify-content: center;
   text-align: center;
 }
-
+.titre {
+margin-left: 25px;
+}
 </style>

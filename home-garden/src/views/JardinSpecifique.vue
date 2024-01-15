@@ -22,6 +22,13 @@
         </ion-grid>
         
         
+        <ion-text color="tertiary">
+            <h1 class="titre">Jardin au Chalet</h1>
+        </ion-text>
+        <ion-text >
+            <p class="titre">41.40338, 2.17403</p>
+        </ion-text>
+        
         <ion-grid>
             <ion-row>
                 <ion-col>
@@ -31,22 +38,78 @@
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
-                    <MeteoComponent></MeteoComponent>
+                        <MeteoComponent></MeteoComponent>
                     </div>
                 </ion-col>
             </ion-row>
         </ion-grid>
         
-        <ion-title color="tertiary" class="ion-text-start ion-margin-bottom">Jardin au Chalet</ion-title>        
+        
+        <ion-text>
+            <h1 class="titre">Mes plantes</h1>
+        </ion-text>
+        
         <ion-grid>
-            <ion-row class="ion-justify-content-center">
-                <ion-col size="3">
-                    <ButtonAdd></ButtonAdd>
+            <ion-row>
+                <ion-col>
+                    <SearchBar></SearchBar>
                 </ion-col>
-            </ion-row>
-        </ion-grid>
-    </ion-content>
-</ion-page>
+                <ion-col size="auto">
+                    <div style="width: 150px">
+                        <ButtonAdd></ButtonAdd>                    </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <CardPlant
+                        class="plant-image"
+                        imageSrc="../../resources/basilic.png"
+                        watering="2 fois par semaine"
+                        />
+                    </ion-col>
+                    <ion-col>
+                        <CardPlant
+                        imageSrc="../../resources/crop2.png"
+                        watering="2 fois par semaine"
+                        />
+                    </ion-col>
+                    <ion-col>
+                        <CardPlant
+                        imageSrc="../../resources/crop3.png"
+                        watering="2 fois par semaine"
+                        />
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <CardPlant
+                        class="plant-image"
+                        imageSrc="../../resources/crop4.png"
+                        watering="2 fois par semaine"
+                        />
+                    </ion-col>
+                    <ion-col>
+                        <CardPlant
+                        imageSrc="../../resources/crop5.png"
+                        watering="2 fois par semaine"
+                        />
+                    </ion-col>
+                    <ion-col>
+                        <CardPlant
+                        imageSrc="../../resources/basilic.png"
+                        watering="2 fois par semaine"
+                        />
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            
+        </ion-content>
+    </ion-page>
 </template>
 
 
@@ -57,11 +120,16 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
+import SearchBar from '@/components/SearchBar.vue';
 import { ref, getCurrentInstance, onMounted, nextTick, computed } from 'vue';
 import { useStore } from 'vuex';
+import CardPlant from '@/components/CardPlant.vue';
 
 export default {
     components: {
+        CardPlant,
+        SearchBar,
+        IonText,
         MeteoComponent,
         CardMapContainer,
         IonBackButton, 
@@ -143,7 +211,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .class-logo {
     display: flex;
     justify-content: center;
@@ -161,6 +229,19 @@ ion-col {
 .map-container{
     height: 300px;
     width: 100%;
+}
+
+.page-title {
+    padding-left: 25px; /* Adjust as needed for alignment */
+}
+
+.titre {
+    margin-left: 25px;
+}
+
+.plant-image {
+  width: 100%; /* Makes the image take the full width of its container */
+  height: auto; /* Maintains the aspect ratio */
 }
 
 </style>
