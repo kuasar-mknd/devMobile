@@ -9,6 +9,7 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true" class="content">
+            
             <ion-grid>
                 <ion-row class="ion-justify-content-center">
                     <ion-col size="3">
@@ -21,18 +22,17 @@
         </ion-grid>
         
         <ion-grid>
-            <ion-row class="ion-justify-content-center">
-                <ion-col size="3">
-                    <ion-text class="ion-text-center">
-                        <p>Plongez dans le monde secret de la botanique! Créez et gérez vos jardins où seules vos mains vertes auront accès à ces oasis cachées.</p>
-                    </ion-text>
+            <ion-row>
+                <ion-col>
+                    <ProxiMap></ProxiMap>
+                </ion-col>
+                <ion-col>
+                    <MeteoComponent></MeteoComponent>
                 </ion-col>
             </ion-row>
         </ion-grid>
         
-        <ion-title color="tertiary" class="ion-margin-bottom">Mes jardins</ion-title>
-        <SearchBar></SearchBar>
-        
+        <ion-title color="tertiary" class="ion-margin-bottom">Jardin au Chalet</ion-title>        
         <ion-grid>
             <ion-row class="ion-justify-content-center">
                 <ion-col size="3">
@@ -48,12 +48,15 @@
 
 <script lang="ts">
 import { IonBackButton, IonButtons, IonHeader, IonToolbar, IonGrid, IonPage,IonRow, IonCol,IonImg,IonTitle, IonContent,IonText } from '@ionic/vue';
-import SearchBar from '../components/SearchBar.vue';
 import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
+import ProxiMap from "../views/ProxiMap.vue";
+import MeteoComponent from '@/components/MeteoComponent.vue';
 
 export default {
     components: {
+        MeteoComponent,
+        ProxiMap,
         IonBackButton, 
         IonButtons, 
         IonHeader, 
@@ -65,9 +68,7 @@ export default {
         IonImg,
         IonPage,
         IonContent,
-        SearchBar,
         ButtonAdd,
-        IonText
     },
     setup() {
         const router = useRouter();
