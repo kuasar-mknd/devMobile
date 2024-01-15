@@ -75,6 +75,9 @@ import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+
+
 
 export default {
   components: {
@@ -99,10 +102,14 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const store = useStore();
 
     const showModal = ref(false);
 
-    const openCreateGardenModal = () => {
+    const openCreateGardenModal = async () => {
+      console.log('openCreateGardenModal');
+      console.log(await store.dispatch('fetchGardens'));
+      console.log(store.state.garden.gardens);
       console.log(showModal.value);
       showModal.value = true;
     };
