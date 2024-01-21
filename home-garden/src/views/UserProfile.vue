@@ -13,30 +13,16 @@
         <h1 class="titrePage">Profil</h1>
         <ProfilUser class="profilUsr" name="Kermit" imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399" />
       </ion-label>
-      <div class="titrePage">
-      <div><h3>3 Jardins</h3></div>
-    </div>
     <div class="profile-section">
       <div class="profile-detail">
         <label>Identifiant</label>
         <span>Kermit</span>
       </div>
-        <div class="profile-detail">
-          <label>Nom</label>
-          <span>The Frog</span>
-        </div>
-        <div class="profile-detail">
-          <label>Prénom</label>
-          <span>Kermit</span>
-        </div>
-        <div class="profile-detail">
-          <label>Date de naissance</label>
-          <span>7 octobre 1997</span>
-        </div>
       </div>
-      <ion-button expand="full" @click="updatePwd">Changer de mot de passe</ion-button>
+      <ion-button expand="full" @click="showEditForm">Changer de mot de passe</ion-button>
       <ion-button expand="full" @click="logout">Se déconnecter</ion-button>
     </ion-content>
+    <EditForm v-if="isEditFormVisible" @close="isEditFormVisible = false" />
   </ion-page>
 </template>
 
@@ -44,8 +30,10 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 import AreaUpdateDelete from '@/components/AreaUpdateDelete.vue';
 import ProfilUser from '@/components/ProfilUser.vue';
+import EditForm from '@/components/EditForm.vue';
 
 export default {
   name: 'UserProfile',
@@ -57,19 +45,24 @@ export default {
     IonContent,
     IonButton,
     AreaUpdateDelete,
-    ProfilUser
+    ProfilUser,
+    EditForm
 },
   setup() {
         const store = useStore();
         const router = useRouter();
+        const isEditFormVisible = ref(false);
 
+        const showEditForm = () => {
+      isEditFormVisible.value = true;
+    };
   const updatePwd = async () => {
   };
   const logout = async () => {
     await store.dispatch('logout');
     router.push('/login'); // Redirigez vers la page de connexion après déconnexion
   };
-  return { logout, updatePwd };
+  return { logout, updatePwd, showEditForm, isEditFormVisible };
       }
   };
 
