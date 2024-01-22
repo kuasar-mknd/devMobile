@@ -45,11 +45,28 @@ export default {
       // Retarder l'initialisation de la carte
       if (mapContainer.value) {
         setTimeout(() => {
+          map.value = L.map(mapContainer.value);
+
+          // Lancer la localisation de l'utilisateur
+          map.value.locate({ maxZoom: 16, watch: true });
+
+          // L'événement 'locationfound' est déclenché si la localisation est réussie
+          map.value.on('locationfound', (e) => {
+            const userLocation = [e.latlng.lat, e.latlng.lng];
+            L.marker(userLocation).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
+          });
+
+          // L'événement 'locationerror' est déclenché si la localisation échoue
+          map.value.on('locationerror', (e) => {
+            console.error("Erreur lors de la localisation : ", e.message);
+          });
+          
           const hasValidLocation = props.gardenLocation && props.gardenLocation.length === 2;
-          const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : [51.505, -0.09]; // Coordonnées par défaut si gardenLocation n'est pas valide
+          const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : userLocation.value; // Coordonnées par défaut si gardenLocation n'est pas valide
 
           // Initialisation de la carte avec les coordonnées de gardenLocation si elles sont disponibles
-          map.value = L.map(mapContainer.value).setView(defaultCoords, 13);
+          map.value.setView(defaultCoords, 13);
+
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
           }).addTo(map.value);
@@ -58,20 +75,6 @@ export default {
           if (hasValidLocation) {
             L.marker(defaultCoords, { icon: customIcon }).addTo(map.value);
           }
-
-        // Lancer la localisation de l'utilisateur
-        map.value.locate({ maxZoom: 16 });
-
-        // L'événement 'locationfound' est déclenché si la localisation est réussie
-        map.value.on('locationfound', (e) => {
-          const userLocation = [e.latlng.lat, e.latlng.lng];
-          L.marker(userLocation).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
-        });
-
-        // L'événement 'locationerror' est déclenché si la localisation échoue
-        map.value.on('locationerror', (e) => {
-          console.error("Erreur lors de la localisation : ", e.message);
-        });
         }, 500);
       }
     });

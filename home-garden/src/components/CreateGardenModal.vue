@@ -75,13 +75,23 @@ export default defineComponent({
         };
 
         const submitGarden = async () => {
-          const gardenData = {
-            name: gardenName.value,
-            location: {
-              type: 'Point',
-              coordinates: updateLocation.value ? gardenLocation.value : props.existingGarden?.location?.coordinates,
-            },
-          };
+          let locationCoordinates;
+
+          if (props.isEditMode && !updateLocation.value) {
+                // En mode édition, mais l'utilisateur ne souhaite pas mettre à jour la localisation
+                locationCoordinates = props.existingGarden?.location?.coordinates || gardenLocation.value;
+              } else {
+                // En mode création ou l'utilisateur souhaite mettre à jour la localisation
+                locationCoordinates = gardenLocation.value;
+              }
+
+              const gardenData = {
+                name: gardenName.value,
+                location: {
+                  type: 'Point',
+                  coordinates: locationCoordinates,
+                },
+              };
 
           if (props.isEditMode) {
             await store.dispatch('editGarden', { id: props.existingGarden._id, gardenData });
