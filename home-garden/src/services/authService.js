@@ -17,6 +17,7 @@ const loginUser = async (userData) => {
     const response = await axios.post(API_URL + 'login', userData);
     if (response.data.token) {
       localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem('email', JSON.stringify(userData.email));
       localStorage.setItem('token', JSON.stringify(response.data.token));
     }
     return response.data;

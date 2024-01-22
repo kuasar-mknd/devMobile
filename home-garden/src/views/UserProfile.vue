@@ -16,7 +16,9 @@
     <div class="profile-section">
       <div class="profile-detail">
         <label>Identifiant</label>
-        <span>Kermit</span>
+        <div class="profile-name">
+          {{ email }}
+        </div>
       </div>
       </div>
       <ion-button expand="full" @click="showEditForm">Changer de mot de passe</ion-button>
@@ -52,6 +54,7 @@ export default {
         const store = useStore();
         const router = useRouter();
         const isEditFormVisible = ref(false);
+        const email = localStorage.getItem('email');
 
         const showEditForm = () => {
       isEditFormVisible.value = true;
@@ -62,7 +65,7 @@ export default {
     await store.dispatch('logout');
     router.push('/login'); // Redirigez vers la page de connexion après déconnexion
   };
-  return { logout, updatePwd, showEditForm, isEditFormVisible };
+  return { logout, updatePwd, showEditForm, isEditFormVisible, email };
       }
   };
 
