@@ -31,4 +31,18 @@ const logoutUser = () => {
   localStorage.removeItem('user');
 };
 
-export { registerUser, loginUser, logoutUser };
+const updateUser = async (userData) => {
+  try {
+    const response = await axios.put(API_URL, userData, {
+      headers: {
+        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export { registerUser, loginUser, logoutUser, updateUser };

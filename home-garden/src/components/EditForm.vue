@@ -10,31 +10,34 @@
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-list class="userEdit-form">
-        <ion-item>
-          <ion-label position="stacked">Identifiant (Email)</ion-label>
-          <ion-input v-model="email" type="email"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Nouveau Mot de Passe</ion-label>
-          <ion-input v-model="password" type="password"></ion-input>
-        </ion-item>
-        <div v-if="error" class="error-message">
-          {{ error }}
-        </div>
-      </ion-list>
-      <ion-button expand="block" @click="updateUser">Mettre à jour</ion-button>
+      <form @submit.prevent="updateUser">
+        <ion-list class="userEdit-form">
+          <ion-item>
+            <ion-label position="stacked">Identifiant (Email)</ion-label>
+            <ion-input v-model="userData.identifier" type="email" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Nouveau Mot de Passe</ion-label>
+            <ion-input v-model="userData.password" type="password" required></ion-input>
+          </ion-item>
+          <div v-if="authError" class="error-message">
+            {{ authError }}
+          </div>
+        </ion-list>
+        <ion-button expand="block" type="submit">Mettre à jour</ion-button>
+      </form>
     </ion-content>
   </ion-modal>
 </template>
+
 
 <script lang="ts">
 import { 
   IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
   IonContent, IonItem, IonLabel, IonInput, IonList,
 } from '@ionic/vue';
-import { ref, getCurrentInstance, defineComponent } from 'vue';
-import axios from 'axios'; // Assurez-vous d'avoir axios installé
+import { ref, computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
     components: {
@@ -42,49 +45,37 @@ export default defineComponent({
         IonContent, IonItem, IonLabel, IonInput, IonList,
     },
     setup(_, { emit }) {
+        const store = useStore();
         const isOpen = ref(true);
-        const email = ref('');
-        const password = ref('');
-        const error = ref(null);
-        const { proxy } = getCurrentInstance();
+        const userData = ref({
+          identifier: '',
+          password: ''
+        });
+        const authError = computed(() => store.state.auth.authError);
 
         const handleDismiss = () => {
             isOpen.value = false;
-            if (proxy) {
-                proxy.$emit('close'); // Émet l'événement 'close'
-            }
         };
 
         const updateUser = async () => {
-            const userData = {
-                identifier: email.value,
-                password: password.value
-            };
-
-            try {
-                await axios.put('https://homegarden.onrender.com/api/users', userData);
-                close();
-            } catch (e) {
-                error.value = e.message;
+            await store.dispatch('updateUser', userData.value);
+            if (!authError.value) {
+                handleDismiss();
             }
-        };
-
-        const close = () => {
-            isOpen.value = false;
         };
 
         return {
             isOpen,
-            email,
-            password,
+            userData,
             updateUser,
             handleDismiss,
-            error,
-            close
+            authError
         };
     }
 });
 </script>
+
+
 
 
 <style scoped>

@@ -1,4 +1,4 @@
-import { registerUser, loginUser, logoutUser } from '@/services/authService';
+import { registerUser, loginUser, logoutUser, updateUser } from '@/services/authService';
 import axios from 'axios';
 
 const state = {
@@ -74,7 +74,39 @@ const actions = {
     } catch (error) {
       commit('setAuthError', error.message);
     }
+  },
+  async updateUser({ commit }, userData) {
+    try {
+      const data = await updateUser(userData);
+      commit('setUser', data);
+      commit('setAuthError', null);
+    } catch (error) {
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setAuthError', 'Données d\'entrée invalides.');
+            break;
+          case 401:
+            commit('setAuthError', 'Authentification échouée.');
+            break;
+          case 404:
+            commit('setAuthError', 'Utilisateur non trouvé.');
+            break;
+          case 500:
+            commit('setAuthError', 'Erreur interne du serveur.');
+            break;
+          default:
+            commit('setAuthError', 'Une erreur inconnue est survenue.');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setAuthError', errorMessage);
+      }
+    }
   }
+  
 };
 
 const mutations = {
