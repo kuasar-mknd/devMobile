@@ -23,7 +23,7 @@
         </div>
       </ion-list>
         <div class="map-container">
-            <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
+            <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation" @update:userLocation="updateUserLocation"/>
         </div>
         <ion-button expand="block" @click="submitGarden">
           {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
@@ -44,6 +44,8 @@ import CardMapContainer from '@/components/CardMapContainer.vue';
 
 import { useStore } from 'vuex';
 
+import { Geolocation } from '@capacitor/geolocation';
+
 export default defineComponent({
     components: {
         IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
@@ -56,7 +58,7 @@ export default defineComponent({
     setup(props, { emit }) {
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref(props.existingGarden?.name || '');
-        const gardenLocation = ref(props.existingGarden?.location?.coordinates || [0, 0]);
+        const gardenLocation = ref(props.existingGarden?.location?.coordinates);
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
@@ -108,6 +110,18 @@ export default defineComponent({
           gardenLocation.value = newLocation;
         };
 
+        const updateUserLocation = (newLocation) => {
+          //if gardenLocation is not set, set it to the user location
+          if (!gardenLocation.value) {
+            gardenLocation.value = newLocation;
+          }
+          //if the user wants to update the location, update it
+          if (updateLocation.value) {
+            console.log('update user location')
+            gardenLocation.value = newLocation;
+          }
+        };
+
         onMounted(() => {
           console.log(props.existingGarden)
         // Utilisez nextTick pour s'assurer que tous les enfants sont montés
@@ -137,6 +151,7 @@ export default defineComponent({
         close,
         cardMapContainerRef,
         updateGardenLocation,
+        updateUserLocation,
         error,
         updateLocation, 
         };

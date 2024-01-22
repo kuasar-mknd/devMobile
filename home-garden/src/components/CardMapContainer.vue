@@ -8,6 +8,7 @@
 import { IonCardContent } from '@ionic/vue';
 import L from 'leaflet';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { Geolocation } from '@capacitor/geolocation';
 
 export default {
   components: {
@@ -30,11 +31,19 @@ export default {
     const gardenLocation = ref('');
     const gardenName = ref('');
 
-    let userLocation = ref([48.8534, 2.3488]); // Coordonnées par défaut
+    const getCurrentLocation = async () => {
+      try {
+        const coordinates = await Geolocation.getCurrentPosition();
+        updateUserLocationAddress([coordinates.coords.latitude, coordinates.coords.longitude]);
+        return [coordinates.coords.latitude, coordinates.coords.longitude];
+      } catch (e) {
+        console.error("Erreur lors de l'obtention de la localisation :", e);
+        return [48.8534, 2.3488];
+      }
+    };
 
     const updateUserLocationAddress = (userLocation) => {
-      console.log(userLocation);
-      emit('update:location', userLocation);
+      emit('update:userLocation', userLocation);
     };
 
     const customIcon = L.icon({
@@ -43,29 +52,16 @@ export default {
                 popupAnchor: [0, -25]
             });
 
-    onMounted(() => {
+    onMounted(async () => {
       // Retarder l'initialisation de la carte
       if (mapContainer.value) {
+        const userCoords = await getCurrentLocation();
+        console.log(userCoords);
         setTimeout(() => {
-          map.value = L.map(mapContainer.value);
-
-          // Lancer la localisation de l'utilisateur
-          map.value.locate({ setView: true, maxZoom: 16});
-
-          // L'événement 'locationfound' est déclenché si la localisation est réussie
-          map.value.on('locationfound', (e) => {
-            userLocation.value = [e.latlng.lat, e.latlng.lng];
-            console.log(userLocation);
-            L.marker(userLocation.value).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
-          });
-
-          // L'événement 'locationerror' est déclenché si la localisation échoue
-          map.value.on('locationerror', (e) => {
-            console.error("Erreur lors de la localisation : ", e.message);
-          });
-          
+          map.value = L.map(mapContainer.value).setView(userCoords, 13);
+          console.log(props.gardenLocation)
           const hasValidLocation = props.gardenLocation && props.gardenLocation.length === 2;
-          const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : userLocation.value; // Coordonnées par défaut si gardenLocation n'est pas valide
+          const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : userCoords; // Coordonnées par défaut si gardenLocation n'est pas valide
 
           // Initialisation de la carte avec les coordonnées de gardenLocation si elles sont disponibles
           map.value.setView(defaultCoords, 13);
@@ -78,14 +74,16 @@ export default {
           if (hasValidLocation) {
             L.marker(defaultCoords, { icon: customIcon }).addTo(map.value);
           }
+
+          // Ajouter un marqueur pour la position de l'utilisateur
+          L.marker(userCoords).addTo(map.value);
         }, 500);
       }
     });
 
     onUnmounted(() => {
-      if (map.value !== null) {
+      if (map.value) {
         map.value.remove();
-        map.value = null;
       }
     });
 
