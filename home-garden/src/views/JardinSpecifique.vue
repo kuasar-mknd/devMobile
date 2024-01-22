@@ -5,7 +5,6 @@
                 <ion-buttons slot="start">
                     <ion-back-button></ion-back-button>
                 </ion-buttons>
-                <ion-title>Back Button</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true" class="content">
@@ -23,11 +22,20 @@
         
         
         <ion-text color="tertiary">
-            <h1 class="titre">Jardin au Chalet</h1>
+            <h1 class="titre">{{ gardenName }}</h1>
         </ion-text>
         <ion-text >
-            <p class="titre">41.40338, 2.17403</p>
+            <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
+
+        <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
+        <CreateGardenModal
+            :isOpen="showModal"
+            @close="closeModal"
+            :isEditMode="true"
+            :existingGarden="gardenToEdit"
+        />
+
         
         <ion-grid>
             <ion-row>
@@ -56,7 +64,8 @@
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
-                        <ButtonAdd></ButtonAdd>                    </div>
+                        <ButtonAdd></ButtonAdd>                    
+                    </div>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -120,8 +129,9 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
+import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import { ref, getCurrentInstance, onMounted, nextTick, computed } from 'vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
 
@@ -144,67 +154,89 @@ export default {
         IonPage,
         IonContent,
         ButtonAdd,
+        CreateGardenModal,
     },
-    setup(_, { emit }) {
+    props: {
+        id:{
+        type: String,
+        default: ''
+        }
+    },
+    setup(props, { emit }) {
         
         const router = useRouter(); 
-        
-        const goToJardinSpecifique = () => {
-            router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
-        }; 
         
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref('');
         const gardenLocation = ref([]);
+        const gardenToEdit = ref({});
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
-        const authError = computed(() => store.state.auth.authError);
-        
-        const handleDismiss = () => {
-            close(); 
-        };
-        
-        const close = () => {
-            isOpen.value = false;
-            if (proxy) {
-                proxy.$emit('close'); // Émet l'événement 'close'
-            }
-        };
-        
-        const createGarden = async() => {
-            console.log(gardenName.value, gardenLocation.value); 
-            const userData = {
-                name: gardenName.value,
-                location: gardenLocation.value,
-            };
-            console.log(userData);
-            await store.dispatch('addGarden', userData);
-        };
+        const showModal = ref(false);
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
         };
+
+        const closeModal = async () => {
+            await loadGarden();
+            showModal.value = false;
+        };
+
+
         
+        
+        const loadGarden = async () => {
+            try {
+                await store.dispatch('getGarden', props.id); 
+                const loadedGarden = store.state.garden.gardens.find(garden => garden._id === props.id);
+                if (loadedGarden) {
+                    gardenName.value = loadedGarden.name; 
+                    gardenLocation.value = loadedGarden.location.coordinates;
+                    gardenToEdit.value = {
+                        ...loadedGarden,
+                        location: {
+                            ...loadedGarden.location,
+                            coordinates: gardenLocation.value
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error("Erreur lors du chargement du jardin", error);
+            }
+        };
+
+
         onMounted(() => {
-            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
-            nextTick(() => {
+            loadGarden().then(() => {
+                nextTick(() => {
                 if (cardMapContainerRef.value) {
                     cardMapContainerRef.value.invalidateMapSize();
                 }
             });
+            })
+            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+            
         });
+
+        const openCreateGardenModal = async () => {
+            await loadGarden();
+            console.log(gardenToEdit.value);
+            console.log(showModal.value);
+            showModal.value = true;
+        };
         
         return {
             isOpen,
             gardenName,
             gardenLocation,
-            handleDismiss,
-            createGarden,
-            close,
             cardMapContainerRef,
-            goToJardinSpecifique,
-            updateGardenLocation 
+            updateGardenLocation,
+            openCreateGardenModal,
+            showModal,
+            gardenToEdit,
+            closeModal 
         };
     }
 }

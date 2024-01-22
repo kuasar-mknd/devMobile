@@ -35,6 +35,7 @@ const actions = {
       }
     }
   },
+
   async login({ commit }, userData) {
     try {
       const data = await loginUser(userData);
