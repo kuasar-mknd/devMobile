@@ -23,10 +23,10 @@
         
         
         <ion-text color="tertiary">
-            <h1 class="titre">Jardin au Chalet</h1>
+            <h1 class="titre">{{ label }}</h1>
         </ion-text>
         <ion-text >
-            <p class="titre">41.40338, 2.17403</p>
+            <p class="titre">{{ localisation }}</p>
         </ion-text>
         
         <ion-grid>
@@ -56,7 +56,8 @@
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
-                        <ButtonAdd></ButtonAdd>                    </div>
+                        <ButtonAdd></ButtonAdd>                    
+                    </div>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -121,7 +122,7 @@ import { useRouter } from 'vue-router';
 import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import { ref, getCurrentInstance, onMounted, nextTick, computed } from 'vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
 
@@ -144,6 +145,16 @@ export default {
         IonPage,
         IonContent,
         ButtonAdd,
+    },
+    props: {
+        label: {
+        type: String,
+        default: ''
+        },
+        localisation: {
+        type: String,
+        default: ''
+        },
     },
     setup(_, { emit }) {
         

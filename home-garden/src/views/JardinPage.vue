@@ -27,7 +27,7 @@
 
         <ion-nav-link router-direction="forward" :component="component">
           <CardGarden v-for="garden in gardens" :key="garden._id"
-            @navigate="goToJardinSpecifique"
+            @navigate="() => navigateToGarden(garden)"
             :label="garden.name"
             :localisation="`${garden.location.coordinates[1]},${garden.location.coordinates[0]}`"
             imageSrc="../resources/garden1.jpeg" /> 
@@ -109,16 +109,25 @@ export default {
       showModal.value = true;
     };
 
-    
+    const navigateToGarden = (garden:any) => {
+        router.push({ 
+        name: 'JardinSpecifique', 
+        params: { 
+          label: garden.name, 
+          localisation: garden.location.coordinates.join(',')
+        }
+      });
+    }; 
     const goToJardinSpecifique = () => {
-      router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
+      router.push({ name: 'JardinSpecifique',  }); // Use the correct route name or path
     };
     
     return {
       goToJardinSpecifique,
       showModal,
       gardens,
-      openCreateGardenModal
+      openCreateGardenModal,
+      navigateToGarden,
     };
 
    

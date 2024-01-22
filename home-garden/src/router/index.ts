@@ -12,8 +12,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/WelcomePage.vue') // Ajouter la route de bienvenue
   },
   {
-    path: '/jardin-specifique',
+    path: '/jardin-specifique/:label/:localisation',
     name: 'JardinSpecifique',
+    props: true,
     component: () => import('@/views/JardinSpecifique.vue')
   },
   {
