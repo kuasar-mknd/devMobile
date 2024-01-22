@@ -22,16 +22,16 @@
         
         
         <ion-text color="tertiary">
-            <h1 class="titre">{{ label }}</h1>
+            <h1 class="titre">{{ gardenName }}</h1>
         </ion-text>
         <ion-text >
-            <p class="titre">{{ localisation }}</p>
+            <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
 
         <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         <CreateGardenModal
             :isOpen="showModal"
-            @close="showModal = false"
+            @close="closeModal"
             :isEditMode="true"
             :existingGarden="gardenToEdit"
         />
@@ -160,83 +160,83 @@ export default {
         id:{
         type: String,
         default: ''
-        },
-        label: {
-        type: String,
-        default: ''
-        },
-        localisation: {
-        type: String,
-        default: ''
-        },
+        }
     },
     setup(props, { emit }) {
         
         const router = useRouter(); 
         
-        const goToJardinSpecifique = () => {
-            router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
-        }; 
-        
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref('');
         const gardenLocation = ref([]);
+        const gardenToEdit = ref({});
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
-        const authError = computed(() => store.state.auth.authError);
         const showModal = ref(false);
-        
-        const handleDismiss = () => {
-            close(); 
-        };
-        // create gardenToEdit with props id, name and location
-        const gardenToEdit = ref({
-            _id: props.id,
-            name: props.label,
-            location: {
-                coordinates: props.localisation.split(',').map(Number)
-            }
-        });
-        
-        const close = () => {
-            isOpen.value = false;
-            if (proxy) {
-                proxy.$emit('close'); // Émet l'événement 'close'
-            }
-        };
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
         };
 
-        const openCreateGardenModal = async () => {
-            //console.log(await store.dispatch('fetchGardens'));
-            console.log(showModal.value);
-            showModal.value = true;
+        const closeModal = async () => {
+            await loadGarden();
+            showModal.value = false;
         };
+
+
         
+        
+        const loadGarden = async () => {
+            try {
+                await store.dispatch('getGarden', props.id); 
+                const loadedGarden = store.state.garden.gardens.find(garden => garden._id === props.id);
+                if (loadedGarden) {
+                    gardenName.value = loadedGarden.name; 
+                    gardenLocation.value = loadedGarden.location.coordinates;
+                    gardenToEdit.value = {
+                        ...loadedGarden,
+                        location: {
+                            ...loadedGarden.location,
+                            coordinates: gardenLocation.value
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error("Erreur lors du chargement du jardin", error);
+            }
+        };
+
+
         onMounted(() => {
-            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
-            nextTick(() => {
+            loadGarden().then(() => {
+                nextTick(() => {
                 if (cardMapContainerRef.value) {
                     cardMapContainerRef.value.invalidateMapSize();
                 }
             });
+            })
+            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+            
         });
+
+        const openCreateGardenModal = async () => {
+            await loadGarden();
+            console.log(gardenToEdit.value);
+            console.log(showModal.value);
+            showModal.value = true;
+        };
         
         return {
             isOpen,
             gardenName,
             gardenLocation,
-            handleDismiss,
-            close,
             cardMapContainerRef,
-            goToJardinSpecifique,
             updateGardenLocation,
             openCreateGardenModal,
             showModal,
-            gardenToEdit 
+            gardenToEdit,
+            closeModal 
         };
     }
 }

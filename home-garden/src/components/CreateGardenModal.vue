@@ -35,7 +35,7 @@ import {
   IonContent, IonItem, IonLabel, IonInput, IonList,
 } from '@ionic/vue';
 
-import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed } from 'vue';
+import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed, watch } from 'vue';
 
 import CardMapContainer from '@/components/CardMapContainer.vue';
 
@@ -52,8 +52,8 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const isOpen = ref(true); // You can control the visibility with this ref
-        const gardenName = ref(props.existingGarden ? props.existingGarden.name : '');
-        const gardenLocation = ref(props.existingGarden ? props.existingGarden.location.coordinates : []);
+        const gardenName = ref(props.existingGarden?.name || '');
+        const gardenLocation = ref(props.existingGarden?.location?.coordinates || [0, 0]);
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
@@ -95,12 +95,23 @@ export default defineComponent({
         };
 
         onMounted(() => {
+          console.log(props.existingGarden)
         // Utilisez nextTick pour s'assurer que tous les enfants sont montés
             nextTick(() => {
                 if (cardMapContainerRef.value) {
                 cardMapContainerRef.value.invalidateMapSize();
                 }
             });
+        });
+
+        watch(() => props.existingGarden, (newValue) => {
+          if (newValue) {
+            gardenName.value = newValue.name;
+            gardenLocation.value = newValue.location?.coordinates || [0, 0];
+          }
+        }, {
+          immediate: true, // Exécute le watcher dès l'initialisation du composant
+          deep: true // Surveille les changements profonds dans l'objet
         });
 
         return {

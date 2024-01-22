@@ -117,9 +117,7 @@ export default {
         router.push({ 
         name: 'JardinSpecifique', 
         params: { 
-          id: garden._id,
-          label: garden.name, 
-          localisation: garden.location.coordinates.join(',')
+          id: garden._id
         }
       });
     }; 
