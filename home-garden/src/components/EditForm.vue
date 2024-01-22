@@ -52,9 +52,9 @@ export default defineComponent({
           password: ''
         });
         const authError = computed(() => store.state.auth.authError);
-
         const handleDismiss = () => {
             isOpen.value = false;
+            emit('close');
         };
 
         const updateUser = async () => {

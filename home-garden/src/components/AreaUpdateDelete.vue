@@ -12,7 +12,7 @@
       :buttons="actionSheetButtons"
       @didDismiss="logResult($event)"
     ></ion-action-sheet>
-    <EditForm v-if="showEditForm" />
+    <EditForm v-if="showEditForm" @close="closeEditForm" />
   </div>
 </template>
 
@@ -58,10 +58,15 @@
         console.log(JSON.stringify(ev.detail, null, 2));
       };
 
+      const closeEditForm = () => {
+        showEditForm.value = false;
+      };
+
       return {
         actionSheetButtons,
         showEditForm,
         logResult,
+        closeEditForm
       };
     },
   });

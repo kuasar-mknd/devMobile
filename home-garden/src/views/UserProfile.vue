@@ -24,7 +24,7 @@
       <ion-button expand="full" @click="showEditForm">Changer de mot de passe</ion-button>
       <ion-button expand="full" @click="logout">Se déconnecter</ion-button>
     </ion-content>
-    <EditForm v-if="isEditFormVisible" @close="isEditFormVisible = false" />
+    <EditForm v-if="isEditFormVisible" @close="closeEditForm" />
   </ion-page>
 </template>
 
@@ -63,11 +63,17 @@ export default {
         const showEditForm = () => {
       isEditFormVisible.value = true;
     };
+    const closeEditForm = () => {
+      isEditFormVisible.value = false;
+    };
   const logout = async () => {
     await store.dispatch('logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('user');
     router.push('/login'); // Redirigez vers la page de connexion après déconnexion
   };
-  return { logout, showEditForm, isEditFormVisible, email, username };
+  return { logout, showEditForm, isEditFormVisible, email, username, closeEditForm };
       }
   };
 
@@ -88,9 +94,9 @@ export default {
     margin-left: 5%;
     margin-top: 5%;
   }
+  
   .profile-name {
     margin-top: 8px;
-    font-weight: 600;
   }
   .profile-section {
     margin-top: 16px;
