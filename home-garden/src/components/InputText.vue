@@ -4,29 +4,20 @@
     label-placement="floating"
     fill="outline"
     :placeholder="placeholderText"
+    v-model="inputValue"
     :style="{ width: '216px', height: '40px', borderRadius: '5px' }"
     class="custom-input"
   ></ion-input>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, defineProps } from 'vue';
 import { IonInput } from '@ionic/vue';
-import { defineComponent, ref, PropType } from 'vue';
 
-export default defineComponent({
-  components: { IonInput },
-  props: {
-    labelText: String as PropType<string>,
-  },
-  setup(props) {
-    const placeholderText = ref("Entrez le texte"); // Modifiez le texte du placeholder ici
-
-    return {
-      placeholderText,
-      internalLabelText: props.labelText || "Nom", // Utilisez la prop ou une valeur par défaut
-    };
-  },
-});
+const props = defineProps(['labelText']);
+const placeholderText = ref("Entrez le texte");
+const internalLabelText = props.labelText || "Nom";
+const inputValue = ref('');
 </script>
 
 <style scoped>
