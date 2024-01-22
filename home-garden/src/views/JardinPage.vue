@@ -24,34 +24,14 @@
     
     <ion-title color="tertiary" class="ion-margin-bottom">Mes jardins</ion-title>
     <SearchBar></SearchBar>
-    
-    <ion-text  color="tertiary">
-      <h1 class="titre">Mes jardins</h1>
-    </ion-text>
-    
-    <ion-nav-link router-direction="forward" :component="component">
-      <CardGarden
-      @navigate="goToJardinSpecifique"
-      label="Jardin au Chalet"
-      localisation="123.345, 456.789"
-      imageSrc="../resources/garden1.jpeg"/> 
-    </ion-nav-link>
-    
-    <ion-nav-link router-direction="forward" :component="component">
-      <CardGarden
-      @navigate="goToJardinSpecifique"
-      label="Jardin Maison"
-      localisation="123.345, 456.789"
-      imageSrc="../resources/garden 2.jpeg"/> 
-    </ion-nav-link>
-    
-    <ion-nav-link router-direction="forward" :component="component"> 
-      <CardGarden
-      @navigate="goToJardinSpecifique"
-      label="Jardin Mamie"
-      localisation="123.345, 456.789"
-      imageSrc="../resources/garden3.jpeg"/> 
-    </ion-nav-link>
+
+        <ion-nav-link router-direction="forward" :component="component">
+          <CardGarden v-for="garden in gardens" :key="garden._id"
+            @navigate="goToJardinSpecifique"
+            :label="garden.name"
+            :localisation="`${garden.location.coordinates[1]},${garden.location.coordinates[0]}`"
+            imageSrc="../resources/garden1.jpeg" /> 
+        </ion-nav-link>
     
     <ion-grid>
       <ion-row class="ion-justify-content-center">
@@ -74,7 +54,10 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+
+
 
 export default {
   components: {
@@ -98,11 +81,30 @@ export default {
     };
   },
   setup() {
+    
+
+    const gardens = ref([]);
+
     const router = useRouter();
+    const store = useStore();
 
     const showModal = ref(false);
 
-    const openCreateGardenModal = () => {
+    const loadGardens = async () => {
+      try {
+        await store.dispatch('fetchGardens'); // Adaptez en fonction de l'identifiant si nécessaire
+        store.state.garden.gardens.forEach((garden:any) => {
+         console.log(garden.name);
+        });
+        gardens.value = store.state.garden.gardens;
+      } catch (error) {
+        console.error("Erreur lors du chargement des jardins:", error);
+      }
+    };
+    onMounted(loadGardens);
+
+    const openCreateGardenModal = async () => {
+      //console.log(await store.dispatch('fetchGardens'));
       console.log(showModal.value);
       showModal.value = true;
     };
@@ -115,8 +117,11 @@ export default {
     return {
       goToJardinSpecifique,
       showModal,
+      gardens,
       openCreateGardenModal
     };
+
+   
   }
 }
 
