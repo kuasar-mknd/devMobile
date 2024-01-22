@@ -2,7 +2,7 @@
   <!--
     <button-c-t-a-primary fill="outline" buttonText="Ajouter une plante"></button-c-t-a-primary>
  -->
- <ion-button shape="round">
+ <ion-button shape="round" >
   <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
   </ion-button>
 </template>

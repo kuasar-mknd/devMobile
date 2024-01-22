@@ -120,7 +120,6 @@ function handleError(commit, error) {
   }
 
 export default {
-  namespaced: true,
   state,
   getters,
   actions,

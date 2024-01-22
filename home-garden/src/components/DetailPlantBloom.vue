@@ -9,7 +9,7 @@
   </ion-item>
 </template>
     
-  <script>
+<script>
   export default {
   name: 'DetailPlantBloom',
   props: {

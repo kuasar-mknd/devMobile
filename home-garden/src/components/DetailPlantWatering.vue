@@ -9,17 +9,21 @@
   </ion-item>
 </template>
     
-  <script>
-  export default {
+<script>
+  export default defineComponent({
   name: 'DetailPlantWatering',
   props: {
-    watering: {
-      type: String,
-      required: true
-    }
+    watering: String
   }
-}
-
+})
+/*export default defineComponent({
+    name: 'CardPlant',
+    components: { IonCard, IonCardContent},
+    props: {
+      imageSrc: String,
+      watering: String,
+    },
+  });*/
 </script>
     
   <style scoped>

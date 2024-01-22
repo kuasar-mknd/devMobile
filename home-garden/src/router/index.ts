@@ -8,6 +8,16 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/tabs/home'
   },
   {
+    path: '/welcome',
+    component: () => import('@/views/WelcomePage.vue') // Ajouter la route de bienvenue
+  },
+  {
+    path: '/jardin-specifique/:id/:label/:localisation',
+    name: 'JardinSpecifique',
+    props: true,
+    component: () => import('@/views/JardinSpecifique.vue')
+  },
+  {
     path: '/login',
     component: () => import('@/views/LoginAuth.vue') // Ajouter la route de connexion
   },
@@ -50,12 +60,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register'];
+  const publicPages = ['/login', '/register', '/welcome'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
   if (authRequired && !loggedIn) {
-    next('/login');
+    next('/welcome');
   } else {
     next();
   }

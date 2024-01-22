@@ -9,8 +9,11 @@
       </ion-col>
       <ion-col size="auto">
         <div class="profilPicture">
-          <img class="roundedImage" :src="imgURL" alt="Photo de profil">
+          <ion-avatar slot="start">
+          <img :src="imgURL" alt="Photo de profil">
+        </ion-avatar>
         </div>
+        
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -35,7 +38,7 @@ export default {
 <style scoped>
 .profilPicture {
   height: 7rem;
-  width: 10rem;
+  width: 7rem;
   overflow: hidden;
 }
 
@@ -47,6 +50,6 @@ export default {
 }
 
 h1 {
-  font-weight: 800;
+  font-weight: 600;
 }
 </style>

@@ -71,21 +71,22 @@ const actions = {
       let errorMessage = 'Une erreur inconnue est survenue.';
       if (axios.isAxiosError(error)) {
         const status = error.response ? error.response.status : null;
+        const errorMessages = error.response.data.errors.map(error => error.msg).join('\n');
         switch (status) {
           case 400:
-            commit('setError', '');
+            commit('setError', errorMessages);
             break;
           case 401:
-            commit('setError', '');
+            commit('setError', errorMessages);
             break;
           case 488:
-            commit('setError', '');
+            commit('setError', errorMessages);
             break;
           case 500:
-            commit('setError', '');
+            commit('setError', errorMessages);
             break;
           default:
-            commit('setError', '');
+            commit('setError', errorMessages);
         }
       } else {
         errorMessage = error.message;
@@ -333,11 +334,13 @@ const mutations = {
       totalItems: paginatedGardens.totalItems
     };
     state.error = null;
+  },
+  setError(state, error) {
+    state.error = error;
   }
 };
 
 export default {
-  namespaced: true,
   state,
   getters,
   actions,
