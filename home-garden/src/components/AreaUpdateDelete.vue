@@ -21,36 +21,41 @@
   import { IonActionSheet, IonButton } from '@ionic/vue';
   import { defineComponent, ref } from 'vue';
   import EditForm from './EditForm.vue';
+  import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     components: { IonActionSheet, IonButton, EditForm },
-    name:"AreaUpdateDelete",
+    name: "AreaUpdateDelete",
     setup() {
+      const store = useStore();
+      const router = useRouter();
       const showEditForm = ref(false);
+
+      const deleteUser = async () => {
+        await store.dispatch('delUser');
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        localStorage.removeItem('user');
+        router.push('/login');
+      };
+
       const actionSheetButtons = [
         {
           text: 'Supprimer',
           role: 'destructive',
-          data: {
-            action: 'Supprimer',
-          },
+          handler: deleteUser // Utilisez `handler` ici
         },
         {
           text: 'Modifier',
-          data: {
-            action: 'Modifier',
-          },
           handler: () => {
             showEditForm.value = true;
           }
-      },
+        },
         {
           text: 'Annuler',
           role: 'cancel',
-          class: 'action-sheet-cancel',
-          data: {
-            action: 'Annuler',
-          },
+          class: 'action-sheet-cancel'
         },
       ];
 

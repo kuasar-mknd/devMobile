@@ -58,7 +58,7 @@ export default defineComponent({
         };
 
         const updateUser = async () => {
-            await store.dispatch('updateUser', userData.value);
+            await store.dispatch('updUser', userData.value);
             if (!authError.value) {
                 handleDismiss();
             }

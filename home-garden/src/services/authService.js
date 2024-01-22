@@ -45,5 +45,18 @@ const updateUser = async (userData) => {
     return Promise.reject(error);
   }
 };
+const deleteUser = async () => {
+  try {
+    const response = await axios.delete(API_URL, {
+      headers: {
+        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
-export { registerUser, loginUser, logoutUser, updateUser };
+
+export { registerUser, loginUser, logoutUser, updateUser, deleteUser };
