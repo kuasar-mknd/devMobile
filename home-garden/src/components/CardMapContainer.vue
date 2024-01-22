@@ -30,6 +30,8 @@ export default {
     const gardenLocation = ref('');
     const gardenName = ref('');
 
+    let userLocation = ref([48.8534, 2.3488]); // Coordonnées par défaut
+
     const updateUserLocationAddress = (userLocation) => {
       console.log(userLocation);
       emit('update:location', userLocation);
@@ -48,12 +50,13 @@ export default {
           map.value = L.map(mapContainer.value);
 
           // Lancer la localisation de l'utilisateur
-          map.value.locate({ maxZoom: 16, watch: true });
+          map.value.locate({ setView: true, maxZoom: 16});
 
           // L'événement 'locationfound' est déclenché si la localisation est réussie
           map.value.on('locationfound', (e) => {
-            const userLocation = [e.latlng.lat, e.latlng.lng];
-            L.marker(userLocation).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
+            userLocation.value = [e.latlng.lat, e.latlng.lng];
+            console.log(userLocation);
+            L.marker(userLocation.value).addTo(map.value); // Ajouter un marqueur à la position de l'utilisateur
           });
 
           // L'événement 'locationerror' est déclenché si la localisation échoue
