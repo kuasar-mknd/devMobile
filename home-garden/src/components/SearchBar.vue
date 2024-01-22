@@ -1,24 +1,24 @@
 <template>
-  <ion-searchbar class="custom" show-clear-button="focus" placeholder="Search"></ion-searchbar>
+  <ion-searchbar class="custom" v-model="searchText" show-clear-button="focus" placeholder="Search"></ion-searchbar>
 </template>
 
 <script lang="ts">
-  import { IonSearchbar } from '@ionic/vue';
-  import { defineComponent } from 'vue';
-  import { trashBin } from 'ionicons/icons';
+import { IonSearchbar } from '@ionic/vue';
+import { defineComponent, ref,watch} from 'vue';
 
-  export default defineComponent({
-    name: 'SearchBar',
-    components: { IonSearchbar },
-    setup() {
-      return { trashBin };
-    },
-  });
+export default defineComponent({
+  name: 'SearchBar',
+  components: { IonSearchbar },
+  props: ['modelValue'],
+  setup(props, { emit }) {
+    const searchText = ref(props.modelValue);
+
+    searchText.value = props.modelValue;
+    watch(searchText, (newValue) => {
+      emit('update:modelValue', newValue);
+    });
+
+    return { searchText };
+  },
+});
 </script>
-
-<style>
-ion-searchbar.custom {
-  --color : rgba(117, 117, 117, 0.7);
-  --border-radius: 4px;
-}
-</style>
