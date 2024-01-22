@@ -96,7 +96,8 @@
             <ion-grid>
                 <ion-row>
                     <ion-col>
-                        <CardPlant
+                        <CardPlant v-for="plant in plants" :key="plant._id"
+                        :name="plant.name"
                         class="plant-image"
                         imageSrc="../../resources/crop4.png"
                         watering="2 fois par semaine"
@@ -165,6 +166,7 @@ export default {
     setup(props, { emit }) {
         
         const router = useRouter(); 
+        const plants= ref([]);
         
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref('');
@@ -201,12 +203,29 @@ export default {
                             coordinates: gardenLocation.value
                         }
                     };
+                    plants.value = loadedGarden.plants;
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement du jardin", error);
             }
         };
 
+        // const loadGetGardenPlants = async () => {
+        //     try {
+        //         await store.dispatch('getGardenPlants', props.id); 
+                
+                //ça ça marche mais ça donne tous les jardins
+                store.state.garden.gardens.forEach((garden:any) => {
+                console.log(garden.plants);
+        });
+        //Encore à changer après le .state
+        // plants.value = store.state.garden.gardens;
+        
+        //     } catch (error) {
+        //         console.error("Erreur lors du chargement des plantes du jardin:", error);
+        //     }
+        // };
+        // onMounted(loadGetGardenPlants);
 
         onMounted(() => {
             loadGarden().then(() => {
@@ -236,6 +255,7 @@ export default {
             openCreateGardenModal,
             showModal,
             gardenToEdit,
+            plants,
             closeModal 
         };
     }
