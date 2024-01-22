@@ -279,6 +279,31 @@ const actions = {
         commit('setError', errorMessage);
       }
     }
+  },
+
+  async getGardensByUserId({ commit }) {
+    try {
+      const gardens = await gardenService.fetchGardensFromUser();
+      commit('setGardens', gardens);
+    } catch (error) {
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        switch (status) {
+          case 400:
+            commit('setError', '');
+            break;
+          case 500:
+            commit('setError', '');
+            break;
+          default:
+            commit('setError', '');
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
+    }
   }
 };
 
