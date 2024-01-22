@@ -62,7 +62,7 @@ export default defineComponent({
             };
 
             try {
-                await axios.put('/api/users', userData);
+                await axios.put('https://homegarden.onrender.com/api/users', userData);
                 close();
             } catch (e) {
                 error.value = e.message;
