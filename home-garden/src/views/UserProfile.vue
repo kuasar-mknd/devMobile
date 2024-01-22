@@ -55,7 +55,6 @@ export default {
         const router = useRouter();
         const isEditFormVisible = ref(false);
         const email = ref(localStorage.getItem('email')?.substring(1, localStorage.getItem('email').length - 1));
-        //const name récupère le nom de l'utilisateur qui est la partie avant le @ de l'email
         const username = computed(() => {
           return email.value ? email.value.substring(0, email.value.indexOf('@')) : '';
         });
