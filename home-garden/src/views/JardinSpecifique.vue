@@ -5,7 +5,6 @@
                 <ion-buttons slot="start">
                     <ion-back-button></ion-back-button>
                 </ion-buttons>
-                <ion-title>Back Button</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true" class="content">
@@ -28,6 +27,15 @@
         <ion-text >
             <p class="titre">{{ localisation }}</p>
         </ion-text>
+
+        <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
+        <CreateGardenModal
+            :isOpen="showModal"
+            @close="showModal = false"
+            :isEditMode="true"
+            :existingGarden="gardenToEdit"
+        />
+
         
         <ion-grid>
             <ion-row>
@@ -121,6 +129,7 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
+import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType } from 'vue';
 import { useStore } from 'vuex';
@@ -145,8 +154,13 @@ export default {
         IonPage,
         IonContent,
         ButtonAdd,
+        CreateGardenModal,
     },
     props: {
+        id:{
+        type: String,
+        default: ''
+        },
         label: {
         type: String,
         default: ''
@@ -156,7 +170,7 @@ export default {
         default: ''
         },
     },
-    setup(_, { emit }) {
+    setup(props, { emit }) {
         
         const router = useRouter(); 
         
@@ -171,10 +185,19 @@ export default {
         const { proxy } = getCurrentInstance();
         const store = useStore();
         const authError = computed(() => store.state.auth.authError);
+        const showModal = ref(false);
         
         const handleDismiss = () => {
             close(); 
         };
+        // create gardenToEdit with props id, name and location
+        const gardenToEdit = ref({
+            _id: props.id,
+            name: props.label,
+            location: {
+                coordinates: props.localisation.split(',').map(Number)
+            }
+        });
         
         const close = () => {
             isOpen.value = false;
@@ -183,18 +206,14 @@ export default {
             }
         };
         
-        const createGarden = async() => {
-            console.log(gardenName.value, gardenLocation.value); 
-            const userData = {
-                name: gardenName.value,
-                location: gardenLocation.value,
-            };
-            console.log(userData);
-            await store.dispatch('addGarden', userData);
-        };
-        
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
+        };
+
+        const openCreateGardenModal = async () => {
+            //console.log(await store.dispatch('fetchGardens'));
+            console.log(showModal.value);
+            showModal.value = true;
         };
         
         onMounted(() => {
@@ -211,11 +230,13 @@ export default {
             gardenName,
             gardenLocation,
             handleDismiss,
-            createGarden,
             close,
             cardMapContainerRef,
             goToJardinSpecifique,
-            updateGardenLocation 
+            updateGardenLocation,
+            openCreateGardenModal,
+            showModal,
+            gardenToEdit 
         };
     }
 }

@@ -2,7 +2,7 @@
     <ion-modal :is-open="isOpen" @ionModalDidDismiss="handleDismiss" class="modal-garden">
       <ion-header translucent>
         <ion-toolbar>
-          <ion-title>Créer un jardin</ion-title>
+          <ion-title>{{ isEditMode ? 'Mettre à jour un jardin' : 'Créer un jardin' }}</ion-title>
           <ion-buttons slot="end">
             <ion-button @click="handleDismiss">Fermer</ion-button>
           </ion-buttons>
@@ -22,7 +22,9 @@
         <div class="map-container">
             <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
         </div>
-        <ion-button expand="block" @click="createGarden">Créer</ion-button>
+        <ion-button expand="block" @click="submitGarden">
+          {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+        </ion-button>
       </ion-content>
     </ion-modal>
   </template>
@@ -44,10 +46,14 @@ export default defineComponent({
         IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
         IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList,
     },
-    setup(_, { emit }) {
+    props: {
+      isEditMode: Boolean, // Détermine si le modal est en mode édition
+      existingGarden: Object // Les données du jardin existant pour la mise à jour
+    },
+    setup(props, { emit }) {
         const isOpen = ref(true); // You can control the visibility with this ref
-        const gardenName = ref('');
-        const gardenLocation = ref([]);
+        const gardenName = ref(props.existingGarden ? props.existingGarden.name : '');
+        const gardenLocation = ref(props.existingGarden ? props.existingGarden.location.coordinates : []);
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
@@ -64,18 +70,24 @@ export default defineComponent({
             }
         };
 
-        const createGarden = async() => {
-            const userData = {
-                name: gardenName.value,
-                location: {
-                  type: 'Point',
-                  coordinates: gardenLocation.value,
-                },
-            };
-            await store.dispatch('addGarden', userData);
-            if (!error.value) {
-                close();
-            }
+        const submitGarden = async () => {
+          const gardenData = {
+            name: gardenName.value,
+            location: {
+              type: 'Point',
+              coordinates: gardenLocation.value,
+            },
+          };
+
+          if (props.isEditMode) {
+            await store.dispatch('editGarden', { id: props.existingGarden._id, gardenData });
+          } else {
+            await store.dispatch('addGarden', gardenData);
+          }
+
+          if (!error.value) {
+            close();
+          }
         };
 
         const updateGardenLocation = (newLocation) => {
@@ -96,7 +108,7 @@ export default defineComponent({
         gardenName,
         gardenLocation,
         handleDismiss,
-        createGarden,
+        submitGarden,
         close,
         cardMapContainerRef,
         updateGardenLocation,

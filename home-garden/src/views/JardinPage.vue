@@ -40,7 +40,11 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <CreateGardenModal v-if="showModal" @close="showModal = false" />
+    <CreateGardenModal
+      :isOpen="showModal"
+      @close="showModal = false"
+      :isEditMode="false"
+    />
   </ion-content>
 </ion-page>
 </template>
@@ -92,7 +96,7 @@ export default {
 
     const loadGardens = async () => {
       try {
-        await store.dispatch('fetchGardens'); // Adaptez en fonction de l'identifiant si nécessaire
+        await store.dispatch('getGardenFromUser'); // Adaptez en fonction de l'identifiant si nécessaire
         store.state.garden.gardens.forEach((garden:any) => {
          console.log(garden.name);
         });
@@ -113,6 +117,7 @@ export default {
         router.push({ 
         name: 'JardinSpecifique', 
         params: { 
+          id: garden._id,
           label: garden.name, 
           localisation: garden.location.coordinates.join(',')
         }

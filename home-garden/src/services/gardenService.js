@@ -36,7 +36,11 @@ export const gardenService = {
 
   async updateGarden(id, gardenData) {
     try {
-      const response = await axios.put(`${API_URL}${id}`, gardenData);
+      const response = await axios.put(`${API_URL}${id}`, gardenData , {
+        headers: {
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+        },
+      });
       return response.data;
     } catch (error) {
       return Promise.reject(error);
