@@ -11,7 +11,7 @@
             <AreaUpdateDelete class="btnUpdDel"/>
         </ion-buttons>
         <h1 class="titrePage">Profil</h1>
-        <ProfilUser class="profilUsr" name="Kermit" imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399" />
+        <ProfilUser class="profilUsr" :name="username" imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399" />
       </ion-label>
     <div class="profile-section">
       <div class="profile-detail">
@@ -32,7 +32,7 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import AreaUpdateDelete from '@/components/AreaUpdateDelete.vue';
 import ProfilUser from '@/components/ProfilUser.vue';
 import EditForm from '@/components/EditForm.vue';
@@ -48,24 +48,26 @@ export default {
     IonButton,
     AreaUpdateDelete,
     ProfilUser,
-    EditForm
+    EditForm,
 },
   setup() {
         const store = useStore();
         const router = useRouter();
         const isEditFormVisible = ref(false);
-        const email = localStorage.getItem('email');
+        const email = ref(localStorage.getItem('email')?.substring(1, localStorage.getItem('email').length - 1));
+        //const name récupère le nom de l'utilisateur qui est la partie avant le @ de l'email
+        const username = computed(() => {
+          return email.value ? email.value.substring(0, email.value.indexOf('@')) : '';
+        });
 
         const showEditForm = () => {
       isEditFormVisible.value = true;
     };
-  const updatePwd = async () => {
-  };
   const logout = async () => {
     await store.dispatch('logout');
     router.push('/login'); // Redirigez vers la page de connexion après déconnexion
   };
-  return { logout, updatePwd, showEditForm, isEditFormVisible, email };
+  return { logout, showEditForm, isEditFormVisible, email, username };
       }
   };
 
