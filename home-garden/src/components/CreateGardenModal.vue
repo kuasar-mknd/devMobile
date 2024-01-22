@@ -15,6 +15,9 @@
           <ion-label position="stacked">Nom du jardin</ion-label>
           <ion-input v-model="gardenName" type="text"></ion-input>
         </ion-item>
+        <ion-item v-if="isEditMode">
+          <ion-checkbox v-model="updateLocation" label-placement="start">Mettre à jour la localisation</ion-checkbox>
+        </ion-item>
         <div v-if="error" class="error-message">
             {{ error }}
         </div>
@@ -32,7 +35,7 @@
 <script lang="ts">
 import { 
   IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-  IonContent, IonItem, IonLabel, IonInput, IonList,
+  IonContent, IonItem, IonLabel, IonInput, IonList, IonCheckbox
 } from '@ionic/vue';
 
 import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed, watch } from 'vue';
@@ -44,7 +47,7 @@ import { useStore } from 'vuex';
 export default defineComponent({
     components: {
         IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-        IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList,
+        IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList, IonCheckbox
     },
     props: {
       isEditMode: Boolean, // Détermine si le modal est en mode édition
@@ -58,6 +61,7 @@ export default defineComponent({
         const { proxy } = getCurrentInstance();
         const store = useStore();
         const error = computed(() => store.state.garden.error);
+        const updateLocation = ref(false);
 
         const handleDismiss = () => {
             close(); 
@@ -75,7 +79,7 @@ export default defineComponent({
             name: gardenName.value,
             location: {
               type: 'Point',
-              coordinates: gardenLocation.value,
+              coordinates: updateLocation.value ? gardenLocation.value : props.existingGarden?.location?.coordinates,
             },
           };
 
@@ -123,7 +127,8 @@ export default defineComponent({
         close,
         cardMapContainerRef,
         updateGardenLocation,
-        error 
+        error,
+        updateLocation, 
         };
     }
 });

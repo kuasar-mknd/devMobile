@@ -35,6 +35,12 @@ export default {
       emit('update:location', userLocation);
     };
 
+    const customIcon = L.icon({
+                iconUrl: '../../resources/icons/garden.png', // Chemin vers l'image de l'icône
+                iconSize: [50, 50], // Taille de l'icône
+                popupAnchor: [0, -25]
+            });
+
     onMounted(() => {
       // Retarder l'initialisation de la carte
       if (mapContainer.value) {
@@ -50,16 +56,11 @@ export default {
 
           // Ajouter un marqueur pour gardenLocation
           if (hasValidLocation) {
-            const customIcon = L.icon({
-                iconUrl: '../../resources/icons/garden.png', // Chemin vers l'image de l'icône
-                iconSize: [50, 50], // Taille de l'icône
-                popupAnchor: [0, -25]
-            });
             L.marker(defaultCoords, { icon: customIcon }).addTo(map.value);
           }
 
         // Lancer la localisation de l'utilisateur
-        map.value.locate({ setView: true, maxZoom: 16 });
+        map.value.locate({ maxZoom: 16 });
 
         // L'événement 'locationfound' est déclenché si la localisation est réussie
         map.value.on('locationfound', (e) => {
@@ -89,16 +90,6 @@ export default {
         });
       }
     });
-
-    watch(() => props.gardenLocation, (newLocation) => {
-      if (map.value && newLocation && newLocation.length === 2) {
-        // Retirer les anciens marqueurs si nécessaire
-        // Ajouter un nouveau marqueur
-        L.marker([newLocation[0], newLocation[1]]).addTo(map.value);
-      }
-    }, { immediate: true, deep: true });
-
-
 
     return {
       map,
