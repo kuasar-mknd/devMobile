@@ -41,7 +41,7 @@
             <ion-row>
                 <ion-col>
                     <div class="map-container">
-                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
+                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" :gardenName="gardenName" @update:location="updateGardenLocation"/>
                     </div>
                 </ion-col>
                 <ion-col size="auto">
