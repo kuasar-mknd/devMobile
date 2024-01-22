@@ -96,7 +96,7 @@ export default {
 
     const loadGardens = async () => {
       try {
-        await store.dispatch('getGardenFromUser'); // Adaptez en fonction de l'identifiant si nécessaire
+        await store.dispatch('getGardensByUserId'); 
         store.state.garden.gardens.forEach((garden:any) => {
          console.log(garden.name);
         });

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL + 'gardens/';
+const API_URL_USERS = import.meta.env.VITE_API_URL + 'users/';
 
 export const gardenService = {
   async fetchGardens() {
@@ -17,6 +18,20 @@ export const gardenService = {
       const response = await axios.get(`${API_URL}${id}`);
       return response.data;
     } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+
+  async fetchGardensFromUser() {
+    try {
+      const response = await axios.get(API_URL_USERS + 'gardens', {
+        headers: {
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+        },
+      });
+      return response.data;
+    }
+    catch (error) {
       return Promise.reject(error);
     }
   },
