@@ -104,7 +104,7 @@ export default {
       map,
       mapContainer,
       gardenLocation,
-      gardenName
+      gardenName 
     };
   },
   methods: {
