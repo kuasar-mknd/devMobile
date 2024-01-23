@@ -1,5 +1,12 @@
 <template>
     <ion-page>
+      <ion-header>
+            <ion-toolbar>
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
       <ion-content>
         <ion-toolbar>
           <div class="logo-container">
@@ -85,10 +92,14 @@
 import InputNumber from '@/components/InputNumber.vue';
   import InputText from '@/components/InputText.vue';
   import InputUrl from '@/components/InputUrl.vue';
-  import { IonPage, IonToolbar, IonContent } from '@ionic/vue';
+  import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons } from '@ionic/vue';
 import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
 import { useStore } from 'vuex';
-import {  ref } from 'vue';
+import {  ref,onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const gardenIdFromUrl = ref('');
 
 const commonName = ref('');
 const scientificName = ref('');
@@ -104,10 +115,16 @@ const plantingSeason = ref('');
 const care = ref('');
 const imageUrl = ref('');
 const use = ref('');
-const selectedGardenId = ref(''); // Cette valeur sera mise à jour par InputListJardin
+//const selectedGardenId = ref(''); // Cette valeur sera mise à jour par InputListJardin
 //const selectedGardenName = ref(''); // Cette valeur sera mise à jour par InputListJardin
 //const garden = ref('');
 const store = useStore();
+
+
+onMounted(() => {
+  const { id } = router.currentRoute.value.params;
+  gardenIdFromUrl.value = id;
+});
 const submitPlant = async () => {
   console.log('Clic sur le bouton Ajouter');
 
@@ -126,11 +143,10 @@ const submitPlant = async () => {
     care: care.value,
     imageUrl: imageUrl.value,
     use: use.value,
-    garden: selectedGardenId.value , // Envoyer l'id du jardin comme objet
+    garden: gardenIdFromUrl.value, // Envoyer l'id du jardin comme objet
   };
   
-  console.log('Valeur de selectedGardenId:', selectedGardenId.value);
-  console.log('l url de l image est', imageUrl.value);
+
   try {
     await store.dispatch('createPlant', plantData);
     console.log('Plante ajoutée');
