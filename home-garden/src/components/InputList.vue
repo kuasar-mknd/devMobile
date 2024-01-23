@@ -1,9 +1,9 @@
 <template>
   <div>
-    <label for="seasonSelect">Saison :</label>
+    <label :for="id">{{ labelText }} :</label>
     <div>
       <select
-        id="seasonSelect"
+        :id="id"
         style="
           width: 216px;
           height: 44px;
@@ -12,21 +12,25 @@
           border-radius: 5px;
         "
       >
-        <option value="spring">Printemps</option>
-        <option value="summer">Été</option>
-        <option value="autumn">Automne</option>
-        <option value="winter">Hiver</option>
+        <option v-for="(option, index) in options" :key="index" :value="option.value">
+          {{ option.label }}
+        </option>
       </select>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref, defineProps } from 'vue';
 
-export default defineComponent({
-  name: 'InputList',
-});
+const { labelText, id } = defineProps(['labelText', 'id']);
+const options = ref([
+  { label: 'Hiver', value: 'Hiver' },
+  { label: 'Printemps', value: 'Printemps' },
+  { label: 'Été', value: 'Été' },
+  { label: 'Automne', value: 'Automne' },
+]);
+
 </script>
 
 <style scoped>

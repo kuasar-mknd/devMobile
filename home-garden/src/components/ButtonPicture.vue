@@ -1,5 +1,4 @@
 <template>
-    <ion-content>
     <ion-button @click="fileInput && fileInput.click()">
         <ion-icon :icon="cameraIcon" slot="start"></ion-icon>
         Add Picture
@@ -13,12 +12,12 @@
         @change="handleFileChange"
         hidden
       />
-    </ion-content>
   </template>
   
   <script setup lang="ts">
   import { ref } from 'vue';
   import { cameraOutline } from 'ionicons/icons';
+  import { IonButton, IonIcon } from '@ionic/vue';
   
   const fileInput = ref<HTMLInputElement | null>(null);
   

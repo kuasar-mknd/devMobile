@@ -23,7 +23,11 @@ export const plantService = {
 
   async createPlant(plantData) {
     try {
-      const response = await axios.post(API_URL, plantData);
+      const response = await axios.post(API_URL, plantData ,{
+        headers: {
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+        },
+      });
       return response.data;
     } catch (error) {
       return Promise.reject(error);

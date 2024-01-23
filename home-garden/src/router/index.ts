@@ -25,6 +25,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     component: () => import('@/views/RegisterAuth.vue') // Ajouter la route d'inscription
   },
+
+  {
+    path: '/AjouterPlante/:id',
+    name: 'AjouterPlante',
+    props: true,
+    component: () => import('@/views/PlantPage.vue') // Ajouter la route d'inscription
+  },
+
   {
     path: '/tabs/',
     component: TabsPage,
@@ -33,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '',
         redirect: '/tabs/home'
       },
-      
+
       {
         path: 'home',
         component: () => import('@/views/HomePage.vue')

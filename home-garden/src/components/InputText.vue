@@ -1,34 +1,25 @@
 <template>
-  <div>
-    <label for="myInput">Nom</label>
-    <div>
-      <input
-        type="text"
-        id="myInput"
-        style="
-          width: 216px;
-          height: 44px;
-          background-color: #f0f5f2;
-          border: 1px solid #000;
-          border-radius: 5px;
-        "
-      />
-    </div>
-  </div>
+  <ion-input
+    :label="internalLabelText"
+    label-placement="floating"
+    fill="outline"
+    :placeholder="placeholderText"
+    v-model="inputValue"
+    :style="{ width: '216px', height: '40px', borderRadius: '5px' }"
+    class="custom-input"
+  ></ion-input>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref, defineProps } from 'vue';
+import { IonInput } from '@ionic/vue';
 
-  export default defineComponent({
-    name: 'InputText',
-  });
-
+const props = defineProps(['labelText']);
+const placeholderText = ref("Entrez le texte");
+const internalLabelText = props.labelText || "Nom";
+const inputValue = ref('');
 </script>
 
 <style scoped>
-  label {
-  display: block;
-  margin-bottom: 5px;
-}
+/* Style personnalisé pour la carte, si nécessaire */
 </style>

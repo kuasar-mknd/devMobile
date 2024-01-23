@@ -1,25 +1,30 @@
-<!-- InputText.vue -->
+<!-- InputUrl.vue -->
 <template>
   <ion-input
     :label="internalLabelText"
     label-placement="floating"
     fill="outline"
     :placeholder="placeholderText"
+    type="url"
     v-model="inputValue"
-    type="number"
     :style="{ width: '216px', height: '40px', borderRadius: '5px' }"
     class="custom-input"
+    @update:modelValue="$emit('update:modelValue', inputValue)"
   ></ion-input>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 import { IonInput } from '@ionic/vue';
 
 const props = defineProps(['labelText']);
-const placeholderText = ref("Entrez le nombre"); // Modifiez le texte du placeholder ici
-const internalLabelText = props.labelText || "Nom"; // Utilisez la prop ou une valeur par défaut
+const emits = defineEmits( ['update:modelValue']);
+const placeholderText = ref("Entrez l'URL");
+const internalLabelText = props.labelText || "Nom";
 const inputValue = ref('');
+
+emits('update:modelValue');
+
 </script>
 
 <style scoped>

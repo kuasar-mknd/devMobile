@@ -64,7 +64,9 @@
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
-                        <ButtonAdd></ButtonAdd>                    
+                        <ButtonAdd @click="redirectToPlante">
+                    
+                        </ButtonAdd>                    
                     </div>
                 </ion-col>
             </ion-row>
@@ -172,6 +174,10 @@ export default {
             await loadGarden();
             showModal.value = false;
         };
+        // Redirection vers la page  ajouter plante avec l'id du jardin en paramètre /AjouterPlante/:id
+        const redirectToPlante = () => {
+            router.push(`/AjouterPlante/${props.id}`);
+        };
         
         const loadGarden = async () => {
             try {
@@ -240,7 +246,8 @@ export default {
             plants,
             filteredPlants,
             searchText,
-            closeModal 
+            closeModal,
+            redirectToPlante
         };
     }
 }
