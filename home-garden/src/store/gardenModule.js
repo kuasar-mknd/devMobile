@@ -224,8 +224,8 @@ const actions = {
 
   async aggregateGardenPlants({ commit }, gardenId) {
     try {
-      const aggregatedData = await gardenService.aggregateGardenPlants(gardenId);
-      commit('setAggregatedPlants', { gardenId, aggregatedData });
+      const numberOfPlants = await gardenService.aggregateGardenPlants(gardenId);
+      commit('setAggregatedPlants', { gardenId, numberOfPlants })
     } catch (error) {
       let errorMessage = 'Une erreur inconnue est survenue.';
       if (axios.isAxiosError(error)) {
@@ -344,12 +344,12 @@ const mutations = {
     }
     state.error = null;
   },
-  setAggregatedPlants(state, { gardenId, aggregatedData }) {
-    const index = state.gardens.findIndex(g => g.id === gardenId);
+  setAggregatedPlants(state, { gardenId, numberOfPlants }) {
+    const index = state.gardens.findIndex(g => g._id === gardenId);
     if (index !== -1) {
-      state.gardens[index].aggregatedPlants = aggregatedData;
+      state.gardens[index].numberOfPlants = numberOfPlants;
     }
-    state.error = null
+    state.error = null;
   },
 
   setPaginatedGardens(state, paginatedGardens) {

@@ -57,7 +57,7 @@
         
         
         <ion-text>
-            <h1 class="titre">Mes plantes</h1>
+            <h1 class="titre">Mes plantes {{ numberPlants }}</h1>
         </ion-text>
         
         <ion-grid>
@@ -169,7 +169,7 @@ export default {
             plant.commonName.toLowerCase().includes(searchText.value.toLowerCase())
             );
         });
-
+        
         const deleteGarden = async () => {
             try {
                 await store.dispatch('removeGarden', props.id);
@@ -178,6 +178,20 @@ export default {
                 console.error("Erreur lors de la suppression du jardin", error);
             }
         };
+        
+        const getTotalPlants = async() => {
+            try {
+                await store.dispatch('aggregateGardenPlants', props.id);
+                // Mise à jour de l'interface utilisateur en conséquence
+            } catch (error) {
+                console.error("Erreur lors de l'aggrégation", error);
+            }
+        }
+
+        const numberPlants = computed(() => {
+  const garden = store.state.garden.gardens.find(g => g._id === props.id);
+  return garden ? garden.numberOfPlants : 0;
+});
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
@@ -203,12 +217,16 @@ export default {
                         }
                     };
                     plants.value = loadedGarden.plants;
-                    console.log(plants.value)
+                    // totalPlant.value = loadedGarden.plants.length;          
+                           
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement du jardin", error);
             }
         };
+
+        //monté getTotalPlants
+        onMounted(getTotalPlants);
         
         onMounted(() => {
             loadGarden().then(() => {
@@ -235,7 +253,9 @@ export default {
             gardenLocation,
             cardMapContainerRef,
             updateGardenLocation,
+            numberPlants,
             deleteGarden,
+            getTotalPlants,
             openCreateGardenModal,
             showModal,
             gardenToEdit,
