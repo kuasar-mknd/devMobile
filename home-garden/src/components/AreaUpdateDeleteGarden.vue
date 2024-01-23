@@ -47,7 +47,6 @@ export default defineComponent({
             text: 'Modifier',
             handler: () => {
                 emit('edit-garden');
-                showEditForm.value = true;
             }
         },
         {
