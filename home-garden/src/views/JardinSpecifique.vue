@@ -73,47 +73,12 @@
             <ion-grid>
                 <ion-row>
                     <ion-col>
-                        <CardPlant
-                        class="plant-image"
-                        imageSrc="../../resources/basilic.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop2.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop3.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-grid>
-                <ion-row>
-                    <ion-col>
                         <CardPlant v-for="plant in plants" :key="plant._id"
-                        :name="plant.name"
                         class="plant-image"
                         imageSrc="../../resources/crop4.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop5.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/basilic.png"
-                        watering="2 fois par semaine"
-                        />
+                        :name= "plant.commonName"
+                        :watering="plant.watering"
+                        >{{ plant }}</CardPlant>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -204,6 +169,7 @@ export default {
                         }
                     };
                     plants.value = loadedGarden.plants;
+                    console.log(plants.value)
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement du jardin", error);

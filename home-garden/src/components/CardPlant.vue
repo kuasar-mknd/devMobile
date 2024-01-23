@@ -2,6 +2,8 @@
   <ion-card>
     <img :src="imageSrc" />
     <ion-card-content>
+      {{ name }}
+      <br>
      <b>Watering :</b> {{ watering }}
     </ion-card-content>
   </ion-card>
@@ -23,6 +25,7 @@
     props: {
       imageSrc: String,
       watering: String,
+      name: String,
     },
   });
 </script>
