@@ -3,8 +3,8 @@
     <ion-row>
       <ion-col>
         <div class="helloName">
-          <p class="text-gray-600">Bonjour,</p>
-          <h1 class="text-2xl font-extrabold">{{ name }}</h1>
+          <div>Bonjour,</div>
+          <h1>{{ name }}</h1>
         </div>
       </ion-col>
       <ion-col size="auto">
@@ -36,6 +36,9 @@ export default {
 </script>
 
 <style scoped>
+.helloName{
+  justify-content: left;
+}
 .profilPicture {
   height: 7rem;
   width: 7rem;

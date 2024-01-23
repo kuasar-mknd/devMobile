@@ -22,26 +22,26 @@
         
         
         <ion-text color="tertiary">
-            <h1 class="titre">{{ label }}</h1>
+            <h1 class="titre">{{ gardenName }}</h1>
         </ion-text>
         <ion-text >
-            <p class="titre">{{ localisation }}</p>
+            <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
-
+        
         <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         <CreateGardenModal
-            :isOpen="showModal"
-            @close="showModal = false"
-            :isEditMode="true"
-            :existingGarden="gardenToEdit"
+        :isOpen="showModal"
+        @close="closeModal"
+        :isEditMode="true"
+        :existingGarden="gardenToEdit"
         />
-
+        
         
         <ion-grid>
             <ion-row>
                 <ion-col>
                     <div class="map-container">
-                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
+                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" :gardenName="gardenName" @update:location="updateGardenLocation"/>
                     </div>
                 </ion-col>
                 <ion-col size="auto">
@@ -60,7 +60,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <SearchBar></SearchBar>
+                    <SearchBar v-model="searchText"></SearchBar>
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
@@ -68,59 +68,33 @@
                     
                         </ButtonAdd>                    
                     </div>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        
+        <ion-grid>
+    <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+    <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
+        <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+        <ion-col size="4" v-for="index in 3" :key="index">
+            <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+            <CardPlant
+            v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
+            :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
+            class="plant-image"
+            :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
+            :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
+            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
+            {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
+            </CardPlant>
             
-            <ion-grid>
-                <ion-row>
-                    <ion-col>
-                        <CardPlant
-                        class="plant-image"
-                        imageSrc="../../resources/basilic.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop2.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop3.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-grid>
-                <ion-row>
-                    <ion-col>
-                        <CardPlant
-                        class="plant-image"
-                        imageSrc="../../resources/crop4.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop5.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/basilic.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            
-        </ion-content>
-    </ion-page>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+    
+</ion-content>
+</ion-page>
 </template>
 
 
@@ -133,7 +107,7 @@ import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType } from 'vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
 
@@ -160,89 +134,115 @@ export default {
     },
     props: {
         id:{
-        type: String,
-        default: ''
-        },
-        label: {
-        type: String,
-        default: ''
-        },
-        localisation: {
-        type: String,
-        default: ''
-        },
+            type: String,
+            default: ''
+        }
+    },
+    methods: {
+        decodeHtml(html) {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = html;
+            return txt.value;
+        }
     },
     setup(props, { emit }) {
         
         const router = useRouter(); 
-        
-        const goToJardinSpecifique = () => {
-            router.push({ name: 'JardinSpecifique' }); // Use the correct route name or path
-        }; 
+        const plants= ref([]);
+        const searchText = ref('');
         
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref('');
         const gardenLocation = ref([]);
+        const gardenToEdit = ref({});
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
-        const authError = computed(() => store.state.auth.authError);
         const showModal = ref(false);
         
-        const handleDismiss = () => {
-            close(); 
-        };
-        // create gardenToEdit with props id, name and location
-        const gardenToEdit = ref({
-            _id: props.id,
-            name: props.label,
-            location: {
-                coordinates: props.localisation.split(',').map(Number)
-            }
+        const filteredPlants = computed(() => {
+            return plants.value.filter(plant => 
+            plant.commonName.toLowerCase().includes(searchText.value.toLowerCase())
+            );
         });
-        
-        const close = () => {
-            isOpen.value = false;
-            if (proxy) {
-                proxy.$emit('close'); // Émet l'événement 'close'
-            }
-        };
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
         };
-
+        
+        const closeModal = async () => {
+            await loadGarden();
+            showModal.value = false;
+        };
+        
+        const loadGarden = async () => {
+            try {
+                await store.dispatch('getGarden', props.id); 
+                const loadedGarden = store.state.garden.gardens.find(garden => garden._id === props.id);
+                if (loadedGarden) {
+                    gardenName.value = loadedGarden.name; 
+                    gardenLocation.value = loadedGarden.location.coordinates;
+                    gardenToEdit.value = {
+                        ...loadedGarden,
+                        location: {
+                            ...loadedGarden.location,
+                            coordinates: gardenLocation.value
+                        }
+                    };
+                    plants.value = loadedGarden.plants;
+                    console.log(plants.value)
+                }
+            } catch (error) {
+                console.error("Erreur lors du chargement du jardin", error);
+            }
+        };
+        
+        onMounted(() => {
+            loadGarden().then(() => {
+                nextTick(() => {
+                    if (cardMapContainerRef.value) {
+                        cardMapContainerRef.value.invalidateMapSize();
+                    }
+                });
+            })
+            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+            
+        });
+        
         const openCreateGardenModal = async () => {
-            //console.log(await store.dispatch('fetchGardens'));
+            await loadGarden();
+            console.log(gardenToEdit.value);
             console.log(showModal.value);
             showModal.value = true;
         };
 
-        const redirectToPlante = () => {
-      router.push('/Plante');
-    };
-        
-        onMounted(() => {
-            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
-            nextTick(() => {
-                if (cardMapContainerRef.value) {
-                    cardMapContainerRef.value.invalidateMapSize();
+        // watch gardenLocation to update the gardenToEdit object
+        watch(gardenLocation, (newLocation) => {
+            console.log('changement de localisation');
+            gardenToEdit.value = {
+                ...gardenToEdit.value,
+                location: {
+                    ...gardenToEdit.value.location,
+                    coordinates: newLocation
                 }
-            });
+            };
         });
+        
+
         
         return {
             isOpen,
             gardenName,
             gardenLocation,
-            handleDismiss,
-            close,
             cardMapContainerRef,
-            goToJardinSpecifique,
             updateGardenLocation,
             openCreateGardenModal,
             showModal,
             gardenToEdit,
+            plants,
+            filteredPlants,
+            searchText,
+            closeModal,
             redirectToPlante
         };
     }
@@ -279,8 +279,8 @@ ion-col {
 }
 
 .plant-image {
-  width: 100%; /* Makes the image take the full width of its container */
-  height: auto; /* Maintains the aspect ratio */
+    width: 100%; /* Makes the image take the full width of its container */
+    height: auto; /* Maintains the aspect ratio */
 }
 
 </style>

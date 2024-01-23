@@ -15,12 +15,15 @@
           <ion-label position="stacked">Nom du jardin</ion-label>
           <ion-input v-model="gardenName" type="text"></ion-input>
         </ion-item>
+        <ion-item v-if="isEditMode">
+          <ion-checkbox v-model="updateLocation" label-placement="start">Mettre à jour la localisation</ion-checkbox>
+        </ion-item>
         <div v-if="error" class="error-message">
             {{ error }}
         </div>
       </ion-list>
         <div class="map-container">
-            <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
+            <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation" @update:userLocation="updateUserLocation"/>
         </div>
         <ion-button expand="block" @click="submitGarden">
           {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
@@ -32,19 +35,21 @@
 <script lang="ts">
 import { 
   IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-  IonContent, IonItem, IonLabel, IonInput, IonList,
+  IonContent, IonItem, IonLabel, IonInput, IonList, IonCheckbox
 } from '@ionic/vue';
 
-import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed } from 'vue';
+import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed, watch } from 'vue';
 
 import CardMapContainer from '@/components/CardMapContainer.vue';
 
 import { useStore } from 'vuex';
 
+import { Geolocation } from '@capacitor/geolocation';
+
 export default defineComponent({
     components: {
         IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-        IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList,
+        IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList, IonCheckbox
     },
     props: {
       isEditMode: Boolean, // Détermine si le modal est en mode édition
@@ -52,12 +57,14 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const isOpen = ref(true); // You can control the visibility with this ref
-        const gardenName = ref(props.existingGarden ? props.existingGarden.name : '');
-        const gardenLocation = ref(props.existingGarden ? props.existingGarden.location.coordinates : []);
+        const gardenName = ref(props.existingGarden?.name || '');
+        const gardenLocation = ref(props.existingGarden?.location?.coordinates);
         const cardMapContainerRef = ref(null);
         const { proxy } = getCurrentInstance();
         const store = useStore();
         const error = computed(() => store.state.garden.error);
+        const updateLocation = ref(false);
+        const userLocation = ref(null);
 
         const handleDismiss = () => {
             close(); 
@@ -71,16 +78,33 @@ export default defineComponent({
         };
 
         const submitGarden = async () => {
-          const gardenData = {
-            name: gardenName.value,
-            location: {
-              type: 'Point',
-              coordinates: gardenLocation.value,
-            },
-          };
+          let locationCoordinates;
+          console.log(userLocation.value)
+
+          if (props.isEditMode && !updateLocation.value) {
+                // En mode édition, mais l'utilisateur ne souhaite pas mettre à jour la localisation
+                locationCoordinates = props.existingGarden?.location?.coordinates || gardenLocation.value;
+              } else {
+                console.log('update location')
+                // En mode création ou l'utilisateur souhaite mettre à jour la localisation
+                locationCoordinates = userLocation.value;
+                console.log(locationCoordinates)
+              }
+
+              const gardenData = {
+                name: gardenName.value,
+                location: {
+                  type: 'Point',
+                  coordinates: locationCoordinates,
+                },
+              };
 
           if (props.isEditMode) {
             await store.dispatch('editGarden', { id: props.existingGarden._id, gardenData });
+            gardenLocation.value = locationCoordinates;
+            // refresh the map component
+
+
           } else {
             await store.dispatch('addGarden', gardenData);
           }
@@ -94,13 +118,33 @@ export default defineComponent({
           gardenLocation.value = newLocation;
         };
 
+        const updateUserLocation = (newLocation) => {
+          console.log('update user location')
+          //if gardenLocation is not set, set it to the user location
+          if (!gardenLocation.value) {
+            gardenLocation.value = newLocation;
+          }
+          userLocation.value = newLocation;
+        };
+
         onMounted(() => {
+          console.log(props.existingGarden)
         // Utilisez nextTick pour s'assurer que tous les enfants sont montés
             nextTick(() => {
                 if (cardMapContainerRef.value) {
                 cardMapContainerRef.value.invalidateMapSize();
                 }
             });
+        });
+
+        watch(() => props.existingGarden, (newValue) => {
+          if (newValue) {
+            gardenName.value = newValue.name;
+            gardenLocation.value = newValue.location?.coordinates || [0, 0];
+          }
+        }, {
+          immediate: true, // Exécute le watcher dès l'initialisation du composant
+          deep: true // Surveille les changements profonds dans l'objet
         });
 
         return {
@@ -112,7 +156,9 @@ export default defineComponent({
         close,
         cardMapContainerRef,
         updateGardenLocation,
-        error 
+        updateUserLocation,
+        error,
+        updateLocation, 
         };
     }
 });
