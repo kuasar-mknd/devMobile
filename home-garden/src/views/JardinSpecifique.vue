@@ -27,15 +27,15 @@
         <ion-text >
             <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
-
+        
         <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         <CreateGardenModal
-            :isOpen="showModal"
-            @close="closeModal"
-            :isEditMode="true"
-            :existingGarden="gardenToEdit"
+        :isOpen="showModal"
+        @close="closeModal"
+        :isEditMode="true"
+        :existingGarden="gardenToEdit"
         />
-
+        
         
         <ion-grid>
             <ion-row>
@@ -66,31 +66,32 @@
                     <div style="width: 150px">
                         <ButtonAdd></ButtonAdd>                    
                     </div>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            
-            <ion-grid>
-  <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
-  <ion-row v-for="rowIndex in Math.ceil(plants.length / 3)" :key="rowIndex">
-    <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
-    <ion-col size="4" v-for="index in 3" :key="index">
-      <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
-      <CardPlant
-        v-if="plants[(rowIndex - 1) * 3 + index - 1]"
-        :key="plants[(rowIndex - 1) * 3 + index - 1]._id"
-        class="plant-image"
-        imageSrc="../../resources/crop4.png"
-        :name="plants[(rowIndex - 1) * 3 + index - 1].commonName"
-        :watering="plants[(rowIndex - 1) * 3 + index - 1].watering">
-        {{ plants[(rowIndex - 1) * 3 + index - 1] }}
-      </CardPlant>
-    </ion-col>
-  </ion-row>
-</ion-grid>
-            
-        </ion-content>
-    </ion-page>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        
+        <ion-grid>
+            <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+            <ion-row v-for="rowIndex in Math.ceil(plants.length / 3)" :key="rowIndex">
+                <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+                <ion-col size="4" v-for="index in 3" :key="index">
+                    <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+                    <CardPlant
+                    v-if="plants[(rowIndex - 1) * 3 + index - 1]"
+                    :key="plants[(rowIndex - 1) * 3 + index - 1]._id"
+                    class="plant-image"
+                    :imageSrc="decodeHtml(plants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
+                    :name="plants[(rowIndex - 1) * 3 + index - 1].commonName"
+                    :watering="plants[(rowIndex - 1) * 3 + index - 1].watering">
+                    {{ plants[(rowIndex - 1) * 3 + index - 1] }}
+                </CardPlant>
+                
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    
+</ion-content>
+</ion-page>
 </template>
 
 
@@ -130,10 +131,17 @@ export default {
     },
     props: {
         id:{
-        type: String,
-        default: ''
+            type: String,
+            default: ''
         }
     },
+    methods: {
+    decodeHtml(html) {
+      const txt = document.createElement('textarea');
+      txt.innerHTML = html;
+      return txt.value;
+    }
+  },
     setup(props, { emit }) {
         
         const router = useRouter(); 
@@ -151,14 +159,11 @@ export default {
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
         };
-
+        
         const closeModal = async () => {
             await loadGarden();
             showModal.value = false;
         };
-
-
-        
         
         const loadGarden = async () => {
             try {
@@ -181,91 +186,91 @@ export default {
                 console.error("Erreur lors du chargement du jardin", error);
             }
         };
-
+        
         // const loadGetGardenPlants = async () => {
-        //     try {
-        //         await store.dispatch('getGardenPlants', props.id); 
+            //     try {
+                //         await store.dispatch('getGardenPlants', props.id); 
                 
                 //ça ça marche mais ça donne tous les jardins
                 store.state.garden.gardens.forEach((garden:any) => {
-                console.log(garden.plants);
-        });
-        //Encore à changer après le .state
-        // plants.value = store.state.garden.gardens;
-        
-        //     } catch (error) {
-        //         console.error("Erreur lors du chargement des plantes du jardin:", error);
-        //     }
-        // };
-        // onMounted(loadGetGardenPlants);
-
-        onMounted(() => {
-            loadGarden().then(() => {
-                nextTick(() => {
-                if (cardMapContainerRef.value) {
-                    cardMapContainerRef.value.invalidateMapSize();
+                    console.log(garden.plants);
+                });
+                //Encore à changer après le .state
+                // plants.value = store.state.garden.gardens;
+                
+                //     } catch (error) {
+                    //         console.error("Erreur lors du chargement des plantes du jardin:", error);
+                    //     }
+                    // };
+                    // onMounted(loadGetGardenPlants);
+                    
+                    onMounted(() => {
+                        loadGarden().then(() => {
+                            nextTick(() => {
+                                if (cardMapContainerRef.value) {
+                                    cardMapContainerRef.value.invalidateMapSize();
+                                }
+                            });
+                        })
+                        // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+                        
+                    });
+                    
+                    const openCreateGardenModal = async () => {
+                        await loadGarden();
+                        console.log(gardenToEdit.value);
+                        console.log(showModal.value);
+                        showModal.value = true;
+                    };
+                    
+                    return {
+                        isOpen,
+                        gardenName,
+                        gardenLocation,
+                        cardMapContainerRef,
+                        updateGardenLocation,
+                        openCreateGardenModal,
+                        showModal,
+                        gardenToEdit,
+                        plants,
+                        closeModal 
+                    };
                 }
-            });
-            })
-            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+            }
             
-        });
-
-        const openCreateGardenModal = async () => {
-            await loadGarden();
-            console.log(gardenToEdit.value);
-            console.log(showModal.value);
-            showModal.value = true;
-        };
+        </script>
         
-        return {
-            isOpen,
-            gardenName,
-            gardenLocation,
-            cardMapContainerRef,
-            updateGardenLocation,
-            openCreateGardenModal,
-            showModal,
-            gardenToEdit,
-            plants,
-            closeModal 
-        };
-    }
-}
-
-</script>
-
-<style scoped>
-.class-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-}
-
-ion-col {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.map-container{
-    height: 300px;
-    width: 100%;
-}
-
-.page-title {
-    padding-left: 25px; /* Adjust as needed for alignment */
-}
-
-.titre {
-    margin-left: 25px;
-}
-
-.plant-image {
-  width: 100%; /* Makes the image take the full width of its container */
-  height: auto; /* Maintains the aspect ratio */
-}
-
-</style>
+        <style scoped>
+        .class-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        ion-col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .map-container{
+            height: 300px;
+            width: 100%;
+        }
+        
+        .page-title {
+            padding-left: 25px; /* Adjust as needed for alignment */
+        }
+        
+        .titre {
+            margin-left: 25px;
+        }
+        
+        .plant-image {
+            width: 100%; /* Makes the image take the full width of its container */
+            height: auto; /* Maintains the aspect ratio */
+        }
+        
+    </style>
