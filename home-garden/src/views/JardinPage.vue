@@ -5,7 +5,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="3">
             <ion-img
-            src="../../resources/homegardenLogo_transparent-resize.png"
+            src="/homegardenLogo_transparent-resize.png"
             alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous">
           </ion-img>
         </ion-col>

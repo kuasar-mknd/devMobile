@@ -1,6 +1,6 @@
 <template>
 
-    <ion-img src="../../resources/IconMeteo.png"></ion-img>
+    <ion-img src="/IconMeteo.png"></ion-img>
   
 </template>
 

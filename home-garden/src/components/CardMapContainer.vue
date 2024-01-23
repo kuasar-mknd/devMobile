@@ -45,7 +45,7 @@ export default {
     };
 
     const customIcon = L.icon({
-                iconUrl: '../../resources/icons/garden.png', // Chemin vers l'image de l'icône
+                iconUrl: '/icons/garden.png', // Chemin vers l'image de l'icône
                 iconSize: [50, 50], // Taille de l'icône
                 popupAnchor: [0, -25],
                 customIconId: 'gardenIcon' 
@@ -104,7 +104,7 @@ export default {
       
       if (this.map && newValue && newValue.length === 2) {
         const customIcon = L.icon({
-                iconUrl: '../../resources/icons/garden.png', // Chemin vers l'image de l'icône
+                iconUrl: '/icons/garden.png', // Chemin vers l'image de l'icône
                 iconSize: [50, 50], // Taille de l'icône
                 popupAnchor: [0, -25],
                 customIconId: 'gardenIcon' 

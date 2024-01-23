@@ -2,7 +2,7 @@
     <ion-page>
         <ion-content class="ion-padding home-content">
             <div class="logo-container">
-                <ion-img class="logo" src="../../resources/icon.png"></ion-img>
+                <ion-img class="logo" src="/icon.png"></ion-img>
             </div>
             <div class="welcome-text">
                 <h1>Bienvenue</h1>
