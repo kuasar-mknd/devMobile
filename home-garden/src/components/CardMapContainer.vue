@@ -45,11 +45,19 @@ export default {
     };
 
     const customIcon = L.icon({
-                iconUrl: '/icons/garden.png', // Chemin vers l'image de l'icône
+                iconUrl: '/icons/icon-garden.png', // Chemin vers l'image de l'icône
                 iconSize: [50, 50], // Taille de l'icône
                 popupAnchor: [0, -25],
                 customIconId: 'gardenIcon' 
-            });
+    });
+
+    const customUserIcon = L.icon({
+      iconUrl: '/icons/person.png', // Chemin vers l'image de l'icône
+      iconSize: [50, 50], // Taille de l'icône
+      iconAnchor: [25, 50],
+      popupAnchor: [0, -25],
+      customIconId: 'gardenIcon' 
+    })        
 
     onMounted(async () => {
       // Retarder l'initialisation de la carte
@@ -75,7 +83,7 @@ export default {
           }
 
           // Ajouter un marqueur pour la position de l'utilisateur
-          L.marker(userCoords).addTo(map.value);
+          L.marker(userCoords, { icon: customUserIcon }).addTo(map.value);
         }, 500);
       }
     });

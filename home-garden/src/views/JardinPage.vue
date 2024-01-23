@@ -29,7 +29,7 @@
             @navigate="() => navigateToGarden(garden)"
             :label="garden.name"
             :localisation="`${garden.location.coordinates[1]},${garden.location.coordinates[0]}`"
-            imageSrc="../resources/garden1.jpeg" /> 
+            imageSrc="/garden1.jpeg" /> 
         </ion-nav-link>
     
     <ion-grid>
