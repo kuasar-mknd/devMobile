@@ -64,6 +64,7 @@ export default defineComponent({
         const store = useStore();
         const error = computed(() => store.state.garden.error);
         const updateLocation = ref(false);
+        const userLocation = ref(null);
 
         const handleDismiss = () => {
             close(); 
@@ -78,13 +79,16 @@ export default defineComponent({
 
         const submitGarden = async () => {
           let locationCoordinates;
+          console.log(userLocation.value)
 
           if (props.isEditMode && !updateLocation.value) {
                 // En mode édition, mais l'utilisateur ne souhaite pas mettre à jour la localisation
                 locationCoordinates = props.existingGarden?.location?.coordinates || gardenLocation.value;
               } else {
+                console.log('update location')
                 // En mode création ou l'utilisateur souhaite mettre à jour la localisation
-                locationCoordinates = gardenLocation.value;
+                locationCoordinates = userLocation.value;
+                console.log(locationCoordinates)
               }
 
               const gardenData = {
@@ -97,6 +101,10 @@ export default defineComponent({
 
           if (props.isEditMode) {
             await store.dispatch('editGarden', { id: props.existingGarden._id, gardenData });
+            gardenLocation.value = locationCoordinates;
+            // refresh the map component
+
+
           } else {
             await store.dispatch('addGarden', gardenData);
           }
@@ -111,15 +119,12 @@ export default defineComponent({
         };
 
         const updateUserLocation = (newLocation) => {
+          console.log('update user location')
           //if gardenLocation is not set, set it to the user location
           if (!gardenLocation.value) {
             gardenLocation.value = newLocation;
           }
-          //if the user wants to update the location, update it
-          if (updateLocation.value) {
-            console.log('update user location')
-            gardenLocation.value = newLocation;
-          }
+          userLocation.value = newLocation;
         };
 
         onMounted(() => {

@@ -28,9 +28,6 @@ export default {
     const map = ref(null);
     const mapContainer = ref(null);
 
-    const gardenLocation = ref('');
-    const gardenName = ref('');
-
     const getCurrentLocation = async () => {
       try {
         const coordinates = await Geolocation.getCurrentPosition();
@@ -43,6 +40,7 @@ export default {
     };
 
     const updateUserLocationAddress = (userLocation) => {
+      console.log(userLocation);
       emit('update:userLocation', userLocation);
     };
 
@@ -92,6 +90,13 @@ export default {
         newMap.on('locationfound', (e) => {
           updateUserLocationAddress([e.latitude, e.longitude]);
         });
+      }
+    });
+
+    watch(gardenLocation, (newLocation) => {
+      console.log('watch garden location')
+      if (map.value) {
+        map.value.setView(newLocation, 13);
       }
     });
 
