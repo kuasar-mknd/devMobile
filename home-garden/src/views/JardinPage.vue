@@ -23,10 +23,9 @@
     </ion-grid>
     
     <ion-title color="tertiary" class="ion-margin-bottom">Mes jardins</ion-title>
-    <SearchBar></SearchBar>
-
+    <SearchBar v-model="searchText"></SearchBar>
         <ion-nav-link router-direction="forward" :component="component">
-          <CardGarden v-for="garden in gardens" :key="garden._id"
+          <CardGarden v-for="garden in filteredGardens" :key="garden._id"
             @navigate="() => navigateToGarden(garden)"
             :label="garden.name"
             :localisation="`${garden.location.coordinates[1]},${garden.location.coordinates[0]}`"
@@ -58,7 +57,7 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -88,11 +87,18 @@ export default {
     
 
     const gardens = ref([]);
+    const searchText = ref('');
 
     const router = useRouter();
     const store = useStore();
 
     const showModal = ref(false);
+
+    const filteredGardens = computed(() => {
+    return gardens.value.filter(garden => 
+      garden.name.toLowerCase().includes(searchText.value.toLowerCase())
+    );
+  });
 
     const loadGardens = async () => {
       try {
@@ -117,9 +123,7 @@ export default {
         router.push({ 
         name: 'JardinSpecifique', 
         params: { 
-          id: garden._id,
-          label: garden.name, 
-          localisation: garden.location.coordinates.join(',')
+          id: garden._id
         }
       });
     }; 
@@ -131,6 +135,8 @@ export default {
       goToJardinSpecifique,
       showModal,
       gardens,
+      searchText,
+      filteredGardens,
       openCreateGardenModal,
       navigateToGarden,
     };
