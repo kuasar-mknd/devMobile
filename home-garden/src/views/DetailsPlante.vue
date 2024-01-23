@@ -1,43 +1,38 @@
 <template>
-    <ion-page>
-      <ion-header>
-            <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-back-button>
-                    </ion-back-button>
-                </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
-      <ion-content>
-        <ion-toolbar>
-          <div class="logo-container">
-            <ion-img class="logo" src="../../resources/icon.png"></ion-img>
-          </div>
-        </ion-toolbar> 
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-toolbar>
+        <div class="logo-container">
+          <ion-img class="logo" src="../../resources/icon.png"></ion-img>
+        </div>
+      </ion-toolbar>
 
-        <div class="image-container" v-if="imageUrl">
+      <div class="image-container" v-if="imageUrl !== ''">
         <ion-img class="image" :src="imageUrl"></ion-img>
       </div>
-          
+    </ion-content>
+  </ion-page>
+</template>
 
-      </ion-content>
-    </ion-page>
-  </template>
-  
-  <script setup lang="ts">
- import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonImg } from '@ionic/vue';
-    import { ref, onMounted, computed } from 'vue';
-    import { useStore } from 'vuex';
-    import { useRouter } from 'vue-router';
-  // repcuperer l'id de la plante et la passer en props pour afficher les infos de la plante en question 
+<script  lang="ts">
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonImg } from '@ionic/vue';
+import { ref, onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
-  const router = useRouter();
-    const id = router.currentRoute.value.params.id;
-    console.log(id);
-    const store = useStore();
-    const plant = computed(() => store.state.plant.plants.find((plant) => plant.id === id));
-    console.log(plant.value);
-    const commonName = ref('');
+
+
+const router = useRouter();
+const store = useStore();
+//const gardenIdFromUrl = ref('');
+const commonName = ref('');
 const scientificName = ref('');
 const family = ref('');
 const origin = ref('');
@@ -51,47 +46,36 @@ const plantingSeason = ref('');
 const care = ref('');
 const imageUrl = ref('');
 const use = ref('');
-const gardenIdFromUrl = ref('');
-const idPlant = ref('');
-
-    const loadPlant = async () => {
-      try {
-        await store.dispatch('getPlant', id);
-        const loadedPlant = store.state.plant.plants.find((plant) => plant.id === id);
-        if (loadedPlant) {
-          commonName.value = loadedPlant.commonName;
-          scientificName.value = loadedPlant.scientificName;
-          family.value = loadedPlant.family;
-          origin.value = loadedPlant.origin;
-          exposure.value = loadedPlant.exposure;
-          watering.value = loadedPlant.watering;
-          soilType.value = loadedPlant.soilType;
-          flowerColor.value = loadedPlant.flowerColor;
-          height.value = loadedPlant.height;
-          bloomingSeason.value = loadedPlant.bloomingSeason;
-          plantingSeason.value = loadedPlant.plantingSeason;
-          care.value = loadedPlant.care;
-          imageUrl.value = loadedPlant.imageUrl;
-          use.value = loadedPlant.use;
-          gardenIdFromUrl.value = loadedPlant.gardenId;
-          idPlant.value = loadedPlant.id;
-
-       
-        }
-      } catch (error) {
-        console.log(error);
-
-      }
-    };
-
-    onMounted(() => {
-      loadPlant();
-    });
 
 
+const loadPlant = async () => {
+  try{
+    const plantId = router.currentRoute.value.params.id;
+    const plant = await store.dispatch('plants/getPlant', plantId);
+    commonName.value = plant.commonName;
+    scientificName.value = plant.scientificName;
+    family.value = plant.family;
+    origin.value = plant.origin;
+    exposure.value = plant.exposure;
+    watering.value = plant.watering;
+    soilType.value = plant.soilType;
+    flowerColor.value = plant.flowerColor;
+    height.value = plant.height;
+    bloomingSeason.value = plant.bloomingSeason;
+    plantingSeason.value = plant.plantingSeason;
+    care.value = plant.care;
+    imageUrl.value = plant.imageUrl;
+    use.value = plant.use;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+onMounted(() => {
+  loadPlant();
+});
 
-  </script>
+</script>
   
   <style>
   /* Style personnalisé pour la carte, si nécessaire */

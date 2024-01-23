@@ -83,6 +83,8 @@
 
             <ButtonCTAPrimary buttonText="Ajouter" class="button-cta-primary"  @click="submitPlant"/>
 
+          
+
       </ion-content>
     </ion-page>
   </template>
@@ -150,11 +152,14 @@ const submitPlant = async () => {
   try {
     await store.dispatch('createPlant', plantData);
     console.log('Plante ajoutée');
+    router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
     console.log('Data before sending:', plantData);
   } catch (error) {
     console.error('Erreur lors de l\'ajout de la plante:', error);
   }
 };
+
+
 
 
   </script>
