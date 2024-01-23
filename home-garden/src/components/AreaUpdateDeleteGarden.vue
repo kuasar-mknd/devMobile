@@ -3,7 +3,7 @@
         <!-- Ion Button avec une image -->
         <ion-button class="buttonUpdateDelete" id="open-action-sheet">
             <div class="imgTroisPoints">
-                <img class="button-image" src="../../resources/dots_menu.png" alt="Description de l'image">
+                <img class="button-image" src="/dots_menu.png" alt="Description de l'image">
             </div>
         </ion-button>
         <ion-action-sheet
