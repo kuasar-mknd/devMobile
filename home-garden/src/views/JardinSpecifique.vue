@@ -10,7 +10,7 @@
         <ion-content :fullscreen="true" class="content">
             <ion-label>
                 <ion-buttons slot="end">
-                    <AreaUpdateDeleteGarden @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
+                    <AreaUpdateDeleteGarden @delete-garden="deleteGarden" @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
                 </ion-buttons>
             </ion-label>
             <ion-grid>
@@ -147,7 +147,7 @@ export default {
             const txt = document.createElement('textarea');
             txt.innerHTML = html;
             return txt.value;
-        }
+        },
     },
     setup(props, { emit }) {
         
@@ -169,6 +169,15 @@ export default {
             plant.commonName.toLowerCase().includes(searchText.value.toLowerCase())
             );
         });
+
+        const deleteGarden = async () => {
+            try {
+                await store.dispatch('removeGarden', props.id);
+                // Redirigez ou actualisez la vue comme nécessaire
+            } catch (error) {
+                console.error("Erreur lors de la suppression du jardin", error);
+            }
+        };
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
@@ -226,6 +235,7 @@ export default {
             gardenLocation,
             cardMapContainerRef,
             updateGardenLocation,
+            deleteGarden,
             openCreateGardenModal,
             showModal,
             gardenToEdit,

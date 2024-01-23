@@ -62,14 +62,19 @@ export const gardenService = {
     }
   },
 
-  async deleteGarden(id) {
-    try {
-      const response = await axios.delete(`${API_URL}${id}`);
-      return response.data;
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  },
+    
+async deleteGarden(id) {
+  try {
+    const response = await axios.delete(`${API_URL}${id}`, {
+      headers: {
+        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+},
 
   async fetchGardensByLocation(longitude, latitude, radius) {
     try {
