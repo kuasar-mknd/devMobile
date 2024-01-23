@@ -11,32 +11,20 @@
             <AreaUpdateDelete class="btnUpdDel"/>
         </ion-buttons>
         <h1 class="titrePage">Profil</h1>
-        <ProfilUser class="profilUsr" name="Kermit" imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399" />
+        <ProfilUser class="profilUsr" :name="username" imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399" />
       </ion-label>
-      <div class="titrePage">
-      <div><h3>3 Jardins</h3></div>
-    </div>
     <div class="profile-section">
       <div class="profile-detail">
         <label>Identifiant</label>
-        <span>Kermit</span>
-      </div>
-        <div class="profile-detail">
-          <label>Nom</label>
-          <span>Froggy</span>
-        </div>
-        <div class="profile-detail">
-          <label>Prénom</label>
-          <span>Kermit</span>
-        </div>
-        <div class="profile-detail">
-          <label>Date de naissance</label>
-          <span>7 octobre 1997</span>
+        <div class="profile-name">
+          {{ email }}
         </div>
       </div>
-      <ion-button expand="full" @click="updatePwd">Changer de mot de passe</ion-button>
+      </div>
+      <ion-button expand="full" @click="showEditForm">Changer de mot de passe</ion-button>
       <ion-button expand="full" @click="logout">Se déconnecter</ion-button>
     </ion-content>
+    <EditForm v-if="isEditFormVisible" @close="closeEditForm" />
   </ion-page>
 </template>
 
@@ -44,8 +32,10 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
 import AreaUpdateDelete from '@/components/AreaUpdateDelete.vue';
 import ProfilUser from '@/components/ProfilUser.vue';
+import EditForm from '@/components/EditForm.vue';
 
 export default {
   name: 'UserProfile',
@@ -57,19 +47,32 @@ export default {
     IonContent,
     IonButton,
     AreaUpdateDelete,
-    ProfilUser
+    ProfilUser,
+    EditForm,
 },
   setup() {
         const store = useStore();
         const router = useRouter();
+        const isEditFormVisible = ref(false);
+        const email = ref(localStorage.getItem('email')?.substring(1, localStorage.getItem('email').length - 1));
+        const username = computed(() => {
+          return email.value ? email.value.substring(0, email.value.indexOf('@')) : '';
+        });
 
-  const updatePwd = async () => {
-  };
+        const showEditForm = () => {
+      isEditFormVisible.value = true;
+    };
+    const closeEditForm = () => {
+      isEditFormVisible.value = false;
+    };
   const logout = async () => {
     await store.dispatch('logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('user');
     router.push('/login'); // Redirigez vers la page de connexion après déconnexion
   };
-  return { logout, updatePwd };
+  return { logout, showEditForm, isEditFormVisible, email, username, closeEditForm };
       }
   };
 
@@ -90,9 +93,9 @@ export default {
     margin-left: 5%;
     margin-top: 5%;
   }
+  
   .profile-name {
     margin-top: 8px;
-    font-weight: 600;
   }
   .profile-section {
     margin-top: 16px;
