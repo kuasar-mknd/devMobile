@@ -174,8 +174,9 @@ export default {
             await loadGarden();
             showModal.value = false;
         };
+        // Redirection vers la page  ajouter plante avec l'id du jardin en paramètre /AjouterPlante/:id
         const redirectToPlante = () => {
-            router.push('/plante');
+            router.push(`/AjouterPlante/${props.id}`);
         };
         
         const loadGarden = async () => {

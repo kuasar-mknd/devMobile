@@ -87,9 +87,8 @@ import InputNumber from '@/components/InputNumber.vue';
   import InputUrl from '@/components/InputUrl.vue';
   import { IonPage, IonToolbar, IonContent } from '@ionic/vue';
 import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
-
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import {  ref } from 'vue';
 
 const commonName = ref('');
 const scientificName = ref('');

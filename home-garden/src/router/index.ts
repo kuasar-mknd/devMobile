@@ -27,7 +27,9 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
-    path: '/plante',
+    path: '/AjouterPlante/:id',
+    name: 'AjouterPlante',
+    props: true,
     component: () => import('@/views/PlantPage.vue') // Ajouter la route d'inscription
   },
 
