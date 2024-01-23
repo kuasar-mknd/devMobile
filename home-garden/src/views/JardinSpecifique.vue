@@ -64,7 +64,9 @@
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
-                        <ButtonAdd></ButtonAdd>                    
+                        <ButtonAdd @click="redirectToPlante">
+                    
+                        </ButtonAdd>                    
                     </div>
                     </ion-col>
                 </ion-row>
@@ -215,6 +217,10 @@ export default {
             console.log(showModal.value);
             showModal.value = true;
         };
+
+        const redirectToPlante = () => {
+      router.push('/Plante');
+    };
         
         onMounted(() => {
             // Utilisez nextTick pour s'assurer que tous les enfants sont montés
@@ -236,7 +242,8 @@ export default {
             updateGardenLocation,
             openCreateGardenModal,
             showModal,
-            gardenToEdit 
+            gardenToEdit,
+            redirectToPlante
         };
     }
 }

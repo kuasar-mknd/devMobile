@@ -25,9 +25,10 @@ import { ref, defineProps } from 'vue';
 
 const { labelText, id } = defineProps(['labelText', 'id']);
 const options = ref([
-  { label: 'Option 1', value: 'option1' },
-  { label: 'Option 2', value: 'option2' },
-  { label: 'Option 3', value: 'option3' },
+  { label: 'Hiver', value: 'Hiver' },
+  { label: 'Printemps', value: 'Printemps' },
+  { label: 'Été', value: 'Été' },
+  { label: 'Automne', value: 'Automne' },
 ]);
 
 </script>
