@@ -333,7 +333,8 @@ const mutations = {
     state.error = null;
   },
   deleteGarden(state, id) {
-    state.gardens = state.gardens.filter(g => g.id !== id);
+    state.gardens = state.gardens.filter(g => g._id !== id);
+    
     state.error = null;
   },
   setGardenPlants(state, { gardenId, plants }) {

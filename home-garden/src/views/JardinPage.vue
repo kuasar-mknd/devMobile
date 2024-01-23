@@ -57,7 +57,7 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -99,6 +99,12 @@ export default {
       garden.name.toLowerCase().includes(searchText.value.toLowerCase())
     );
   });
+
+  watch(() => store.state.garden.gardens, (newGardens) => {
+    console.log(newGardens)
+      gardens.value = newGardens;
+    }, { deep: true });
+
 
     const loadGardens = async () => {
       try {
