@@ -71,17 +71,23 @@
             </ion-grid>
             
             <ion-grid>
-                <ion-row>
-                    <ion-col>
-                        <CardPlant v-for="plant in plants" :key="plant._id"
-                        class="plant-image"
-                        imageSrc="../../resources/crop4.png"
-                        :name= "plant.commonName"
-                        :watering="plant.watering"
-                        >{{ plant }}</CardPlant>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+  <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+  <ion-row v-for="rowIndex in Math.ceil(plants.length / 3)" :key="rowIndex">
+    <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+    <ion-col size="4" v-for="index in 3" :key="index">
+      <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+      <CardPlant
+        v-if="plants[(rowIndex - 1) * 3 + index - 1]"
+        :key="plants[(rowIndex - 1) * 3 + index - 1]._id"
+        class="plant-image"
+        imageSrc="../../resources/crop4.png"
+        :name="plants[(rowIndex - 1) * 3 + index - 1].commonName"
+        :watering="plants[(rowIndex - 1) * 3 + index - 1].watering">
+        {{ plants[(rowIndex - 1) * 3 + index - 1] }}
+      </CardPlant>
+    </ion-col>
+  </ion-row>
+</ion-grid>
             
         </ion-content>
     </ion-page>
