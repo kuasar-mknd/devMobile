@@ -56,7 +56,7 @@ export default {
       iconSize: [50, 50], // Taille de l'icône
       iconAnchor: [25, 50],
       popupAnchor: [0, -25],
-      customIconId: 'gardenIcon' 
+      customIconId: 'userIcon' 
     })        
 
     onMounted(async () => {
@@ -112,7 +112,7 @@ export default {
       
       if (this.map && newValue && newValue.length === 2) {
         const customIcon = L.icon({
-                iconUrl: '/icons/garden.png', // Chemin vers l'image de l'icône
+                iconUrl: '/icons/icon-garden.png', // Chemin vers l'image de l'icône
                 iconSize: [50, 50], // Taille de l'icône
                 popupAnchor: [0, -25],
                 customIconId: 'gardenIcon' 
