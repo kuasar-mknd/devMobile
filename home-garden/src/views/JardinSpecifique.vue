@@ -27,15 +27,15 @@
         <ion-text >
             <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
-
+        
         <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         <CreateGardenModal
-            :isOpen="showModal"
-            @close="closeModal"
-            :isEditMode="true"
-            :existingGarden="gardenToEdit"
+        :isOpen="showModal"
+        @close="closeModal"
+        :isEditMode="true"
+        :existingGarden="gardenToEdit"
         />
-
+        
         
         <ion-grid>
             <ion-row>
@@ -60,65 +60,39 @@
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <SearchBar></SearchBar>
+                    <SearchBar v-model="searchText"></SearchBar>
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
                         <ButtonAdd></ButtonAdd>                    
                     </div>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        
+        <ion-grid>
+    <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+    <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
+        <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+        <ion-col size="4" v-for="index in 3" :key="index">
+            <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+            <CardPlant
+            v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
+            :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
+            class="plant-image"
+            :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
+            :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
+            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
+            {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
+            </CardPlant>
             
-            <ion-grid>
-                <ion-row>
-                    <ion-col>
-                        <CardPlant
-                        class="plant-image"
-                        imageSrc="../../resources/basilic.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop2.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop3.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            <ion-grid>
-                <ion-row>
-                    <ion-col>
-                        <CardPlant
-                        class="plant-image"
-                        imageSrc="../../resources/crop4.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/crop5.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                    <ion-col>
-                        <CardPlant
-                        imageSrc="../../resources/basilic.png"
-                        watering="2 fois par semaine"
-                        />
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-            
-        </ion-content>
-    </ion-page>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+    
+</ion-content>
+</ion-page>
 </template>
 
 
@@ -158,13 +132,22 @@ export default {
     },
     props: {
         id:{
-        type: String,
-        default: ''
+            type: String,
+            default: ''
+        }
+    },
+    methods: {
+        decodeHtml(html) {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = html;
+            return txt.value;
         }
     },
     setup(props, { emit }) {
         
         const router = useRouter(); 
+        const plants= ref([]);
+        const searchText = ref('');
         
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref('');
@@ -175,17 +158,20 @@ export default {
         const store = useStore();
         const showModal = ref(false);
         
+        const filteredPlants = computed(() => {
+            return plants.value.filter(plant => 
+            plant.commonName.toLowerCase().includes(searchText.value.toLowerCase())
+            );
+        });
+        
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
         };
-
+        
         const closeModal = async () => {
             await loadGarden();
             showModal.value = false;
         };
-
-
-        
         
         const loadGarden = async () => {
             try {
@@ -201,25 +187,26 @@ export default {
                             coordinates: gardenLocation.value
                         }
                     };
+                    plants.value = loadedGarden.plants;
+                    console.log(plants.value)
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement du jardin", error);
             }
         };
-
-
+        
         onMounted(() => {
             loadGarden().then(() => {
                 nextTick(() => {
-                if (cardMapContainerRef.value) {
-                    cardMapContainerRef.value.invalidateMapSize();
-                }
-            });
+                    if (cardMapContainerRef.value) {
+                        cardMapContainerRef.value.invalidateMapSize();
+                    }
+                });
             })
             // Utilisez nextTick pour s'assurer que tous les enfants sont montés
             
         });
-
+        
         const openCreateGardenModal = async () => {
             await loadGarden();
             console.log(gardenToEdit.value);
@@ -236,6 +223,9 @@ export default {
             openCreateGardenModal,
             showModal,
             gardenToEdit,
+            plants,
+            filteredPlants,
+            searchText,
             closeModal 
         };
     }
@@ -272,8 +262,8 @@ ion-col {
 }
 
 .plant-image {
-  width: 100%; /* Makes the image take the full width of its container */
-  height: auto; /* Maintains the aspect ratio */
+    width: 100%; /* Makes the image take the full width of its container */
+    height: auto; /* Maintains the aspect ratio */
 }
 
 </style>
