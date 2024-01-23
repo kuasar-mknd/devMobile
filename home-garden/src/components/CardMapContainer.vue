@@ -47,7 +47,8 @@ export default {
     const customIcon = L.icon({
                 iconUrl: '../../resources/icons/garden.png', // Chemin vers l'image de l'icône
                 iconSize: [50, 50], // Taille de l'icône
-                popupAnchor: [0, -25]
+                popupAnchor: [0, -25],
+                customIconId: 'gardenIcon' 
             });
 
     onMounted(async () => {
@@ -93,19 +94,31 @@ export default {
       }
     });
 
-    watch(gardenLocation, (newLocation) => {
-      console.log('watch garden location')
-      if (map.value) {
-        map.value.setView(newLocation, 13);
-      }
-    });
-
     return {
       map,
       mapContainer,
-      gardenLocation,
-      gardenName 
     };
+  },
+  watch: {
+    gardenLocation(newValue) {
+      
+      if (this.map && newValue && newValue.length === 2) {
+        const customIcon = L.icon({
+                iconUrl: '../../resources/icons/garden.png', // Chemin vers l'image de l'icône
+                iconSize: [50, 50], // Taille de l'icône
+                popupAnchor: [0, -25],
+                customIconId: 'gardenIcon' 
+            });
+            this.map.eachLayer(function (layer) {
+              if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options.customIconId === 'gardenIcon') {
+                console.log('remove')
+                layer.remove();
+              }
+            });
+        this.map.setView(newValue, 13);
+        L.marker(newValue, { icon: customIcon, zIndexOffset: -1 }).addTo(this.map);
+      }
+    }
   },
   methods: {
     invalidateMapSize() {
