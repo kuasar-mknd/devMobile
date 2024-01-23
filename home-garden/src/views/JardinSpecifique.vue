@@ -174,6 +174,9 @@ export default {
             await loadGarden();
             showModal.value = false;
         };
+        const redirectToPlante = () => {
+            router.push('/plante');
+        };
         
         const loadGarden = async () => {
             try {
