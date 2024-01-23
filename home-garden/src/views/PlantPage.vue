@@ -10,7 +10,7 @@
       <ion-content>
         <ion-toolbar>
           <div class="logo-container">
-            <ion-img class="logo" src="../../resources/icon.png"></ion-img>
+            <ion-img class="logo" src="/icon.png"></ion-img>
           </div>
         </ion-toolbar>
   
@@ -36,10 +36,14 @@
               labelText=" Origine"
               v-model="origin"
             />
-             <InputText class="input-text-exposition"
-              labelText="Exposition"  
-              v-model="exposure"
-            />
+            <ion-item>
+              
+              <ion-select label="Exposition" label-placement="floating" fill="outline" v-model="exposure" >
+                <ion-select-option value="Full Sun">Plein soleil</ion-select-option>
+                <ion-select-option value="Partial Shade">Mi-ombre</ion-select-option>
+                <ion-select-option value="Shade">Ombre</ion-select-option>
+              </ion-select>
+            </ion-item>
             <InputText class="input-text-arrosage"
               labelText="Arrosage"  
               v-model="watering"
@@ -76,10 +80,15 @@
               labelText="URL de l'image"
               v-model="imageUrl"
             />
-            <InputText class="input-text-utilisation"
-              labelText="Utilisation"
-              v-model="use"
-            />
+            <ion-item>
+              <ion-select label="Utilisation" label-placement="floating" fill="outline" v-model="use">
+                <ion-select-option value="Ornamental">Ornemental</ion-select-option>
+                <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
+                <ion-select-option value="Food">Alimentaire</ion-select-option>
+                <ion-select-option value="Medicinal">Médicinal</ion-select-option>
+                <ion-select-option value="Fragrance">Parfum</ion-select-option>
+              </ion-select>
+            </ion-item>
 
             <ButtonCTAPrimary buttonText="Ajouter" class="button-cta-primary"  @click="submitPlant"/>
 
@@ -92,7 +101,7 @@
 import InputNumber from '@/components/InputNumber.vue';
   import InputText from '@/components/InputText.vue';
   import InputUrl from '@/components/InputUrl.vue';
-  import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons } from '@ionic/vue';
+  import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons, IonLabel, IonSelect, IonSelectOption, IonItem } from '@ionic/vue';
 import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
 import { useStore } from 'vuex';
 import {  ref,onMounted } from 'vue';
