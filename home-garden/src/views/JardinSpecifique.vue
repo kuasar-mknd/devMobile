@@ -60,7 +60,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <SearchBar></SearchBar>
+                    <SearchBar v-model="searchText"></SearchBar>
                 </ion-col>
                 <ion-col size="auto">
                     <div style="width: 150px">
@@ -71,24 +71,25 @@
         </ion-grid>
         
         <ion-grid>
-            <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
-            <ion-row v-for="rowIndex in Math.ceil(plants.length / 3)" :key="rowIndex">
-                <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
-                <ion-col size="4" v-for="index in 3" :key="index">
-                    <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
-                    <CardPlant
-                    v-if="plants[(rowIndex - 1) * 3 + index - 1]"
-                    :key="plants[(rowIndex - 1) * 3 + index - 1]._id"
-                    class="plant-image"
-                    :imageSrc="decodeHtml(plants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
-                    :name="plants[(rowIndex - 1) * 3 + index - 1].commonName"
-                    :watering="plants[(rowIndex - 1) * 3 + index - 1].watering">
-                    {{ plants[(rowIndex - 1) * 3 + index - 1] }}
-                </CardPlant>
-                
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+    <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
+        <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+        <ion-col size="4" v-for="index in 3" :key="index">
+            <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+            <CardPlant
+            v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
+            :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
+            class="plant-image"
+            :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
+            :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
+            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
+            {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
+            </CardPlant>
+            
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
     
 </ion-content>
 </ion-page>
@@ -136,16 +137,17 @@ export default {
         }
     },
     methods: {
-    decodeHtml(html) {
-      const txt = document.createElement('textarea');
-      txt.innerHTML = html;
-      return txt.value;
-    }
-  },
+        decodeHtml(html) {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = html;
+            return txt.value;
+        }
+    },
     setup(props, { emit }) {
         
         const router = useRouter(); 
         const plants= ref([]);
+        const searchText = ref('');
         
         const isOpen = ref(true); // You can control the visibility with this ref
         const gardenName = ref('');
@@ -155,6 +157,12 @@ export default {
         const { proxy } = getCurrentInstance();
         const store = useStore();
         const showModal = ref(false);
+        
+        const filteredPlants = computed(() => {
+            return plants.value.filter(plant => 
+            plant.commonName.toLowerCase().includes(searchText.value.toLowerCase())
+            );
+        });
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
@@ -187,90 +195,75 @@ export default {
             }
         };
         
-        // const loadGetGardenPlants = async () => {
-            //     try {
-                //         await store.dispatch('getGardenPlants', props.id); 
-                
-                //ça ça marche mais ça donne tous les jardins
-                store.state.garden.gardens.forEach((garden:any) => {
-                    console.log(garden.plants);
+        onMounted(() => {
+            loadGarden().then(() => {
+                nextTick(() => {
+                    if (cardMapContainerRef.value) {
+                        cardMapContainerRef.value.invalidateMapSize();
+                    }
                 });
-                //Encore à changer après le .state
-                // plants.value = store.state.garden.gardens;
-                
-                //     } catch (error) {
-                    //         console.error("Erreur lors du chargement des plantes du jardin:", error);
-                    //     }
-                    // };
-                    // onMounted(loadGetGardenPlants);
-                    
-                    onMounted(() => {
-                        loadGarden().then(() => {
-                            nextTick(() => {
-                                if (cardMapContainerRef.value) {
-                                    cardMapContainerRef.value.invalidateMapSize();
-                                }
-                            });
-                        })
-                        // Utilisez nextTick pour s'assurer que tous les enfants sont montés
-                        
-                    });
-                    
-                    const openCreateGardenModal = async () => {
-                        await loadGarden();
-                        console.log(gardenToEdit.value);
-                        console.log(showModal.value);
-                        showModal.value = true;
-                    };
-                    
-                    return {
-                        isOpen,
-                        gardenName,
-                        gardenLocation,
-                        cardMapContainerRef,
-                        updateGardenLocation,
-                        openCreateGardenModal,
-                        showModal,
-                        gardenToEdit,
-                        plants,
-                        closeModal 
-                    };
-                }
-            }
+            })
+            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
             
-        </script>
+        });
         
-        <style scoped>
-        .class-logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-        }
+        const openCreateGardenModal = async () => {
+            await loadGarden();
+            console.log(gardenToEdit.value);
+            console.log(showModal.value);
+            showModal.value = true;
+        };
         
-        ion-col {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .map-container{
-            height: 300px;
-            width: 100%;
-        }
-        
-        .page-title {
-            padding-left: 25px; /* Adjust as needed for alignment */
-        }
-        
-        .titre {
-            margin-left: 25px;
-        }
-        
-        .plant-image {
-            width: 100%; /* Makes the image take the full width of its container */
-            height: auto; /* Maintains the aspect ratio */
-        }
-        
-    </style>
+        return {
+            isOpen,
+            gardenName,
+            gardenLocation,
+            cardMapContainerRef,
+            updateGardenLocation,
+            openCreateGardenModal,
+            showModal,
+            gardenToEdit,
+            plants,
+            filteredPlants,
+            searchText,
+            closeModal 
+        };
+    }
+}
+
+</script>
+
+<style scoped>
+.class-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+ion-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.map-container{
+    height: 300px;
+    width: 100%;
+}
+
+.page-title {
+    padding-left: 25px; /* Adjust as needed for alignment */
+}
+
+.titre {
+    margin-left: 25px;
+}
+
+.plant-image {
+    width: 100%; /* Makes the image take the full width of its container */
+    height: auto; /* Maintains the aspect ratio */
+}
+
+</style>
