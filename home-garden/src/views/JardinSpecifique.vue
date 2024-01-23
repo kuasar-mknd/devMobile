@@ -41,7 +41,7 @@
             <ion-row>
                 <ion-col>
                     <div class="map-container">
-                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation"/>
+                        <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" :gardenName="gardenName" @update:location="updateGardenLocation"/>
                     </div>
                 </ion-col>
                 <ion-col size="auto">
@@ -105,7 +105,7 @@ import CardMapContainer from "../components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType } from 'vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
 
@@ -213,6 +213,20 @@ export default {
             console.log(showModal.value);
             showModal.value = true;
         };
+
+        // watch gardenLocation to update the gardenToEdit object
+        watch(gardenLocation, (newLocation) => {
+            console.log('changement de localisation');
+            gardenToEdit.value = {
+                ...gardenToEdit.value,
+                location: {
+                    ...gardenToEdit.value.location,
+                    coordinates: newLocation
+                }
+            };
+        });
+        
+
         
         return {
             isOpen,
