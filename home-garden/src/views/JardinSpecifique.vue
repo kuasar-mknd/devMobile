@@ -8,7 +8,11 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true" class="content">
-            
+            <ion-label>
+                <ion-buttons slot="end">
+                    <AreaUpdateDeleteGarden @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
+                </ion-buttons>
+            </ion-label>
             <ion-grid>
                 <ion-row class="ion-justify-content-center">
                     <ion-col size="3">
@@ -28,7 +32,6 @@
             <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
         
-        <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         <CreateGardenModal
         :isOpen="showModal"
         @close="closeModal"
@@ -71,25 +74,25 @@
         </ion-grid>
         
         <ion-grid>
-    <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
-    <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
-        <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
-        <ion-col size="4" v-for="index in 3" :key="index">
-            <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
-            <CardPlant
-            v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
-            :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
-            class="plant-image"
-            :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
-            :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
-            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
-            {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
-            </CardPlant>
-            
-        </ion-col>
-    </ion-row>
-</ion-grid>
-
+            <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+            <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
+                <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+                <ion-col size="4" v-for="index in 3" :key="index">
+                    <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+                    <CardPlant
+                    v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
+                    :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
+                    class="plant-image"
+                    :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
+                    :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
+                    :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
+                    {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
+                </CardPlant>
+                
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    
     
 </ion-content>
 </ion-page>
@@ -108,6 +111,8 @@ import SearchBar from '@/components/SearchBar.vue';
 import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
+import AreaUpdateDeleteGarden from '@/components/AreaUpdateDeleteGarden.vue';
+
 
 export default {
     components: {
@@ -115,6 +120,7 @@ export default {
         SearchBar,
         IonText,
         MeteoComponent,
+        AreaUpdateDeleteGarden,
         CardMapContainer,
         IonBackButton, 
         IonButtons, 
