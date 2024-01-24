@@ -21,7 +21,7 @@
       </ion-text>
       <ion-label>
                 <ion-buttons slot="end">
-                    <AreaUpdateDeletePlant @delete-plant="deletePlant" @edit-plant="editPlant" class="btnUpdDel"/>
+                    <AreaUpdateDeletePlant :plantId="id" @delete-plant="deletePlant" @edit-plant="editPlant" class="btnUpdDel"/>
                 </ion-buttons>
             </ion-label>
       <ion-text >
@@ -79,16 +79,10 @@ export default defineComponent({
 
     const loadPlant = async () => {
             try {
-              console.log(props.id);
                 await store.dispatch('getPlant', props.id); 
-                console.log(store.state.plant);
                 const loadPlant = store.state.plant.plants.find(plant => plant._id === props.id)
                 if (loadPlant) {
-                    console.log(loadPlant);
-                    plants.value = loadPlant;
-                    console.log(plants.value);
-                    // totalPlant.value = loadedGarden.plants.length;          
-                           
+                    plants.value = loadPlant;                           
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement du jardin", error);
