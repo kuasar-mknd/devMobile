@@ -24,7 +24,7 @@
                     <AreaUpdateDeletePlant :plantId="id" @delete-plant="deletePlant" @edit-plant="editPlant" class="btnUpdDel"/>
                 </ion-buttons>
             </ion-label>
-            <AreaInfoPlant class="info-plante "></AreaInfoPlant>
+            <AreaInfoPlant class="info-plante custom-align-right"></AreaInfoPlant>
             <ion-label class="label">
       Nom scientifique
     </ion-label>
@@ -245,7 +245,13 @@ export default defineComponent({
 .ion-justify-content-end {
   margin-right: 30px;
 }
- 
+.custom-align-right {
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 25px;
+  margin-top: 20px;
+}
     
   </style>
   
