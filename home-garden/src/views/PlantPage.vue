@@ -20,68 +20,68 @@
           <ButtonPictureVue class="button-picture" />
 
 
-          <InputText class="input-text-commonName"
-              labelText="Nom commun" 
+          <InputText class="input-text-commonName input-container"
+              labelText="Nom commun*" 
               v-model="commonName"
             />
-            <InputText class="input-text-nomspecifique"
-              labelText="Nom spécifique" 
+            <InputText class="input-text-nomspecifique input-container"
+              labelText="Nom spécifique*" 
               v-model="scientificName"
             />
-            <InputText class="input-text-famille"
-              labelText="Famille"
+            <InputText class="input-text-famille input-container"
+              labelText="Famille*"
               v-model="family"
             />
-            <InputText class="input-text-famille"
+            <InputText class="input-text-famille input-container"
               labelText=" Origine"
               v-model="origin"
             />
             <ion-item>
               
-              <ion-select label="Exposition" label-placement="floating" fill="outline" v-model="exposure" >
+              <ion-select label="Exposition*" label-placement="floating" fill="outline" v-model="exposure"  class="input-list-exposition">
                 <ion-select-option value="Full Sun">Plein soleil</ion-select-option>
                 <ion-select-option value="Partial Shade">Mi-ombre</ion-select-option>
                 <ion-select-option value="Shade">Ombre</ion-select-option>
               </ion-select>
             </ion-item>
-            <InputText class="input-text-arrosage"
+            <InputText class="input-text-arrosage input-container"
               labelText="Arrosage"  
               v-model="watering"
             />
-            <InputText class="input-text-type-de-sol"
+            <InputText class="input-text-type-de-sol input-container"
               labelText="Type de sol" 
               v-model="soilType"
             />
-            <InputText class="input-text-couleur"
+            <InputText class="input-text-couleur input-container"
               labelText="Couleur"
               v-model="flowerColor"
             />
-            <InputNumber class="input-text-hauteur"
-              labelText="Hauteur"
+            <InputNumber class="input-text-hauteur input-container"
+              labelText="Hauteur*"
               v-model="height"
             />
 
-            <InputText class="input-list-saisondefloraison"
+            <InputText class="input-list-saisondefloraison input-container"
               labelText="Saison de floraison (ex: printemps)"
               v-model="bloomingSeason"
             />
           
-            <InputText class="input-text-saisondeplantation"
+            <InputText class="input-text-saisondeplantation input-container"
               labelText="Saison de plantation (ex: printemps)"
               v-model="plantingSeason"
             />
            
-            <InputText class="input-text-soins"
+            <InputText class="input-text-soins input-container"
               labelText="Soins particuliers"
               v-model="care"
             />
 
-           <InputUrl class="input-text-url"
+           <InputUrl class="input-text-url input-container"
               labelText="URL de l'image"
               v-model="imageUrl"
             />
             <ion-item>
-              <ion-select label="Utilisation" label-placement="floating" fill="outline" v-model="use">
+              <ion-select label="Utilisation*" label-placement="floating" fill="outline" v-model="use">
                 <ion-select-option value="Ornamental">Ornemental</ion-select-option>
                 <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
                 <ion-select-option value="Food">Alimentaire</ion-select-option>
@@ -106,7 +106,7 @@ import InputNumber from '@/components/InputNumber.vue';
   import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons, IonLabel, IonSelect, IonSelectOption, IonItem } from '@ionic/vue';
 import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
 import { useStore } from 'vuex';
-import {  ref,onMounted } from 'vue';
+import {  ref,onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -163,10 +163,19 @@ const submitPlant = async () => {
     console.log('Plante ajoutée');
     router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
     console.log('Data before sending:', plantData);
+    // Rediriger et recharger la page après un court délai (par exemple, 100 ms)
+  setTimeout(() => {
+    window.location.reload();
+  }, 100);
   } catch (error) {
     console.error('Erreur lors de l\'ajout de la plante:', error);
   }
 };
+
+
+
+
+
 
 
 
@@ -207,5 +216,24 @@ const submitPlant = async () => {
   width:100%;
 }
     
+.input-container {
+  margin-bottom: 10px; /* Ajoutez l'espace souhaité en bas de chaque input */
+
+  margin-left: 15px;
+}
+
+.input-list-exposition {
+  margin-bottom: 10px;
+}
+
+.input-text-commonName {
+  margin-top: 20px;
+}
+
+ion-item {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
   </style>
   
