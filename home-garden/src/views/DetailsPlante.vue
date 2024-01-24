@@ -20,11 +20,11 @@
             <h1 class="commonName">{{ plants.commonName }}</h1>
       </ion-text>
       <ion-label>
-                <ion-buttons slot="end">
+                <ion-buttons slot="end" class="ion-justify-content-end">
                     <AreaUpdateDeletePlant :plantId="id" @delete-plant="deletePlant" @edit-plant="editPlant" class="btnUpdDel"/>
                 </ion-buttons>
             </ion-label>
-            <AreaInfoPlant class="info-plante"></AreaInfoPlant>
+            <AreaInfoPlant class="info-plante "></AreaInfoPlant>
             <ion-label class="label">
       Nom scientifique
     </ion-label>
@@ -242,6 +242,9 @@ export default defineComponent({
     font-weight: medium !important;
   }
 
+.ion-justify-content-end {
+  margin-right: 30px;
+}
  
     
   </style>
