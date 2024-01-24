@@ -12,12 +12,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/WelcomePage.vue') // Ajouter la route de bienvenue
   },
   {
-    path: '/jardin-specifique/:id',
-    name: 'JardinSpecifique',
-    props: true,
-    component: () => import('@/views/JardinSpecifique.vue')
-  },
-  {
     path: '/login',
     component: () => import('@/views/LoginAuth.vue') // Ajouter la route de connexion
   },
@@ -26,12 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/RegisterAuth.vue') // Ajouter la route d'inscription
   },
 
-  {
-    path: '/AjouterPlante/:id',
-    name: 'AjouterPlante',
-    props: true,
-    component: () => import('@/views/PlantPage.vue') // Ajouter la route d'inscription
-  },
+  
 
   {
     path: '/DetailPlante/:id',
@@ -46,16 +35,23 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/home'
-      },
-
-      {
-        path: 'home',
-        component: () => import('@/views/HomePage.vue')
+        redirect: '/tabs/jardin'
       },
       {
         path: 'jardin',
-        component: () => import('@/views/JardinPage.vue')
+        component: () => import('@/views/JardinPage.vue'),
+      },
+      {
+        path: '/jardin-specifique/:id',
+        name: 'JardinSpecifique',
+        props: true,
+        component: () => import('@/views/JardinSpecifique.vue')
+      },
+      {
+        path: '/AjouterPlante/:id',
+        name: 'AjouterPlante',
+        props: true,
+        component: () => import('@/views/PlantPage.vue') // Ajouter la route d'inscription
       },
       {
         path: 'user',

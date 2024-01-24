@@ -3,10 +3,6 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button class="ripple" @click="setActiveTab('tab1')" tab="tab1" href="/tabs/home">
-          <ion-icon  :class="{active: activeTab === 'tab1'}" aria-hidden="true" :icon="home"/>
-          <ion-label :class="{active: activeTab === 'tab1'}" >Home</ion-label>
-        </ion-tab-button>
         <ion-tab-button class="ripple" @click="setActiveTab('tab2')" tab="tab2" href="/tabs/jardin">
           <ion-icon :class="{active: activeTab === 'tab2'}" aria-hidden="true" :icon="leaf" />
           <ion-label>Jardin</ion-label>
@@ -27,7 +23,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { IonTabBar,IonLabel, IonTabButton, IonTabs, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { location, person, home, leaf } from 'ionicons/icons';
+import { location, person, leaf } from 'ionicons/icons';
 
 const activeTab = ref(localStorage.getItem('activeTab') || 'tab1');
 
