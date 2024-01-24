@@ -51,11 +51,6 @@
                             <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" :gardenName="gardenName" @update:location="updateGardenLocation"/>
                         </div>
                     </ion-col>
-                    <ion-col size="auto">
-                        <div style="width: 150px">
-                            <MeteoComponent></MeteoComponent>
-                        </div>
-                    </ion-col>
                 </ion-row>
             </ion-grid>
             
@@ -106,11 +101,10 @@
 
 
 <script lang="ts">
-import { IonBackButton, IonIcon, IonButtons, IonButton, IonHeader, IonToolbar, IonGrid, IonPage,IonRow, IonCol,IonImg,IonTitle, IonContent,IonText } from '@ionic/vue';
+import { IonIcon, IonButtons, IonButton, IonHeader, IonGrid, IonPage,IonRow, IonCol,IonImg, IonContent,IonText } from '@ionic/vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import CardMapContainer from "@/components/CardMapContainer.vue";
-import MeteoComponent from '@/components/MeteoComponent.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch } from 'vue';
@@ -127,13 +121,10 @@ export default {
         SearchBar,
         IonText,
         IonIcon,
-        MeteoComponent,
         AreaUpdateDeleteGarden,
         CardMapContainer,
-        IonBackButton, 
         IonButtons, 
         IonHeader, 
-        IonToolbar,
         IonGrid,
         IonRow,
         IonCol,
