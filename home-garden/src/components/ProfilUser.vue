@@ -1,7 +1,7 @@
 <template>
   <ion-grid>
     <ion-row class="ion-justify-content-between custom-row">
-      <ion-col>
+      <ion-col class="customName">
         <div class="helloName">
           <div>Bonjour,</div>
           <h1>{{ name }}</h1>
@@ -35,12 +35,15 @@ export default {
 </script>
 
 <style scoped>
+.customName{
+  justify-content: left;
+}
 
 .custom-row{
   margin-right: 7%;
 }
 .helloName{
-  justify-content: left;
+  text-align: left;
 }
 .profilPicture {
   display: flex;
