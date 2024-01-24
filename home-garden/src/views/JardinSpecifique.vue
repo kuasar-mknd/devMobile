@@ -236,6 +236,7 @@ export default {
             }
         };
         
+        let intervalId;
         onMounted(() => {
             getTotalPlants();
             loadGarden().then(() => {
@@ -245,15 +246,17 @@ export default {
                     }
                 });
             })
-            const intervalId = setInterval(() => {
+            intervalId = setInterval(() => {
+                loadGarden();
                 getTotalPlants(); // rafraîchissez les données du jardin périodiquement
             }, 10000); // toutes les 10 secondes par exemple
-
-            // Nettoyer l'intervalle lorsque le composant est démonté
-            onUnmounted(() => {
-                clearInterval(intervalId);
-            });
             
+        });
+
+        onUnmounted(() => {
+            if (intervalId) {
+                clearInterval(intervalId); // Utilisez l'identifiant pour arrêter l'intervalle
+            }
         });
         
         const openCreateGardenModal = async () => {
@@ -274,22 +277,10 @@ export default {
                 }
             };
         });
-        
-        const plantExists = (newPlant) => {
-            return plants.value.some(plant => plant._id === newPlant._id);
-        };
-
-        const addPlantIfNotExists = (newPlant) => {
-            if (!plantExists(newPlant)) {
-            plants.value.push(newPlant);
-            }
-        };
 
         // watch plant state to update the plants array
         watch(() => store.state.plant.plants, (newPlants) => {
-            newPlants.forEach(newPlant => {
-            addPlantIfNotExists(newPlant);
-            });
+            plants.value = newPlants;
         }, { deep: true });
 
         

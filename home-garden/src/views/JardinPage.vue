@@ -105,22 +105,8 @@ export default {
       });
   });
 
-  // Cette fonction vérifie si un jardin avec un id spécifique existe déjà dans le tableau
-  const gardenExists = (newGarden) => {
-    return gardens.value.some(garden => garden._id === newGarden._id);
-  };
-
-  // Cette fonction ajoutera un nouveau jardin au tableau s'il n'existe pas déjà
-  const addGardenIfNotExists = (newGarden) => {
-    if (!gardenExists(newGarden)) {
-      gardens.value.push(newGarden);
-    }
-  };
-
   watch(() => store.state.garden.gardens, (newGardens) => {
-    newGardens.forEach(newGarden => {
-      addGardenIfNotExists(newGarden);
-    });
+    gardens.value = newGardens;
   }, { deep: true });
 
 
@@ -136,15 +122,20 @@ export default {
       }
     };
 
+    let intervalId;
     onMounted(() => {
       loadGardens();
-      const intervalId = setInterval(() => {
-        loadGardens(); // rafraîchissez les données du jardin périodiquement
-      }, 10000);
+      intervalId = setInterval(() => {
+                loadGardens(); // rafraîchissez les données du jardin périodiquement
+            }, 10000);
 
-      onUnmounted(() => {
-        clearInterval(intervalId);
-      });
+      
+    });
+
+    onUnmounted(() => {
+      if (intervalId) {
+        clearInterval(intervalId); // Utilisez l'identifiant pour arrêter l'intervalle
+      }
     });
 
     const openCreateGardenModal = async () => {
