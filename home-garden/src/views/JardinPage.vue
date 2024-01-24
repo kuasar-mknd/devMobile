@@ -100,15 +100,28 @@ export default {
     const showModal = ref(false);
 
     const filteredGardens = computed(() => {
-    return gardens.value.filter(garden => 
-      garden.name.toLowerCase().includes(searchText.value.toLowerCase())
-    );
+      return gardens.value.filter((garden) => {
+        return garden.name.toLowerCase().includes(searchText.value.toLowerCase());
+      });
   });
 
+  // Cette fonction vérifie si un jardin avec un id spécifique existe déjà dans le tableau
+  const gardenExists = (newGarden) => {
+    return gardens.value.some(garden => garden._id === newGarden._id);
+  };
+
+  // Cette fonction ajoutera un nouveau jardin au tableau s'il n'existe pas déjà
+  const addGardenIfNotExists = (newGarden) => {
+    if (!gardenExists(newGarden)) {
+      gardens.value.push(newGarden);
+    }
+  };
+
   watch(() => store.state.garden.gardens, (newGardens) => {
-    console.log(newGardens)
-      gardens.value = newGardens;
-    }, { deep: true });
+    newGardens.forEach(newGarden => {
+      addGardenIfNotExists(newGarden);
+    });
+  }, { deep: true });
 
 
     const loadGardens = async () => {

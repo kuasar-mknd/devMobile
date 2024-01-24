@@ -101,7 +101,7 @@
 
 
 <script lang="ts">
-import { IonIcon, IonButtons, IonButton, IonHeader, IonGrid, IonPage,IonRow, IonCol,IonImg, IonContent,IonText } from '@ionic/vue';
+import { IonIcon, IonButtons, IonButton, IonHeader, IonGrid, IonPage, IonRow, IonCol, IonImg, IonContent, IonText, IonLabel } from '@ionic/vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import CardMapContainer from "@/components/CardMapContainer.vue";
@@ -133,6 +133,7 @@ export default {
         IonContent,
         ButtonAdd,
         CreateGardenModal,
+        IonLabel
     },
     props: {
         id:{
@@ -269,6 +270,23 @@ export default {
             };
         });
         
+        const plantExists = (newPlant) => {
+            return plants.value.some(plant => plant._id === newPlant._id);
+        };
+
+        const addPlantIfNotExists = (newPlant) => {
+            if (!plantExists(newPlant)) {
+            plants.value.push(newPlant);
+            }
+        };
+
+        // watch plant state to update the plants array
+        watch(() => store.state.plant.plants, (newPlants) => {
+            newPlants.forEach(newPlant => {
+            addPlantIfNotExists(newPlant);
+            });
+        }, { deep: true });
+
         
         
         return {

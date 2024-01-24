@@ -224,13 +224,7 @@ const submitPlant = async () => {
   if (formValid.value) {
     try {
       await store.dispatch('createPlant', plantData);
-      console.log('Plante ajoutée');
-      //router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
-      console.log('Data before sending:', plantData);
-      // Rediriger et recharger la page après un court délai (par exemple, 100 ms)
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 100);
+      router.back();
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la plante:', error);
       error.value = error.message || 'Une erreur inconnue est survenue.';
