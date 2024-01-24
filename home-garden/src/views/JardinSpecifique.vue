@@ -54,7 +54,7 @@
         
         
         <ion-text>
-            <h1 class="titre">Mes plantes {{ numberPlants }}</h1>
+            <h1 class="titre">Mes plantes ({{ numberPlants }})</h1>
         </ion-text>
         
         <ion-grid>
