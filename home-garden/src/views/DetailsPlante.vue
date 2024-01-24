@@ -14,65 +14,23 @@
         </div>
       </ion-toolbar>
 
-      <div class="image-container" v-if="imageUrl !== ''">
-        <ion-img class="image" :src="imageUrl"></ion-img>
-      </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script  lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonImg } from '@ionic/vue';
-import { ref, onMounted, computed } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 
+import { IonContent, IonHeader, IonPage, IonToolbar, IonButtons, IonBackButton, IonImg } from '@ionic/vue';
+import { defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
 
-
-const router = useRouter();
-const store = useStore();
-//const gardenIdFromUrl = ref('');
-const commonName = ref('');
-const scientificName = ref('');
-const family = ref('');
-const origin = ref('');
-const exposure = ref('');
-const watering = ref('');
-const soilType = ref('');
-const flowerColor = ref('');
-const height = ref('');
-const bloomingSeason = ref('');
-const plantingSeason = ref('');
-const care = ref('');
-const imageUrl = ref('');
-const use = ref('');
-
-
-const loadPlant = async () => {
-  try{
-    const plantId = router.currentRoute.value.params.id;
-    const plant = await store.dispatch('plants/getPlant', plantId);
-    commonName.value = plant.commonName;
-    scientificName.value = plant.scientificName;
-    family.value = plant.family;
-    origin.value = plant.origin;
-    exposure.value = plant.exposure;
-    watering.value = plant.watering;
-    soilType.value = plant.soilType;
-    flowerColor.value = plant.flowerColor;
-    height.value = plant.height;
-    bloomingSeason.value = plant.bloomingSeason;
-    plantingSeason.value = plant.plantingSeason;
-    care.value = plant.care;
-    imageUrl.value = plant.imageUrl;
-    use.value = plant.use;
-  } catch (error) {
-    console.log(error);
+export default defineComponent({
+  name: 'DetailsPlante',
+  components: { IonContent, IonHeader, IonPage, IonToolbar, IonButtons, IonBackButton, IonImg },
+  setup() {
+    const route = useRoute();
+    console.log(route.params.id);
   }
-};
-
-onMounted(() => {
-  loadPlant();
 });
 
 </script>
