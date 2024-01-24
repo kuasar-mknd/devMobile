@@ -101,7 +101,7 @@
               v-model="imageUrl"
             />
             <ion-item>
-              <ion-select label="Utilisation*" label-placement="floating" fill="outline" v-model="use">
+              <ion-select label="Utilisation*" label-placement="floating" fill="outline" v-model="use" class="input-list-utilisation">
                 <ion-select-option value="Ornamental">Ornemental</ion-select-option>
                 <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
                 <ion-select-option value="Food">Alimentaire</ion-select-option>
@@ -129,7 +129,7 @@
 import InputNumber from '@/components/InputNumber.vue';
   import InputText from '@/components/InputText.vue';
   import InputUrl from '@/components/InputUrl.vue';
-  import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons, IonLabel, IonSelect, IonSelectOption, IonItem } from '@ionic/vue';
+  import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons, IonSelect, IonSelectOption, IonItem } from '@ionic/vue';
 import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
 import { useStore } from 'vuex';
 import {  ref,onMounted, computed } from 'vue';
@@ -225,12 +225,12 @@ const submitPlant = async () => {
     try {
       await store.dispatch('createPlant', plantData);
       console.log('Plante ajoutée');
-      router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
+      //router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
       console.log('Data before sending:', plantData);
       // Rediriger et recharger la page après un court délai (par exemple, 100 ms)
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 100);
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la plante:', error);
       error.value = error.message || 'Une erreur inconnue est survenue.';
