@@ -1,6 +1,6 @@
   <template>
     <div class="button-container" @click="toggleMenu">
-      <img class="menuIcon" src="../../resources/dots_menu.png" alt="Menu">
+      <img class="menuIcon" src="/dots_menu.png" alt="Menu">
       <AreaUpdateDelete v-if="isMenuVisible" />
     </div>
   </template>

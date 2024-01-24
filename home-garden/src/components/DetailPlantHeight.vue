@@ -1,7 +1,7 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="../../resources/icons/height/height.png">
+      <img src="/icons/height/height.png">
     </ion-avatar>
     <ion-label>
       {{ height }}

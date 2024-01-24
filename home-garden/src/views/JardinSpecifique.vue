@@ -8,12 +8,16 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true" class="content">
-            
+            <ion-label>
+                <ion-buttons slot="end">
+                    <AreaUpdateDeleteGarden @delete-garden="deleteGarden" @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
+                </ion-buttons>
+            </ion-label>
             <ion-grid>
                 <ion-row class="ion-justify-content-center">
                     <ion-col size="3">
                         <ion-img
-                        src="../../resources/homegardenLogo_transparent-resize.png"
+                        src="/homegardenLogo_transparent-resize.png"
                         alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous">
                     </ion-img>
                 </ion-col>
@@ -28,7 +32,6 @@
             <p class="titre">{{ gardenLocation }}</p>
         </ion-text>
         
-        <ButtonAdd @click="openCreateGardenModal"></ButtonAdd>
         <CreateGardenModal
         :isOpen="showModal"
         @close="closeModal"
@@ -54,7 +57,7 @@
         
         
         <ion-text>
-            <h1 class="titre">Mes plantes</h1>
+            <h1 class="titre">Mes plantes {{ numberPlants }}</h1>
         </ion-text>
         
         <ion-grid>
@@ -90,9 +93,7 @@
             
         </ion-col>
     </ion-row>
-</ion-grid>
-
-    
+</ion-grid>    
 </ion-content>
 </ion-page>
 </template>
@@ -110,6 +111,8 @@ import SearchBar from '@/components/SearchBar.vue';
 import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
+import AreaUpdateDeleteGarden from '@/components/AreaUpdateDeleteGarden.vue';
+
 
 export default {
     components: {
@@ -117,6 +120,7 @@ export default {
         SearchBar,
         IonText,
         MeteoComponent,
+        AreaUpdateDeleteGarden,
         CardMapContainer,
         IonBackButton, 
         IonButtons, 
@@ -143,7 +147,7 @@ export default {
             const txt = document.createElement('textarea');
             txt.innerHTML = html;
             return txt.value;
-        }
+        },
     },
     setup(props, { emit }) {
         
@@ -165,6 +169,29 @@ export default {
             plant.commonName.toLowerCase().includes(searchText.value.toLowerCase())
             );
         });
+        
+        const deleteGarden = async () => {
+            try {
+                await store.dispatch('removeGarden', props.id);
+                // Redirigez ou actualisez la vue comme nécessaire
+            } catch (error) {
+                console.error("Erreur lors de la suppression du jardin", error);
+            }
+        };
+        
+        const getTotalPlants = async() => {
+            try {
+                await store.dispatch('aggregateGardenPlants', props.id);
+                // Mise à jour de l'interface utilisateur en conséquence
+            } catch (error) {
+                console.error("Erreur lors de l'aggrégation", error);
+            }
+        }
+
+        const numberPlants = computed(() => {
+  const garden = store.state.garden.gardens.find(g => g._id === props.id);
+  return garden ? garden.numberOfPlants : 0;
+});
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
@@ -200,12 +227,16 @@ export default {
                         }
                     };
                     plants.value = loadedGarden.plants;
-                    console.log(plants.value)
+                    // totalPlant.value = loadedGarden.plants.length;          
+                           
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement du jardin", error);
             }
         };
+
+        //monté getTotalPlants
+        onMounted(getTotalPlants);
         
         onMounted(() => {
             loadGarden().then(() => {
@@ -246,6 +277,9 @@ export default {
             gardenLocation,
             cardMapContainerRef,
             updateGardenLocation,
+            numberPlants,
+            deleteGarden,
+            getTotalPlants,
             openCreateGardenModal,
             showModal,
             gardenToEdit,

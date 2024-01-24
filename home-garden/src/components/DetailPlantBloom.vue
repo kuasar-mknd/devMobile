@@ -1,7 +1,7 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="../../resources/icons/bloom/bloom.png">
+      <img src="/icons/bloom/bloom.png">
     </ion-avatar>
     <ion-label>
       {{ bloomSeason }}

@@ -1,7 +1,7 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="../../resources/icons/watering/watering.png">
+      <img src="/icons/watering/watering.png">
     </ion-avatar>
     <ion-label>
       {{ watering }}

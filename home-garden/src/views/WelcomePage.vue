@@ -2,14 +2,14 @@
     <ion-page>
         <ion-content class="ion-padding home-content">
             <div class="logo-container">
-                <ion-img class="logo" src="../../resources/icon.png"></ion-img>
+                <ion-img class="logo" src="/icon.png"></ion-img>
             </div>
             <div class="welcome-text">
                 <h1>Bienvenue</h1>
             </div>
             <div class="button-container">
-                <ButtonCTAPrimary buttonText="Inscription" @click="goToLogin" class="button-cta-primary"/>
-                <ButtonCTASecondary buttonText="Connexion" @click="goToRegister" class="button-cta-secondary"/>
+                <ButtonCTAPrimary buttonText="Connexion" @click="goToLogin" class="button-cta-primary"/>
+                <ButtonCTASecondary buttonText="Inscription" @click="goToRegister" class="button-cta-secondary"/>
             </div>
         </ion-content>
   </ion-page>

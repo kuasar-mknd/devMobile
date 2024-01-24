@@ -1,7 +1,7 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="../../resources/icons/exposure/exposure.png">
+      <img src="/icons/exposure/exposure.png">
     </ion-avatar>
     <ion-label>
       {{ exposure }}

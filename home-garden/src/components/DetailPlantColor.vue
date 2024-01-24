@@ -1,7 +1,7 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="../../resources/icons/color/color.png">
+      <img src="/icons/color/color.png">
     </ion-avatar>
     <ion-label>
       {{ color }}

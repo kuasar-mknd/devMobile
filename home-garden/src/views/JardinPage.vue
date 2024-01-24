@@ -5,7 +5,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="3">
             <ion-img
-            src="../../resources/homegardenLogo_transparent-resize.png"
+            src="/homegardenLogo_transparent-resize.png"
             alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous">
           </ion-img>
         </ion-col>
@@ -29,7 +29,7 @@
             @navigate="() => navigateToGarden(garden)"
             :label="garden.name"
             :localisation="`${garden.location.coordinates[1]},${garden.location.coordinates[0]}`"
-            imageSrc="../resources/garden1.jpeg" /> 
+            imageSrc="/garden1.jpeg" /> 
         </ion-nav-link>
     
     <ion-grid>
@@ -57,7 +57,7 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -99,6 +99,12 @@ export default {
       garden.name.toLowerCase().includes(searchText.value.toLowerCase())
     );
   });
+
+  watch(() => store.state.garden.gardens, (newGardens) => {
+    console.log(newGardens)
+      gardens.value = newGardens;
+    }, { deep: true });
+
 
     const loadGardens = async () => {
       try {
