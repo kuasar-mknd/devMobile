@@ -174,6 +174,10 @@ const submitPlant = async () => {
   error2.value = null;
   formValid.value = true; // Réinitialiser la valeur à true avant chaque soumission
 
+  if (!imageUrl.value) {
+    imageUrl.value = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/360px-Diversity_of_plants_%28Streptophyta%29_version_2.png";
+  }
+
   const plantData = {
     commonName: commonName.value,
     scientificName: scientificName.value,
