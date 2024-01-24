@@ -10,7 +10,7 @@
         <ion-content :fullscreen="true" class="content">
             <ion-label>
                 <ion-buttons slot="end">
-                    <AreaUpdateDeleteGarden @delete-garden="deleteGarden" @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
+                    <AreaUpdateDeleteGarden :gardenId="id" @delete-garden="deleteGarden" @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
                 </ion-buttons>
             </ion-label>
             <ion-grid>
