@@ -13,7 +13,7 @@
         </ion-tab-button>
         <ion-tab-button  class="ripple" @click="setActiveTab('tab4')" tab="tab4" href="/tabs/user">
           <ion-icon :class="{active: activeTab === 'tab4'}" aria-hidden="true" :icon="person" />
-          <ion-label>Profile</ion-label>
+          <ion-label>Profil</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

@@ -1,7 +1,7 @@
 <template>
 
-    <ion-list :inset="true">
-      <div @click="navigateToGarden">
+    <ion-list class="card" :inset="true">
+      <div @click="navigateToGarden" >
       <ion-item :button="true" :detail="true" class="custom-detail-icon">
         <ion-img slot="start" :src="imageSrc"></ion-img>
         <ion-label>{{ label }}
@@ -59,6 +59,13 @@
 
 <style scoped>
 
+.card {
+  border: 1.5px solid #FDAE36;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  margin-left: 1%;
+  box-shadow: 1px 1px 5px #b4b3b2;
+}
 
 .custom-detail-icon::part(native) {
   --detail-icon-color: rgb(253, 174, 54); /* Solid color for the detail icon */

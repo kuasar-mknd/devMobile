@@ -14,16 +14,21 @@
     
     <ion-grid>
       <ion-row class="ion-justify-content-center">
-        <ion-col size="3">
           <ion-text class="ion-text-center">
             <p>Plongez dans le monde secret de la botanique! Créez et gérez vos jardins où seules vos mains vertes auront accès à ces oasis cachées.</p>
           </ion-text>
-        </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <ion-text class="ion-text-start">
+            <h1 color="tertiary" class="titrePage ion-margin-bottom">Mes jardins</h1>
+          </ion-text>
+      </ion-row>
+      <ion-row>
+        <SearchBar v-model="searchText"></SearchBar>
       </ion-row>
     </ion-grid>
     
-    <ion-title color="tertiary" class="ion-margin-bottom">Mes jardins</ion-title>
-    <SearchBar v-model="searchText"></SearchBar>
         <ion-nav-link router-direction="forward" :component="component">
           <CardGarden v-for="garden in filteredGardens" :key="garden._id"
             @navigate="() => navigateToGarden(garden)"
@@ -170,4 +175,9 @@ ion-col {
 .titre {
 margin-left: 25px;
 }
+
+.titrePage{
+    margin-top: 15%;
+    color: #37AA9F;
+  }
 </style>
