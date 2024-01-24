@@ -40,7 +40,8 @@ export default defineComponent({
             handler: () => {
                 console.log('handler delete');
                 emit('delete-plant');
-                router.push('/tabs/jardin');
+                router.back();
+
             }
         },
         {

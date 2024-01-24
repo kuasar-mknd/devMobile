@@ -95,11 +95,22 @@ export default defineComponent({
             }
       };
 
+      const deletePlant = async () => {
+        console.log(props.id);
+            try {
+                await store.dispatch('deletePlant', props.id);
+                // Redirigez ou actualisez la vue comme nécessaire
+            } catch (error) {
+                console.error("Erreur lors de la suppression de la plante", error);
+            }
+        };  
+
     onMounted(() => {
       loadPlant()
           });
     return {
       loadPlant,
+      deletePlant,
       plants
      } 
   }

@@ -173,8 +173,7 @@ export default {
         
         const deleteGarden = async () => {
             try {
-                await store.dispatch('removeGarden', props.id);
-                // Redirigez ou actualisez la vue comme nécessaire
+                await store.dispatch('deletePlant', props.id);
             } catch (error) {
                 console.error("Erreur lors de la suppression du jardin", error);
             }
