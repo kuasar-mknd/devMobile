@@ -79,7 +79,7 @@
     <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
     <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
         <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
-        <ion-col size="4" v-for="index in 3" :key="index" @click="redirectToPlanteDetails">
+        <ion-col size="4" v-for="index in 3" :key="index">
             <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
             <CardPlant
             v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
@@ -87,7 +87,8 @@
             class="plant-image"
             :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
             :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
-            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
+            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering"
+            @click="redirectToPlanteDetails(filteredPlants[(rowIndex - 1) * 3 + index - 1]._id)">
             {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
             </CardPlant>
             
@@ -102,9 +103,9 @@
 
 <script lang="ts">
 import { IonBackButton, IonButtons, IonHeader, IonToolbar, IonGrid, IonPage,IonRow, IonCol,IonImg,IonTitle, IonContent,IonText } from '@ionic/vue';
-import ButtonAdd from '../components/ButtonAdd.vue';
+import ButtonAdd from '@/components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
-import CardMapContainer from "../components/CardMapContainer.vue";
+import CardMapContainer from "@/components/CardMapContainer.vue";
 import MeteoComponent from '@/components/MeteoComponent.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
@@ -189,9 +190,9 @@ export default {
         }
 
         const numberPlants = computed(() => {
-  const garden = store.state.garden.gardens.find(g => g._id === props.id);
-  return garden ? garden.numberOfPlants : 0;
-});
+            const garden = store.state.garden.gardens.find(g => g._id === props.id);
+            return garden ? garden.numberOfPlants : 0;
+        });
         
         const updateGardenLocation = (newLocation) => {
             gardenLocation.value = newLocation;
@@ -207,8 +208,8 @@ export default {
         };
          
         // rediriger vers la page details plante avec l'id de la plante en paramètre /DetailsPlante/:id l'id de la plante
-        const redirectToPlanteDetails = () => {
-            router.push(`/DetailPlante/${props.id}`);
+        const redirectToPlanteDetails = (id) => {
+            router.push(`/DetailPlante/${id}`);
         };
     
         
