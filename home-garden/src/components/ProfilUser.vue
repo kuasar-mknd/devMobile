@@ -7,14 +7,6 @@
           <h1>{{ name }}</h1>
         </div>
       </ion-col>
-      <ion-col size="auto">
-        <div class="profilPicture">
-          <ion-avatar slot="start">
-          <img :src="imgURL" alt="Photo de profil">
-        </ion-avatar>
-        </div>
-        
-      </ion-col>
     </ion-row>
   </ion-grid>
 </template>

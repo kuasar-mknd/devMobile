@@ -59,6 +59,7 @@ export default defineComponent({
 
         const updateUser = async () => {
             await store.dispatch('updUser', userData.value);
+            localStorage.setItem('email', JSON.stringify(userData.value.identifier));
             if (!authError.value) {
                 handleDismiss();
             }
