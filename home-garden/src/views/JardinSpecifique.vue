@@ -28,10 +28,7 @@
         <ion-text color="tertiary">
             <h1 class="titre">{{ gardenName }}</h1>
         </ion-text>
-        <ion-text >
-            <p class="titre">{{ gardenLocation.join(', ') }}</p>
-        </ion-text>
-        
+
         <CreateGardenModal
         :isOpen="showModal"
         @close="closeModal"
