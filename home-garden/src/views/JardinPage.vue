@@ -62,7 +62,7 @@ import ButtonAdd from '../components/ButtonAdd.vue';
 import { useRouter } from 'vue-router';
 import JardinSpecifique from './JardinSpecifique.vue';
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
-import { onMounted, ref, computed, watch, onUnmounted } from 'vue';
+import { onMounted, ref, computed, watch, onUnmounted, onUpdated } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -122,20 +122,15 @@ export default {
       }
     };
 
-    let intervalId;
     onMounted(() => {
-      loadGardens();
-      intervalId = setInterval(() => {
-                loadGardens(); // rafraîchissez les données du jardin périodiquement
-            }, 10000);
+      loadGardens();      
+    });
 
-      
+    onUpdated(() => {
+      loadGardens();
     });
 
     onUnmounted(() => {
-      if (intervalId) {
-        clearInterval(intervalId); // Utilisez l'identifiant pour arrêter l'intervalle
-      }
     });
 
     const openCreateGardenModal = async () => {

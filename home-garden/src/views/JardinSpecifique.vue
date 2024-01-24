@@ -107,7 +107,7 @@ import { useRouter } from 'vue-router';
 import CardMapContainer from "@/components/CardMapContainer.vue";
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch, onUnmounted } from 'vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch, onUnmounted, onUpdated } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
 import AreaUpdateDeleteGarden from '@/components/AreaUpdateDeleteGarden.vue';
@@ -236,7 +236,6 @@ export default {
             }
         };
         
-        let intervalId;
         onMounted(() => {
             getTotalPlants();
             loadGarden().then(() => {
@@ -246,17 +245,14 @@ export default {
                     }
                 });
             })
-            intervalId = setInterval(() => {
-                loadGarden();
-                getTotalPlants(); // rafraîchissez les données du jardin périodiquement
-            }, 10000); // toutes les 10 secondes par exemple
-            
+        });
+
+        onUpdated(() => {
+            getTotalPlants();
+            loadGarden();
         });
 
         onUnmounted(() => {
-            if (intervalId) {
-                clearInterval(intervalId); // Utilisez l'identifiant pour arrêter l'intervalle
-            }
         });
         
         const openCreateGardenModal = async () => {
