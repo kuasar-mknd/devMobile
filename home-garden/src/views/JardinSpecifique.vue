@@ -107,7 +107,7 @@ import { useRouter } from 'vue-router';
 import CardMapContainer from "@/components/CardMapContainer.vue";
 import CreateGardenModal from '@/components/CreateGardenModal.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch } from 'vue';
+import { ref, getCurrentInstance, onMounted, nextTick, computed, PropType, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import CardPlant from '@/components/CardPlant.vue';
 import AreaUpdateDeleteGarden from '@/components/AreaUpdateDeleteGarden.vue';
@@ -236,10 +236,8 @@ export default {
             }
         };
         
-        //monté getTotalPlants
-        onMounted(getTotalPlants);
-        
         onMounted(() => {
+            getTotalPlants();
             loadGarden().then(() => {
                 nextTick(() => {
                     if (cardMapContainerRef.value) {
@@ -247,7 +245,14 @@ export default {
                     }
                 });
             })
-            // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+            const intervalId = setInterval(() => {
+                getTotalPlants(); // rafraîchissez les données du jardin périodiquement
+            }, 10000); // toutes les 10 secondes par exemple
+
+            // Nettoyer l'intervalle lorsque le composant est démonté
+            onUnmounted(() => {
+                clearInterval(intervalId);
+            });
             
         });
         
