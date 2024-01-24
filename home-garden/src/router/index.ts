@@ -34,6 +34,13 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
+    path: '/DetailPlante/:id',
+    name: 'DetailPlante',
+    props: true,
+    component: () => import('@/views/DetailsPlante.vue') // Ajouter la route d'inscription
+  },
+
+  {
     path: '/tabs/',
     component: TabsPage,
     children: [

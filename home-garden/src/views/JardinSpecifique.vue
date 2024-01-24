@@ -76,26 +76,24 @@
         </ion-grid>
         
         <ion-grid>
-            <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
-            <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
-                <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
-                <ion-col size="4" v-for="index in 3" :key="index">
-                    <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
-                    <CardPlant
-                    v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
-                    :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
-                    class="plant-image"
-                    :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
-                    :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
-                    :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
-                    {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
-                </CardPlant>
-                
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-    
-    
+    <!-- Boucle sur les lignes. Chaque ligne contient jusqu'à 3 cartes. -->
+    <ion-row v-for="rowIndex in Math.ceil(filteredPlants.length / 3)" :key="rowIndex">
+        <!-- Boucle sur les colonnes à l'intérieur de chaque ligne. -->
+        <ion-col size="4" v-for="index in 3" :key="index" @click="redirectToPlanteDetails">
+            <!-- Calcul de l'indice de la plante basé sur rowIndex et index. -->
+            <CardPlant
+            v-if="filteredPlants[(rowIndex - 1) * 3 + index - 1]"
+            :key="filteredPlants[(rowIndex - 1) * 3 + index - 1]._id"
+            class="plant-image"
+            :imageSrc="decodeHtml(filteredPlants[(rowIndex - 1) * 3 + index - 1].imageUrl)"
+            :name="filteredPlants[(rowIndex - 1) * 3 + index - 1].commonName"
+            :watering="filteredPlants[(rowIndex - 1) * 3 + index - 1].watering">
+            {{ filteredPlants[(rowIndex - 1) * 3 + index - 1] }}
+            </CardPlant>
+            
+        </ion-col>
+    </ion-row>
+</ion-grid>    
 </ion-content>
 </ion-page>
 </template>
@@ -207,6 +205,12 @@ export default {
         const redirectToPlante = () => {
             router.push(`/AjouterPlante/${props.id}`);
         };
+         
+        // rediriger vers la page details plante avec l'id de la plante en paramètre /DetailsPlante/:id l'id de la plante
+        const redirectToPlanteDetails = () => {
+            router.push(`/DetailPlante/${props.id}`);
+        };
+    
         
         const loadGarden = async () => {
             try {
@@ -283,7 +287,8 @@ export default {
             filteredPlants,
             searchText,
             closeModal,
-            redirectToPlante
+            redirectToPlante,
+            redirectToPlanteDetails
         };
     }
 }
