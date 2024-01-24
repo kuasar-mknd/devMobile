@@ -29,7 +29,7 @@
             <h1 class="titre">{{ gardenName }}</h1>
         </ion-text>
         <ion-text >
-            <p class="titre">{{ gardenLocation }}</p>
+            <p class="titre">{{ gardenLocation.join(', ') }}</p>
         </ion-text>
         
         <CreateGardenModal
@@ -297,6 +297,7 @@ export default {
 </script>
 
 <style scoped>
+
 .class-logo {
     display: flex;
     justify-content: center;
@@ -328,5 +329,12 @@ ion-col {
     width: 100%; /* Makes the image take the full width of its container */
     height: auto; /* Maintains the aspect ratio */
 }
+
+.btnUpdDel{
+    margin-left: 80%;
+    margin-top: 15%;
+    height: 7%;
+    width: 7%;
+  }
 
 </style>
