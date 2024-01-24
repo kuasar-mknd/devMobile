@@ -35,7 +35,30 @@ const actions = {
       const newPlant = await plantService.createPlant(plantData);
       commit('newPlant', newPlant);
     } catch (error) {
-      handleError(commit, error);
+      let errorMessage = 'Une erreur inconnue est survenue.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response ? error.response.status : null;
+        const errorMessages = error.response.data.errors.map(error => error.msg).join('\n');
+        switch (status) {
+          case 400:
+            commit('setError', errorMessages);
+            break;
+          case 401:
+            commit('setError', errorMessages);
+            break;
+          case 488:
+            commit('setError', errorMessages);
+            break;
+          case 500:
+            commit('setError', errorMessages);
+            break;
+          default:
+            commit('setError', errorMessages);
+        }
+      } else {
+        errorMessage = error.message;
+        commit('setError', errorMessage);
+      }
     }
   },
 

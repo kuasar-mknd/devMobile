@@ -24,14 +24,26 @@
               labelText="Nom commun*" 
               v-model="commonName"
             />
+            <div v-if="!formValid && !commonName" class="error-message  red-text">
+      Le champ Nom commun est obligatoire.
+    </div>
+
             <InputText class="input-text-nomspecifique input-container"
               labelText="Nom spécifique*" 
               v-model="scientificName"
             />
+            <div v-if="!formValid && !scientificName" class="error-message  red-text">
+      Le champ Nom spécifique est obligatoire.
+    </div>
+
             <InputText class="input-text-famille input-container"
               labelText="Famille*"
               v-model="family"
             />
+           <div v-if="!formValid && !family" class="error-message  red-text">
+      Le champ Famille est obligatoire.
+    </div>
+
             <InputText class="input-text-famille input-container"
               labelText=" Origine"
               v-model="origin"
@@ -44,6 +56,11 @@
                 <ion-select-option value="Shade">Ombre</ion-select-option>
               </ion-select>
             </ion-item>
+
+            <div v-if="!formValid && !exposure" class="error-message  red-text">
+      Le champ Exposition est obligatoire.
+    </div>
+
             <InputText class="input-text-arrosage input-container"
               labelText="Arrosage"  
               v-model="watering"
@@ -60,6 +77,9 @@
               labelText="Hauteur*"
               v-model="height"
             />
+            <div v-if="!formValid && !height" class="error-message  red-text">
+      Le champ Hauteur est obligatoire.
+    </div>
 
             <InputText class="input-list-saisondefloraison input-container"
               labelText="Saison de floraison (ex: printemps)"
@@ -90,9 +110,15 @@
               </ion-select>
             </ion-item>
 
+            <div v-if="!formValid && !use" class="error-message  red-text">
+      Le champ Utilisation est obligatoire.
+    </div>
+    <div v-if="error" class="error-message red-text">
+      {{ error }}
+    </div>
             <ButtonCTAPrimary buttonText="Ajouter" class="button-cta-primary"  @click="submitPlant"/>
+      
 
-          
 
       </ion-content>
     </ion-page>
@@ -106,8 +132,12 @@ import InputNumber from '@/components/InputNumber.vue';
   import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons, IonLabel, IonSelect, IonSelectOption, IonItem } from '@ionic/vue';
 import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
 import { useStore } from 'vuex';
-import {  ref,onMounted, watch } from 'vue';
+import {  ref,onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
+const error = computed(() => store.state.plant.error);
+  const formValid = ref(true); // Nouvelle propriété pour indiquer si le formulaire est valide
+  const error2 = ref<string | null>(null);
 
 const router = useRouter();
 const gardenIdFromUrl = ref('');
@@ -136,8 +166,13 @@ onMounted(() => {
   const { id } = router.currentRoute.value.params;
   gardenIdFromUrl.value = id;
 });
+
+const submissionInProgress = ref(false);
+
 const submitPlant = async () => {
   console.log('Clic sur le bouton Ajouter');
+  error2.value = null;
+  formValid.value = true; // Réinitialiser la valeur à true avant chaque soumission
 
   const plantData = {
     commonName: commonName.value,
@@ -156,25 +191,59 @@ const submitPlant = async () => {
     use: use.value,
     garden: gardenIdFromUrl.value, // Envoyer l'id du jardin comme objet
   };
-  
-
-  try {
-    await store.dispatch('createPlant', plantData);
-    console.log('Plante ajoutée');
-    router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
-    console.log('Data before sending:', plantData);
-    // Rediriger et recharger la page après un court délai (par exemple, 100 ms)
-  setTimeout(() => {
-    window.location.reload();
-  }, 100);
-  } catch (error) {
-    console.error('Erreur lors de l\'ajout de la plante:', error);
+   if (!plantData.commonName) {
+    error2.value = '';
+    formValid.value = false;
   }
+
+  if (!plantData.scientificName) {
+    error2.value = '';
+    formValid.value = false;
+  }
+
+  if (!plantData.family) {
+    error2.value = '';
+    formValid.value = false;
+  }
+
+  if (!plantData.height) {
+    error2.value = '';
+    formValid.value = false;
+  }
+
+  if (!plantData.exposure) {
+    error2.value = '';
+    formValid.value = false;
+  }
+
+  if (!plantData.use) {
+    error2.value = '';
+    formValid.value = false;
+  }
+
+  if (formValid.value) {
+    try {
+      await store.dispatch('createPlant', plantData);
+      console.log('Plante ajoutée');
+      router.push(`/jardin-specifique/${gardenIdFromUrl.value}`);
+      console.log('Data before sending:', plantData);
+      // Rediriger et recharger la page après un court délai (par exemple, 100 ms)
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de la plante:', error);
+      error.value = error.message || 'Une erreur inconnue est survenue.';
+   
+
+    }
+    finally {
+      submissionInProgress.value = false; // Réinitialiser l'état de la soumission
+    }
+  }
+
+
 };
-
-
-
-
 
 
 
@@ -234,6 +303,17 @@ ion-item {
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.red-text {
+  color: red;
+}
+
+.error-message {
+  font-size: small;
+  margin-left: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  }
 
   </style>
   
