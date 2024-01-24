@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <!-- Ion Button avec une image -->
-        <ion-button class="buttonUpdateDelete" id="open-action-sheet">
+        <ion-button class="buttonUpdateDelete" :id="`open-action-sheet-${gardenId}`">
             <div class="imgTroisPoints">
                 <img class="button-image" src="/dots_menu.png" alt="Description de l'image">
             </div>
         </ion-button>
         <ion-action-sheet
-        trigger="open-action-sheet"
+        :trigger="`open-action-sheet-${gardenId}`"
         class="my-custom-class"
         :buttons="actionSheetButtons"
         @didDismiss="logResult($event)"
@@ -27,6 +27,12 @@ import { useRouter } from 'vue-router';
 export default defineComponent({
     components: { IonActionSheet, IonButton, EditForm },
     name: "AreaUpdateDelete",
+    props: {
+        gardenId: {
+            type: String,
+            required: true
+        }
+    },
     setup(props, { emit }) {
         const store = useStore();
         const router = useRouter();

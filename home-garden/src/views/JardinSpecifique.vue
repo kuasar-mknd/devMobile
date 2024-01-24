@@ -10,7 +10,7 @@
         <ion-content :fullscreen="true" class="content">
             <ion-label>
                 <ion-buttons slot="end">
-                    <AreaUpdateDeleteGarden @delete-garden="deleteGarden" @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
+                    <AreaUpdateDeleteGarden :gardenId="id" @delete-garden="deleteGarden" @edit-garden="openCreateGardenModal" class="btnUpdDel"/>
                 </ion-buttons>
             </ion-label>
             <ion-grid>
@@ -28,10 +28,7 @@
         <ion-text color="tertiary">
             <h1 class="titre">{{ gardenName }}</h1>
         </ion-text>
-        <ion-text >
-            <p class="titre">{{ gardenLocation }}</p>
-        </ion-text>
-        
+
         <CreateGardenModal
         :isOpen="showModal"
         @close="closeModal"
@@ -57,7 +54,7 @@
         
         
         <ion-text>
-            <h1 class="titre">Mes plantes {{ numberPlants }}</h1>
+            <h1 class="titre">Mes plantes ({{ numberPlants }})</h1>
         </ion-text>
         
         <ion-grid>
@@ -297,6 +294,7 @@ export default {
 </script>
 
 <style scoped>
+
 .class-logo {
     display: flex;
     justify-content: center;
@@ -328,5 +326,12 @@ ion-col {
     width: 100%; /* Makes the image take the full width of its container */
     height: auto; /* Maintains the aspect ratio */
 }
+
+.btnUpdDel{
+    margin-left: 80%;
+    margin-top: 15%;
+    height: 7%;
+    width: 7%;
+  }
 
 </style>
