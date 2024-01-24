@@ -1,19 +1,18 @@
 <template>
   <ion-grid>
-    <ion-row>
+    <ion-row class="ion-justify-content-between custom-row">
       <ion-col>
         <div class="helloName">
           <div>Bonjour,</div>
           <h1>{{ name }}</h1>
         </div>
       </ion-col>
-      <ion-col size="auto">
+      <ion-col>
         <div class="profilPicture">
           <ion-avatar slot="start">
-          <img :src="imgURL" alt="Photo de profil">
+          <img :src="imgURL" alt="Photo de profil" >
         </ion-avatar>
         </div>
-        
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -36,12 +35,18 @@ export default {
 </script>
 
 <style scoped>
+
+.custom-row{
+  margin-right: 7%;
+}
 .helloName{
   justify-content: left;
 }
 .profilPicture {
-  height: 7rem;
-  width: 7rem;
+  display: flex;
+  justify-content: flex-end; /* Aligner à droite */
+  align-items: center; /* Centrer verticalement si nécessaire */
+  width: 100%; /* Prendre toute la largeur de la colonne */
   overflow: hidden;
 }
 
