@@ -7,7 +7,7 @@
     :placeholder="placeholderText"
     v-model="inputValue"
     type="number"
-    :style="{ width: '216px', height: '40px', borderRadius: '5px' }"
+    :style="{ height: '40px', borderRadius: '5px', width: 'calc(100% - 30px)' }"
     class="custom-input"
   ></ion-input>
 </template>
@@ -24,4 +24,8 @@ const inputValue = ref('');
 
 <style scoped>
 /* Style personnalisé pour la carte, si nécessaire */
+
+.custom-input {
+  margin-right: 15px;
+}
 </style>
