@@ -12,9 +12,15 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import CardMapContainer from '@/components/CardMapContainer.vue';
-import { ref, onMounted, nextTick } from 'vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+} from "@ionic/vue";
+import CardMapContainer from "@/components/CardMapContainer.vue";
+import { ref, onMounted, nextTick } from "vue";
 
 export default {
   components: {
@@ -23,7 +29,7 @@ export default {
     IonToolbar,
     IonTitle,
     IonContent,
-    CardMapContainer
+    CardMapContainer,
   },
   setup() {
     const cardMapContainerRef = ref(null);
@@ -38,8 +44,8 @@ export default {
     });
 
     return {
-      cardMapContainerRef
+      cardMapContainerRef,
     };
-  }
+  },
 };
 </script>

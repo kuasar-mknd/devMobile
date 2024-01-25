@@ -1,166 +1,198 @@
 <template>
-    <ion-page>
-      <ion-header>
-            <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-back-button></ion-back-button>
-                </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
-      <ion-content>
-        <ion-toolbar>
-          <div class="logo-container">
-            <ion-img class="logo" src="/icon.png"></ion-img>
-          </div>
-        </ion-toolbar>
-  
-          <div class="ajouter-plant-text">
-            <h1>Ajouter une plante</h1>
-          </div>
-          <ButtonPictureVue class="button-picture" />
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-toolbar>
+        <div class="logo-container">
+          <ion-img class="logo" src="/icon.png"></ion-img>
+        </div>
+      </ion-toolbar>
 
+      <div class="ajouter-plant-text">
+        <h1>Ajouter une plante</h1>
+      </div>
+      <ButtonPictureVue class="button-picture" />
 
-          <InputText class="input-text-commonName input-container"
-              labelText="Nom commun*" 
-              v-model="commonName"
-            />
-            <div v-if="!formValid && !commonName" class="error-message  red-text">
-      Le champ Nom commun est obligatoire.
-    </div>
+      <InputText
+        class="input-text-commonName input-container"
+        labelText="Nom commun*"
+        v-model="commonName"
+      />
+      <div v-if="!formValid && !commonName" class="error-message red-text">
+        Le champ Nom commun est obligatoire.
+      </div>
 
-            <InputText class="input-text-nomspecifique input-container"
-              labelText="Nom spécifique*" 
-              v-model="scientificName"
-            />
-            <div v-if="!formValid && !scientificName" class="error-message  red-text">
-      Le champ Nom spécifique est obligatoire.
-    </div>
+      <InputText
+        class="input-text-nomspecifique input-container"
+        labelText="Nom spécifique*"
+        v-model="scientificName"
+      />
+      <div v-if="!formValid && !scientificName" class="error-message red-text">
+        Le champ Nom spécifique est obligatoire.
+      </div>
 
-            <InputText class="input-text-famille input-container"
-              labelText="Famille*"
-              v-model="family"
-            />
-           <div v-if="!formValid && !family" class="error-message  red-text">
-      Le champ Famille est obligatoire.
-    </div>
+      <InputText
+        class="input-text-famille input-container"
+        labelText="Famille*"
+        v-model="family"
+      />
+      <div v-if="!formValid && !family" class="error-message red-text">
+        Le champ Famille est obligatoire.
+      </div>
 
-            <InputText class="input-text-famille input-container"
-              labelText=" Origine"
-              v-model="origin"
-            />
-            <ion-item>
-              
-              <ion-select label="Exposition*" label-placement="floating" fill="outline" v-model="exposure"  class="input-list-exposition">
-                <ion-select-option value="Full Sun">Plein soleil</ion-select-option>
-                <ion-select-option value="Partial Shade">Mi-ombre</ion-select-option>
-                <ion-select-option value="Shade">Ombre</ion-select-option>
-              </ion-select>
-            </ion-item>
+      <InputText
+        class="input-text-famille input-container"
+        labelText=" Origine"
+        v-model="origin"
+      />
+      <ion-item>
+        <ion-select
+          label="Exposition*"
+          label-placement="floating"
+          fill="outline"
+          v-model="exposure"
+          class="input-list-exposition"
+        >
+          <ion-select-option value="Full Sun">Plein soleil</ion-select-option>
+          <ion-select-option value="Partial Shade">Mi-ombre</ion-select-option>
+          <ion-select-option value="Shade">Ombre</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-            <div v-if="!formValid && !exposure" class="error-message  red-text">
-      Le champ Exposition est obligatoire.
-    </div>
+      <div v-if="!formValid && !exposure" class="error-message red-text">
+        Le champ Exposition est obligatoire.
+      </div>
 
-            <InputText class="input-text-arrosage input-container"
-              labelText="Arrosage"  
-              v-model="watering"
-            />
-            <InputText class="input-text-type-de-sol input-container"
-              labelText="Type de sol" 
-              v-model="soilType"
-            />
-            <InputText class="input-text-couleur input-container"
-              labelText="Couleur"
-              v-model="flowerColor"
-            />
-            <InputNumber class="input-text-hauteur input-container"
-              labelText="Hauteur*"
-              v-model="height"
-            />
-            <div v-if="!formValid && !height" class="error-message  red-text">
-      Le champ Hauteur est obligatoire.
-    </div>
+      <InputText
+        class="input-text-arrosage input-container"
+        labelText="Arrosage"
+        v-model="watering"
+      />
+      <InputText
+        class="input-text-type-de-sol input-container"
+        labelText="Type de sol"
+        v-model="soilType"
+      />
+      <InputText
+        class="input-text-couleur input-container"
+        labelText="Couleur"
+        v-model="flowerColor"
+      />
+      <InputNumber
+        class="input-text-hauteur input-container"
+        labelText="Hauteur*"
+        v-model="height"
+      />
+      <div v-if="!formValid && !height" class="error-message red-text">
+        Le champ Hauteur est obligatoire.
+      </div>
 
-            <InputText class="input-list-saisondefloraison input-container"
-              labelText="Saison de floraison (ex: printemps)"
-              v-model="bloomingSeason"
-            />
-          
-            <InputText class="input-text-saisondeplantation input-container"
-              labelText="Saison de plantation (ex: printemps)"
-              v-model="plantingSeason"
-            />
-           
-            <InputText class="input-text-soins input-container"
-              labelText="Soins particuliers"
-              v-model="care"
-            />
+      <InputText
+        class="input-list-saisondefloraison input-container"
+        labelText="Saison de floraison (ex: printemps)"
+        v-model="bloomingSeason"
+      />
 
-           <InputUrl class="input-text-url input-container"
-              labelText="URL de l'image"
-              v-model="imageUrl"
-            />
-            <ion-item>
-              <ion-select label="Utilisation*" label-placement="floating" fill="outline" v-model="use" class="input-list-utilisation">
-                <ion-select-option value="Ornamental">Ornemental</ion-select-option>
-                <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
-                <ion-select-option value="Food">Alimentaire</ion-select-option>
-                <ion-select-option value="Medicinal">Médicinal</ion-select-option>
-                <ion-select-option value="Fragrance">Parfum</ion-select-option>
-              </ion-select>
-            </ion-item>
+      <InputText
+        class="input-text-saisondeplantation input-container"
+        labelText="Saison de plantation (ex: printemps)"
+        v-model="plantingSeason"
+      />
 
-            <div v-if="!formValid && !use" class="error-message  red-text">
-      Le champ Utilisation est obligatoire.
-    </div>
-    <div v-if="error" class="error-message red-text">
-      {{ error }}
-    </div>
-            <ButtonCTAPrimary buttonText="Ajouter" class="button-cta-primary"  @click="submitPlant"/>
-      
+      <InputText
+        class="input-text-soins input-container"
+        labelText="Soins particuliers"
+        v-model="care"
+      />
 
+      <InputUrl
+        class="input-text-url input-container"
+        labelText="URL de l'image"
+        v-model="imageUrl"
+      />
+      <ion-item>
+        <ion-select
+          label="Utilisation*"
+          label-placement="floating"
+          fill="outline"
+          v-model="use"
+          class="input-list-utilisation"
+        >
+          <ion-select-option value="Ornamental">Ornemental</ion-select-option>
+          <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
+          <ion-select-option value="Food">Alimentaire</ion-select-option>
+          <ion-select-option value="Medicinal">Médicinal</ion-select-option>
+          <ion-select-option value="Fragrance">Parfum</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-      </ion-content>
-    </ion-page>
-  </template>
-  
-  <script setup lang="ts">
-  import ButtonPictureVue from '@/components/ButtonPicture.vue';
-import InputNumber from '@/components/InputNumber.vue';
-  import InputText from '@/components/InputText.vue';
-  import InputUrl from '@/components/InputUrl.vue';
-  import { IonPage, IonToolbar, IonContent, IonHeader, IonBackButton,IonButtons, IonSelect, IonSelectOption, IonItem } from '@ionic/vue';
-import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
-import { useStore } from 'vuex';
-import {  ref,onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
+      <div v-if="!formValid && !use" class="error-message red-text">
+        Le champ Utilisation est obligatoire.
+      </div>
+      <div v-if="error" class="error-message red-text">
+        {{ error }}
+      </div>
+      <ButtonCTAPrimary
+        buttonText="Ajouter"
+        class="button-cta-primary"
+        @click="submitPlant"
+      />
+    </ion-content>
+  </ion-page>
+</template>
+
+<script setup lang="ts">
+import ButtonPictureVue from "@/components/ButtonPicture.vue";
+import InputNumber from "@/components/InputNumber.vue";
+import InputText from "@/components/InputText.vue";
+import InputUrl from "@/components/InputUrl.vue";
+import {
+  IonPage,
+  IonToolbar,
+  IonContent,
+  IonHeader,
+  IonBackButton,
+  IonButtons,
+  IonSelect,
+  IonSelectOption,
+  IonItem,
+} from "@ionic/vue";
+import ButtonCTAPrimary from "@/components/ButtonCTAPrimary.vue";
+import { useStore } from "vuex";
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 
 const error = computed(() => store.state.plant.error);
-  const formValid = ref(true); // Nouvelle propriété pour indiquer si le formulaire est valide
-  const error2 = ref<string | null>(null);
+const formValid = ref(true); // Nouvelle propriété pour indiquer si le formulaire est valide
+const error2 = ref<string | null>(null);
 
 const router = useRouter();
-const gardenIdFromUrl = ref('');
+const gardenIdFromUrl = ref("");
 
-const commonName = ref('');
-const scientificName = ref('');
-const family = ref('');
-const origin = ref('');
-const exposure = ref('');
-const watering = ref('');
-const soilType = ref('');
-const flowerColor = ref('');
-const height = ref('');
-const bloomingSeason = ref('');
-const plantingSeason = ref('');
-const care = ref('');
-const imageUrl = ref('');
-const use = ref('');
+const commonName = ref("");
+const scientificName = ref("");
+const family = ref("");
+const origin = ref("");
+const exposure = ref("");
+const watering = ref("");
+const soilType = ref("");
+const flowerColor = ref("");
+const height = ref("");
+const bloomingSeason = ref("");
+const plantingSeason = ref("");
+const care = ref("");
+const imageUrl = ref("");
+const use = ref("");
 //const selectedGardenId = ref(''); // Cette valeur sera mise à jour par InputListJardin
 //const selectedGardenName = ref(''); // Cette valeur sera mise à jour par InputListJardin
 //const garden = ref('');
 const store = useStore();
-
 
 onMounted(() => {
   const { id } = router.currentRoute.value.params;
@@ -170,7 +202,7 @@ onMounted(() => {
 const submissionInProgress = ref(false);
 
 const submitPlant = async () => {
-  console.log('Clic sur le bouton Ajouter');
+  console.log("Clic sur le bouton Ajouter");
   error2.value = null;
   formValid.value = true; // Réinitialiser la valeur à true avant chaque soumission
 
@@ -191,94 +223,80 @@ const submitPlant = async () => {
     use: use.value,
     garden: gardenIdFromUrl.value, // Envoyer l'id du jardin comme objet
   };
-   if (!plantData.commonName) {
-    error2.value = '';
+  if (!plantData.commonName) {
+    error2.value = "";
     formValid.value = false;
   }
 
   if (!plantData.scientificName) {
-    error2.value = '';
+    error2.value = "";
     formValid.value = false;
   }
 
   if (!plantData.family) {
-    error2.value = '';
+    error2.value = "";
     formValid.value = false;
   }
 
   if (!plantData.height) {
-    error2.value = '';
+    error2.value = "";
     formValid.value = false;
   }
 
   if (!plantData.exposure) {
-    error2.value = '';
+    error2.value = "";
     formValid.value = false;
   }
 
   if (!plantData.use) {
-    error2.value = '';
+    error2.value = "";
     formValid.value = false;
   }
 
   if (formValid.value) {
     try {
-      await store.dispatch('createPlant', plantData);
+      await store.dispatch("createPlant", plantData);
       router.back();
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de la plante:', error);
-      error.value = error.message || 'Une erreur inconnue est survenue.';
-   
-
-    }
-    finally {
+      console.error("Erreur lors de l'ajout de la plante:", error);
+      error.value = error.message || "Une erreur inconnue est survenue.";
+    } finally {
       submissionInProgress.value = false; // Réinitialiser l'état de la soumission
     }
   }
-
-
 };
+</script>
 
+<style>
+/* Style personnalisé pour la carte, si nécessaire */
 
-
-
-
-  </script>
-  
-  <style>
-  /* Style personnalisé pour la carte, si nécessaire */
-  
-  .logo {
-    max-width: 200px; /* Ajustez la taille de votre logo */
-    height: auto;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  
- 
-  
-  .ajouter-plant-text {
-    text-align: left;
-    color: #37AA9F;
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 2rem;
-    font-family: 'otomanopee_one' !important;
-
-  }
-  
-  .button-picture {
-    margin-left: 2rem; /* Place le bouton à gauche */
-  }
-
-
-  .button-cta-primary {
-    margin-top: 2rem;
-  --background: #FDAE36; /* Example to change the background color */
-  --color: #ffffff; /* Example to change the text color */
-  width:100%;
+.logo {
+  max-width: 200px; /* Ajustez la taille de votre logo */
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
 }
-    
+
+.ajouter-plant-text {
+  text-align: left;
+  color: #37aa9f;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 2rem;
+  font-family: "otomanopee_one" !important;
+}
+
+.button-picture {
+  margin-left: 2rem; /* Place le bouton à gauche */
+}
+
+.button-cta-primary {
+  margin-top: 2rem;
+  --background: #fdae36; /* Example to change the background color */
+  --color: #ffffff; /* Example to change the text color */
+  width: 100%;
+}
+
 .input-container {
   margin-bottom: 10px; /* Ajoutez l'espace souhaité en bas de chaque input */
 
@@ -307,7 +325,5 @@ ion-item {
   margin-left: 15px;
   margin-top: 5px;
   margin-bottom: 5px;
-  }
-
-  </style>
-  
+}
+</style>

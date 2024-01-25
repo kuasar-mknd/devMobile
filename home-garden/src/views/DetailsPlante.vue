@@ -156,6 +156,8 @@ export default defineComponent({
       }
     };
 
+    const editPlant = async () => {};
+
     const translateUse = (use) => {
       switch (use) {
         case "Ornamental":
