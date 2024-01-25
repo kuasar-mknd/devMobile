@@ -17,7 +17,12 @@
       <div class="ajouter-plant-text">
         <h1>Ajouter une plante</h1>
       </div>
-      <ButtonPictureVue class="button-picture" />
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="primary"
+        @click="handleTakePictureAndUpload">Prendre une photo</ion-button>
 
       <InputText
         class="input-text-commonName input-container"
@@ -148,6 +153,7 @@
 </template>
 
 <script setup lang="ts">
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import ButtonPictureVue from "@/components/ButtonPicture.vue";
 import InputNumber from "@/components/InputNumber.vue";
 import InputText from "@/components/InputText.vue";
@@ -167,6 +173,7 @@ import ButtonCTAPrimary from "@/components/ButtonCTAPrimary.vue";
 import { useStore } from "vuex";
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import axios from 'axios';
 
 const error = computed(() => store.state.plant.error);
 const formValid = ref(true); // Nouvelle propriété pour indiquer si le formulaire est valide
@@ -189,10 +196,40 @@ const plantingSeason = ref("");
 const care = ref("");
 const imageUrl = ref("");
 const use = ref("");
-//const selectedGardenId = ref(''); // Cette valeur sera mise à jour par InputListJardin
-//const selectedGardenName = ref(''); // Cette valeur sera mise à jour par InputListJardin
-//const garden = ref('');
 const store = useStore();
+
+const takePicture = async () => {
+  const image = await Camera.getPhoto({
+    resultType: CameraResultType.Uri,
+    source: CameraSource.Camera,
+    quality: 50
+  });
+
+  console.log(image);
+
+  const response = await fetch(image.webPath);
+  const blob = await response.blob();
+
+  return blob; // Retourner le Blob pour l'uploader // L'URL de l'image prise
+};
+
+const uploadImageToCloudinary = async (imageBlob) => {
+  const formData = new FormData();
+  formData.append('file', imageBlob);
+  formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+  try {
+    const response = await axios.post(import.meta.env.VITE_CLOUDINARY_URL, formData, {
+    });
+    return response.data.url; // L'URL de l'image sur Cloudinary
+  } catch (error) {
+    console.error('Erreur lors du téléchargement', error);
+  }
+};
+
+const handleTakePictureAndUpload = async () => {
+  const photoPath = await takePicture();
+  imageUrl.value = await uploadImageToCloudinary(photoPath);
+};
 
 onMounted(() => {
   const { id } = router.currentRoute.value.params;
