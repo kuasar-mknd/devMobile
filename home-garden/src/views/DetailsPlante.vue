@@ -226,6 +226,19 @@ export default defineComponent({
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: calc(100vw - 40px);
   max-height: calc(100vh - 40px);
+  width: 100%; /* Définissez la largeur sur 100% */
+  height: 300px; /* Initialisez la hauteur à 0 pour permettre le dimensionnement basé sur la largeur */
+  object-fit: cover; /* Définissez comment l'image doit s'ajuster dans le conteneur carré */
+
+   /* Règles de média-query pour ajuster la hauteur sur des écrans plus larges */
+
+  @media (min-width: 992px) {
+    height: 300px;
+  }
+  @media (min-width: 1200px) {
+    height: 300px;
+
+}
 }
 
 .commonName {
