@@ -1,54 +1,58 @@
 <template>
-    <ion-page>
-        <ion-content class="ion-padding home-content">
-            <div class="logo-container">
-                <ion-img class="logo" src="/icon.png"></ion-img>
-            </div>
-            <div class="welcome-text">
-                <h1>Bienvenue</h1>
-            </div>
-            <div class="button-container">
-                <ButtonCTAPrimary buttonText="Connexion" @click="goToLogin" class="button-cta-primary"/>
-                <ButtonCTASecondary buttonText="Inscription" @click="goToRegister" class="button-cta-secondary"/>
-            </div>
-        </ion-content>
+  <ion-page>
+    <ion-content class="ion-padding home-content">
+      <div class="logo-container">
+        <ion-img class="logo" src="/icon.png"></ion-img>
+      </div>
+      <div class="welcome-text">
+        <h1>Bienvenue</h1>
+      </div>
+      <div class="button-container">
+        <ButtonCTAPrimary
+          buttonText="Connexion"
+          @click="goToLogin"
+          class="button-cta-primary"
+        />
+        <ButtonCTASecondary
+          buttonText="Inscription"
+          @click="goToRegister"
+          class="button-cta-secondary"
+        />
+      </div>
+    </ion-content>
   </ion-page>
 </template>
-  
-  <script lang="ts">
-  import { useRouter } from 'vue-router';
-  import { 
-    IonPage, 
-    IonContent,
-    IonImg,
-  } from '@ionic/vue';
-import ButtonCTAPrimary from '@/components/ButtonCTAPrimary.vue';
-import ButtonCTASecondary from '@/components/ButtonCTASecondary.vue';
-  
-  export default {
-    name: 'WelcomePage',
-    components: {
+
+<script lang="ts">
+import { useRouter } from "vue-router";
+import { IonPage, IonContent, IonImg } from "@ionic/vue";
+import ButtonCTAPrimary from "@/components/ButtonCTAPrimary.vue";
+import ButtonCTASecondary from "@/components/ButtonCTASecondary.vue";
+
+export default {
+  name: "WelcomePage",
+  components: {
     IonPage,
     IonContent,
     IonImg,
     ButtonCTAPrimary,
-    ButtonCTASecondary
-},
-    setup() {
-      const router = useRouter();
-    
-      const goToLogin = () => {
-        router.push('/login'); 
-      };
-  
-      const goToRegister = () => {
-        router.push('/register'); 
-      };
+    ButtonCTASecondary,
+  },
+  setup() {
+    const router = useRouter();
 
-      return { goToLogin, goToRegister };
-    }
-  };
-  </script>
+    const goToLogin = () => {
+      router.push("/login");
+    };
+
+    const goToRegister = () => {
+      router.push("/register");
+    };
+
+    return { goToLogin, goToRegister };
+  },
+};
+</script>
 
 <style scoped>
 .home-content {
@@ -60,9 +64,9 @@ import ButtonCTASecondary from '@/components/ButtonCTASecondary.vue';
 }
 
 .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -87,15 +91,14 @@ import ButtonCTASecondary from '@/components/ButtonCTASecondary.vue';
 
 /* Surcharge des styles pour ButtonCTAPrimary */
 .button-cta-primary {
-  --background: #FDAE36; /* Example to change the background color */
+  --background: #fdae36; /* Example to change the background color */
   --color: #ffffff; /* Example to change the text color */
 }
 
 /* Surcharge des styles pour ButtonCTASecondary */
 .button-cta-secondary {
   --background: transparent; /* Example to set a transparent background */
-  --color: #FDAE36; /* Example to change the text color */
-  --border-color: #FDAE36; /* Example to change the border color */
+  --color: #fdae36; /* Example to change the text color */
+  --border-color: #fdae36; /* Example to change the border color */
 }
-
 </style>

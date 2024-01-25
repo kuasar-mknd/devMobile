@@ -22,3 +22,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.custom{
+  padding-left: 0px;
+}
+
+</style>

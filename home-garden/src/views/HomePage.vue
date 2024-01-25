@@ -12,12 +12,18 @@
         </ion-toolbar>
       </ion-header>
 
-      <CardContainer name="Tab 1 page"/>
+      <CardContainer name="Tab 1 page" />
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import CardContainer from '@/components/CardContainer.vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+} from "@ionic/vue";
+import CardContainer from "@/components/CardContainer.vue";
 </script>

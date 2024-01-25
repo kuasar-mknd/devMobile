@@ -10,12 +10,12 @@
 </template>
     
 <script>
-  export default defineComponent({
+  export default {
   name: 'DetailPlantWatering',
   props: {
     watering: String
   }
-})
+}
 /*export default defineComponent({
     name: 'CardPlant',
     components: { IonCard, IonCardContent},
