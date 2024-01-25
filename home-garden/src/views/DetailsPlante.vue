@@ -13,12 +13,6 @@
           <ion-img class="logo" src="/icon.png"></ion-img>
         </div>
       </ion-toolbar>
-      <div class="image-container">
-        <ion-img class="image" :src="decodeHtml(plants.imageUrl)"></ion-img>
-      </div>
-      <ion-text>
-        <h1 class="commonName">{{ plants.commonName }}</h1>
-      </ion-text>
       <ion-label>
         <ion-buttons slot="end" class="ion-justify-content-end">
           <AreaUpdateDeletePlant
@@ -29,6 +23,13 @@
           />
         </ion-buttons>
       </ion-label>
+      <div class="image-container">
+        <ion-img class="image" :src="decodeHtml(plants.imageUrl)"></ion-img>
+      </div>
+      <ion-text>
+        <h1 class="commonName">{{ plants.commonName }}</h1>
+      </ion-text>
+   
       <AreaInfoPlant class="info-plante custom-align-right"></AreaInfoPlant>
       <ion-label class="label"> Nom scientifique </ion-label>
       <ion-text label=" Nom scientifique">
@@ -218,8 +219,26 @@ export default defineComponent({
 }
 
 .image {
-  width: 100%; /* Ajustez la largeur comme nécessaire */
-  height: auto; /* Ajustez la hauteur comme nécessaire */
+  margin-right: 20px;
+  margin-left: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
+  width: 100%; /* Définissez la largeur sur 100% */
+  height: 300px; /* Initialisez la hauteur à 0 pour permettre le dimensionnement basé sur la largeur */
+  object-fit: cover; /* Définissez comment l'image doit s'ajuster dans le conteneur carré */
+
+   /* Règles de média-query pour ajuster la hauteur sur des écrans plus larges */
+
+  @media (min-width: 992px) {
+    height: 300px;
+  }
+  @media (min-width: 1200px) {
+    height: 300px;
+
+}
 }
 
 .commonName {
