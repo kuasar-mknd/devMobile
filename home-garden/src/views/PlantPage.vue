@@ -220,7 +220,7 @@ const uploadImageToCloudinary = async (imageBlob) => {
   try {
     const response = await axios.post(import.meta.env.VITE_CLOUDINARY_URL, formData, {
     });
-    return response.data.url; // L'URL de l'image sur Cloudinary
+    return response.data.url.replace('http://', 'https://'); // L'URL de l'image sur Cloudinary
   } catch (error) {
     console.error('Erreur lors du téléchargement', error);
   }
