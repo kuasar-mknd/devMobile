@@ -4,7 +4,7 @@
       <img src="/icons/height/height.png">
     </ion-avatar>
     <ion-label>
-      {{ height }}
+      {{ height }} cm
     </ion-label>
   </ion-item>
 </template>
