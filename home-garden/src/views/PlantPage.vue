@@ -202,7 +202,8 @@ const takePicture = async () => {
   const image = await Camera.getPhoto({
     resultType: CameraResultType.Uri,
     source: CameraSource.Camera,
-    quality: 50
+    quality: 50,
+    width: 600,
   });
 
   console.log(image);
