@@ -36,7 +36,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-text color="tertiary">
+      <ion-text  class="colorTitre">
         <h1 class="titre">{{ gardenName }}</h1>
       </ion-text>
 
@@ -373,6 +373,7 @@ ion-col {
 
 .titre {
   margin-left: 25px;
+  color: #37aa9f;
 }
 
 .plant-image {
@@ -385,5 +386,8 @@ ion-col {
   margin-top: 15%;
   height: 7%;
   width: 7%;
+}
+.colorTitre {
+  color: #37aa9f;
 }
 </style>
