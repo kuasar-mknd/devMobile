@@ -5,12 +5,11 @@
     
     <!-- Modal -->
     <ion-modal :is-open="showModal" @dismiss="showModal = false">
-      <ion-content>
         <!-- Ajoutez une div pour le voile flou -->
         <div class="blur-background"></div>
 
         <!-- Contenu de votre modal -->
-        <ion-card class="modal-card">
+        <ion-card class="modal-card" >
           <ion-card-header>
             <ion-card-title>Informations</ion-card-title>
             <!-- Ajoutez un bouton de fermeture -->
@@ -29,7 +28,6 @@
             <DetailPlantBloom bloomSeason="saison de récolte exemple : Été" />
           </ion-card-content>
         </ion-card>
-      </ion-content>
     </ion-modal>
   </div>
 </template>
