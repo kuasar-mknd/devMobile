@@ -21,12 +21,12 @@
           <ion-card-content>
             <!-- Contenu de votre modal -->
             <p>Informations sur la plante</p>
-            <DetailPlantSeason season="Printemps" />
-            <DetailPlantHeight height="1m" />
-            <DetailPlantWatering watering="1 fois par semaine" />
-            <DetailPlantExposition exposure="Soleil" />
-            <DetailPlantColor color="Rouge" />
-            <DetailPlantBloom bloomSeason="Été" />
+            <DetailPlantSeason season="saison de plantation exemple : printemps" />
+            <DetailPlantHeight height="Hauteur exemple : 20 " />
+            <DetailPlantWatering watering="arrosage exemple : 1 fois par semaine" />
+            <DetailPlantExposition exposure="exposition exemple : Soleil" />
+            <DetailPlantColor color="couleur exemple : Rouge" />
+            <DetailPlantBloom bloomSeason="saison de récolte exemple : Été" />
           </ion-card-content>
         </ion-card>
       </ion-content>
