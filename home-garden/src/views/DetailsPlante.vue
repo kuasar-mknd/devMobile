@@ -203,6 +203,7 @@ export default defineComponent({
       plants,
       translateUse,
       translateExposure,
+      editPlant,
     };
   },
 });
