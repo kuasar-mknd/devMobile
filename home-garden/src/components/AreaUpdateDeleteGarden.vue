@@ -84,7 +84,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .imgTroisPoints {
   width: 25px;
   height: auto;
