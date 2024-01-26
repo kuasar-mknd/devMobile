@@ -22,7 +22,9 @@
         expand="block"
         fill="outline"
         color="primary"
-        @click="handleTakePictureAndUpload">Prendre une photo</ion-button>
+        @click="handleTakePictureAndUpload"
+        >Prendre une photo</ion-button
+      >
 
       <InputText
         class="input-text-commonName input-container"
@@ -173,7 +175,7 @@ import ButtonCTAPrimary from "@/components/ButtonCTAPrimary.vue";
 import { useStore } from "vuex";
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import axios from 'axios';
+import axios from "axios";
 
 const error = computed(() => store.state.plant.error);
 const formValid = ref(true); // Nouvelle propriété pour indiquer si le formulaire est valide
@@ -216,14 +218,20 @@ const takePicture = async () => {
 
 const uploadImageToCloudinary = async (imageBlob) => {
   const formData = new FormData();
-  formData.append('file', imageBlob);
-  formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+  formData.append("file", imageBlob);
+  formData.append(
+    "upload_preset",
+    import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+  );
   try {
-    const response = await axios.post(import.meta.env.VITE_CLOUDINARY_URL, formData, {
-    });
-    return response.data.url.replace('http://', 'https://'); // L'URL de l'image sur Cloudinary
+    const response = await axios.post(
+      import.meta.env.VITE_CLOUDINARY_URL,
+      formData,
+      {}
+    );
+    return response.data.url.replace("http://", "https://"); // L'URL de l'image sur Cloudinary
   } catch (error) {
-    console.error('Erreur lors du téléchargement', error);
+    console.error("Erreur lors du téléchargement", error);
   }
 };
 
@@ -245,7 +253,8 @@ const submitPlant = async () => {
   formValid.value = true; // Réinitialiser la valeur à true avant chaque soumission
 
   if (!imageUrl.value) {
-    imageUrl.value = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/360px-Diversity_of_plants_%28Streptophyta%29_version_2.png";
+    imageUrl.value =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/360px-Diversity_of_plants_%28Streptophyta%29_version_2.png";
   }
 
   const plantData = {

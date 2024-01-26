@@ -2,7 +2,7 @@
   <div>
     <!-- Utilisez le composant ButtonInformation ici -->
     <ButtonInformation @click="openModal" />
-    
+
     <!-- Modal -->
     <ion-modal :is-open="showModal" @dismiss="showModal = false">
       <ion-content>
@@ -37,13 +37,23 @@
 </template>
 
 <script lang="ts">
-import ButtonInformation from '@/components/ButtonInformation.vue';
-import { IonModal, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonLabel } from '@ionic/vue';
-import { closeCircleOutline, ellipseSharp } from 'ionicons/icons';
-import { defineComponent, ref } from 'vue';
+import ButtonInformation from "@/components/ButtonInformation.vue";
+import {
+  IonModal,
+  IonContent,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonButton,
+  IonIcon,
+  IonLabel,
+} from "@ionic/vue";
+import { closeCircleOutline, ellipseSharp } from "ionicons/icons";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'AreaInfoMap',
+  name: "AreaInfoMap",
   components: {
     IonLabel,
     ButtonInformation,
@@ -100,7 +110,7 @@ export default defineComponent({
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%; /* Ajustez la largeur selon vos préférences */
-  background-color: #F0F5F2; /* Ajoutez une couleur de fond à votre modal */
+  background-color: #f0f5f2; /* Ajoutez une couleur de fond à votre modal */
   padding: 16px;
   border-radius: 10px;
 }
@@ -136,11 +146,11 @@ ion-card-title {
   }
 }
 .green-icon {
-  color: #37AA9F !important;
+  color: #37aa9f !important;
 }
 
 .orange-icon {
-  color: #FDAE36 !important; /* Rouge */
+  color: #fdae36 !important; /* Rouge */
 }
 
 ion-label {

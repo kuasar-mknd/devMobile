@@ -10,8 +10,8 @@
       <ion-col>
         <div class="profilPicture">
           <ion-avatar slot="start">
-          <img :src="imgURL" alt="Photo de profil" >
-        </ion-avatar>
+            <img :src="imgURL" alt="Photo de profil" />
+          </ion-avatar>
         </div>
       </ion-col>
     </ion-row>
@@ -20,29 +20,29 @@
 
 <script lang="ts">
 export default {
-  name: 'ProfilUser',
+  name: "ProfilUser",
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     imgURL: {
       type: String,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>
-.customName{
+.customName {
   justify-content: left;
 }
 
-.custom-row{
+.custom-row {
   margin-right: 7%;
 }
-.helloName{
+.helloName {
   text-align: left;
 }
 .profilPicture {

@@ -29,7 +29,7 @@
       <ion-text>
         <h1 class="commonName">{{ plants.commonName }}</h1>
       </ion-text>
-   
+
       <AreaInfoPlant class="info-plante custom-align-right"></AreaInfoPlant>
       <ion-label class="label"> Nom scientifique </ion-label>
       <ion-text label=" Nom scientifique">
@@ -230,15 +230,14 @@ export default defineComponent({
   height: 300px; /* Initialisez la hauteur à 0 pour permettre le dimensionnement basé sur la largeur */
   object-fit: cover; /* Définissez comment l'image doit s'ajuster dans le conteneur carré */
 
-   /* Règles de média-query pour ajuster la hauteur sur des écrans plus larges */
+  /* Règles de média-query pour ajuster la hauteur sur des écrans plus larges */
 
   @media (min-width: 992px) {
     height: 300px;
   }
   @media (min-width: 1200px) {
     height: 300px;
-
-}
+  }
 }
 
 .commonName {

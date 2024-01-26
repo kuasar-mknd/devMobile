@@ -1,27 +1,25 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="/icons/bloom/bloom.png">
+      <img src="/icons/bloom/bloom.png" />
     </ion-avatar>
     <ion-label>
       {{ bloomSeason }}
     </ion-label>
   </ion-item>
 </template>
-    
-<script>
-  export default {
-  name: 'DetailPlantBloom',
+
+<script lang="ts">
+export default {
+  name: "DetailPlantBloom",
   props: {
     bloomSeason: {
       type: String,
-      required: true
-    }
-  }
-}
-
+      required: true,
+    },
+  },
+};
 </script>
-    
-  <style scoped>
-  </style>
+
+<style scoped></style>
 ```

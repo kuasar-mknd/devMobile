@@ -1,23 +1,21 @@
 <template>
-
-    <ion-img src="/IconMeteo.png"></ion-img>
-  
+  <ion-img src="/IconMeteo.png"></ion-img>
 </template>
 
 <script lang="ts">
-  import { IonImg } from '@ionic/vue';
-  import { defineComponent } from 'vue';
+import { IonImg } from "@ionic/vue";
+import { defineComponent } from "vue";
 
-  export default defineComponent({
-    name: 'MeteoComponent',
-    components: { IonImg},
-  });
+export default defineComponent({
+  name: "MeteoComponent",
+  components: { IonImg },
+});
 </script>
 
 <style scoped>
-  ion-img {
-    width: 7.5rem;
-    height: 6.5rem;
-    border-radius: 0.3rem;
-  }
+ion-img {
+  width: 7.5rem;
+  height: 6.5rem;
+  border-radius: 0.3rem;
+}
 </style>

@@ -1,27 +1,25 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="/icons/color/color.png">
+      <img src="/icons/color/color.png" />
     </ion-avatar>
     <ion-label>
       {{ color }}
     </ion-label>
   </ion-item>
 </template>
-    
-  <script>
-  export default {
-  name: 'DetailPlantColor',
+
+<script lang="ts">
+export default {
+  name: "DetailPlantColor",
   props: {
     color: {
       type: String,
-      required: true
-    }
-  }
-}
-
+      required: true,
+    },
+  },
+};
 </script>
-    
-  <style scoped>
-  </style>
+
+<style scoped></style>
 ```

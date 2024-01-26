@@ -47,10 +47,13 @@
         />
       </ion-nav-link>
 
-      <ion-grid >
+      <ion-grid>
         <ion-row class="ion-justify-content-center">
           <ion-col size="3">
-            <ButtonAdd class="button-fixed" @click="openCreateGardenModal"></ButtonAdd>
+            <ButtonAdd
+              class="button-fixed"
+              @click="openCreateGardenModal"
+            ></ButtonAdd>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -209,7 +212,7 @@ ion-col {
 .button-fixed {
   position: fixed; /* Fixe la position du bouton */
   bottom: 20px; /* 20 pixels depuis le bas de la page */
-   /* 20 pixels depuis la droite de la page */
+  /* 20 pixels depuis la droite de la page */
   z-index: 1000; /* S'assure que le bouton soit au-dessus des autres éléments */
 }
 </style>

@@ -36,7 +36,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-text  class="colorTitre">
+      <ion-text class="colorTitre">
         <h1 class="titre">{{ gardenName }}</h1>
       </ion-text>
 

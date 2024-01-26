@@ -4,7 +4,7 @@
     </ion-card-content>
 </template>
 
-<script>
+<script lang="ts">
 import { IonCardContent } from '@ionic/vue';
 import L from 'leaflet';
 import { onMounted, onUnmounted, ref, watch } from 'vue';

@@ -1,27 +1,23 @@
 <template>
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="/icons/height/height.png">
+      <img src="/icons/height/height.png" />
     </ion-avatar>
-    <ion-label>
-      {{ height }} cm
-    </ion-label>
+    <ion-label> {{ height }} cm </ion-label>
   </ion-item>
 </template>
-    
-  <script>
-  export default {
-  name: 'DetailPlantHeight',
+
+<script lang="ts">
+export default {
+  name: "DetailPlantHeight",
   props: {
     height: {
       type: String,
-      required: true
-    }
-  }
-}
-
+      required: true,
+    },
+  },
+};
 </script>
-    
-  <style scoped>
-  </style>
+
+<style scoped></style>
 ```
