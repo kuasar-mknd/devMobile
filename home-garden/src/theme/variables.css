@@ -182,7 +182,7 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-item-background: #000000;
+    --ion-item-background: #1a1a1a;
 
     --ion-card-background: #1c1c1d;
   }
@@ -223,7 +223,7 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-step-700: #b8b8b8;
     --ion-color-step-750: #c4c4c4;
     --ion-color-step-800: #d0d0d0;
-    --ion-color-step-850: #dbdbdb;
+    --ion-color-step-850: #4d4a4a;
     --ion-color-step-900: #e7e7e7;
     --ion-color-step-950: #f3f3f3;
 

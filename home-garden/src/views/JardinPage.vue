@@ -46,6 +46,7 @@
           :label="garden.name"
           :localisation="`${garden.location.coordinates[1]},${garden.location.coordinates[0]}`"
           imageSrc="/garden1.jpeg"
+          class="ion-margin-horizontal ion-padding"
         />
       </ion-nav-link>
 
