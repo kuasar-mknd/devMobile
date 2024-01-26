@@ -32,4 +32,4 @@ const handleFileChange = (event: Event) => {
 };
 </script>
 
-<style></style>
+<style scoped></style>

@@ -74,7 +74,7 @@ onMounted(() => {
   }
 });
 </script>
-<style>
+<style scoped> 
 .ripple {
   --ripple-color: #37aa9f !important;
 }

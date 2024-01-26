@@ -21,7 +21,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 ion-button {
   --border-color: #fdae36 !important;
   --color: #f8f8f8;

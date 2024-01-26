@@ -253,7 +253,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 /* Style personnalisé pour la carte, si nécessaire */
 
 .logo {

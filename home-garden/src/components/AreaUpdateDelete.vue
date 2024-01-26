@@ -62,7 +62,7 @@ export default defineComponent({
   });
 </script>
 
-<style>
+<style scoped>
 .imgTroisPoints{
   height: auto;
   display: flex;

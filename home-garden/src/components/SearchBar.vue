@@ -28,7 +28,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .custom {
   padding-left: 0px;
 }

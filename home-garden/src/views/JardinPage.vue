@@ -187,7 +187,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .class-logo {
   display: flex;
   justify-content: center;
