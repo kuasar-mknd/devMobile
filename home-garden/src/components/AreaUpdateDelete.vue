@@ -40,6 +40,7 @@ export default defineComponent({
         {
           text: 'Confirmer la suppression du compte',
           role: 'destructive',
+          class: "destruction",
           handler: deleteUser // Utilisez `handler` ici
         },
         {
@@ -49,10 +50,6 @@ export default defineComponent({
         },
       ];
 
-    const logResult = (ev: CustomEvent) => {
-      
-    };
-
       const closeEditForm = () => {
         showEditForm.value = false;
       };
@@ -60,7 +57,6 @@ export default defineComponent({
       return {
         actionSheetButtons,
         showEditForm,
-        logResult,
         closeEditForm
       };
     },
@@ -73,8 +69,6 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
-  color: white;
 }
 .container {
     display: flex;
@@ -85,13 +79,17 @@ export default defineComponent({
     
   }
   .buttonUpdateDelete ion-button {
-    background: red; /* Couleur de fond du bouton */
-    color: white; /* Couleur du texte du bouton */
+    background: red;
+    color: #fff;
   }
 ion-action-sheet.my-custom-class .action-sheet-cancel {
-  color: #a99f9f !important; /* Change text color */
+  color: #000000 !important; /* Change text color */
+  background-color: white;
 }
-
+ion-action-sheet.my-custom-class .destrinction {
+  color: #000000 !important; /* Change text color */
+  background-color: white;
+}
 .container {
     display: flex;
     align-items: center;
@@ -104,7 +102,7 @@ ion-action-sheet.my-custom-class .action-sheet-cancel {
     height: 100%;
   }
   ion-action-sheet.my-custom-class .action-sheet-group {
-    background: rgb(255, 33, 33);
+    background: rgba(212, 230, 219, 1);
   }
 
 ion-action-sheet.my-custom-class .action-sheet-title {
