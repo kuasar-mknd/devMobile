@@ -10,8 +10,15 @@
 </template>
 
 <script lang="ts">
+
+import { IonItem, IonLabel, IonAvatar } from "@ionic/vue";
 export default {
   name: "DetailPlantSeason",
+  components: {
+    IonItem,
+    IonLabel,
+    IonAvatar,
+  },
   props: {
     season: {
       type: String,

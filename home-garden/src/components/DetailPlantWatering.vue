@@ -10,8 +10,14 @@
 </template>
 
 <script lang="ts">
+import { IonItem, IonLabel, IonAvatar } from "@ionic/vue";
 export default {
   name: "DetailPlantWatering",
+  components: {
+    IonItem,
+    IonLabel,
+    IonAvatar,
+  },
   props: {
     watering: String,
   },

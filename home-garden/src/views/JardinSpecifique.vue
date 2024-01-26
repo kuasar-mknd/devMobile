@@ -281,15 +281,17 @@ export default {
             },
           };
           plants.value = loadedGarden.plants;
+
           // totalPlant.value = loadedGarden.plants.length;
         }
+        getTotalPlants();
+
       } catch (error) {
         console.error("Erreur lors du chargement du jardin", error);
       }
     };
 
     onMounted(() => {
-      getTotalPlants();
       loadGarden().then(() => {
         nextTick(() => {
           if (cardMapContainerRef.value) {
@@ -300,7 +302,6 @@ export default {
     });
 
     onUpdated(() => {
-      getTotalPlants();
       loadGarden();
     });
 

@@ -19,8 +19,15 @@
 </template>
 
 <script lang="ts">
+import { IonGrid, IonRow, IonCol, IonAvatar } from "@ionic/vue";
 export default {
   name: "ProfilUser",
+  components: {
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonAvatar,
+  },
   props: {
     name: {
       type: String,

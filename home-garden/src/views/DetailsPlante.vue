@@ -88,6 +88,8 @@ import {
   IonButtons,
   IonBackButton,
   IonImg,
+  IonLabel,
+  IonText
 } from "@ionic/vue";
 import { defineComponent, ref, onMounted } from "vue";
 import DetailPlantBloom from "@/components/DetailPlantBloom.vue";
@@ -105,6 +107,8 @@ import { useStore } from "vuex";
 export default defineComponent({
   name: "DetailsPlante",
   components: {
+    IonText,
+    IonLabel,
     IonContent,
     IonHeader,
     IonPage,
