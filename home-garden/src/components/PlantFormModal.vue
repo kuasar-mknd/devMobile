@@ -65,7 +65,7 @@
           labelText=" Origine"
           v-model="origin"
         />
-        <IonItem>
+        <IonItem  style="width: 100% !important;">
           <ion-select
             label="Exposition*"
             label-placement="floating"
@@ -97,7 +97,7 @@
       <IonItem>
         <InputText
           class="input-text-type-de-sol input-container"
-          labelText="Type de sol"
+          labelText="Type de sol pad"
           v-model="soilType"
         />
       </IonItem>
@@ -145,14 +145,15 @@
         />
       </IonItem>
 
-      <IonItem>
-        <IonItem>
+      <IonItem class="item-use">
+        <IonItem  style="width: 100% !important;">
           <ion-select
             label="Utilisation*"
             label-placement="floating"
             fill="outline"
             v-model="use"
             class="input-list-utilisation"
+
           >
             <ion-select-option value="Ornamental">Ornemental</ion-select-option>
             <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
@@ -462,6 +463,7 @@ export default defineComponent({
       error2,
       formValid,
       closeCircleOutline
+        
     };
   },
 });
@@ -505,22 +507,17 @@ export default defineComponent({
 
 .input-container {
   margin-bottom: 10px; /* Ajoutez l'espace souhaité en bas de chaque input */
-
   margin-left: 15px;
-}
+  padding: 8px 16px; /* Ajoutez le padding autour du champ */
 
-.input-list-exposition {
-  margin-bottom: 10px;
 }
 
 .input-text-commonName {
   margin-top: 20px;
+  
 }
 
-IonItem {
-  margin-left: 10px;
-  margin-right: 10px;
-}
+
 
 .red-text {
   color: red;
@@ -532,4 +529,8 @@ IonItem {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+
+
+
 </style>
