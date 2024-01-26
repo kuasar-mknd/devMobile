@@ -42,15 +42,15 @@
 
 <script lang="ts">
 import {
+  IonLabel,
   IonPage,
   IonGrid,
   IonCol,
   IonRow,
   IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonButton,
+  IonButtons,
 } from "@ionic/vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -62,13 +62,13 @@ import EditForm from "@/components/EditForm.vue";
 export default {
   name: "UserProfile",
   components: {
+    IonButtons,
+    IonLabel,
     IonGrid,
     IonCol,
     IonRow,
     IonPage,
     IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonButton,
     AreaUpdateDelete,

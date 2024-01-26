@@ -32,7 +32,7 @@ export default defineComponent({
   props: {
     label: String as PropType<string>,
     imageSrc: String as PropType<string>,
-    localisation: Array as PropType<string[]>,
+    localisation: String as PropType<string>,
   },
   methods: {
     navigateToGarden() {

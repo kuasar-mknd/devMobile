@@ -10,8 +10,14 @@
 </template>
 
 <script lang="ts">
+import { IonItem, IonLabel, IonAvatar } from "@ionic/vue";
 export default {
   name: "DetailPlantExposition",
+  components: {
+    IonItem,
+    IonLabel,
+    IonAvatar,
+  },
   props: {
     exposure: {
       type: String,
