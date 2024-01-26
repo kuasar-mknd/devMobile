@@ -47,6 +47,13 @@
         :existingGarden="gardenToEdit"
       />
 
+      <PlantFormModal
+          :isOpen="showModalPlant"
+          @close="closeModalPlant"
+          :isEditMode="false"
+          :gardenId="id"
+        />
+
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -73,7 +80,7 @@
           </ion-col>
           <ion-col size="auto">
             <div style="width: 80px">
-              <ButtonAdd @click="redirectToPlante"> </ButtonAdd>
+              <ButtonAdd @click="openCreatePlantModal"> </ButtonAdd>
             </div>
           </ion-col>
         </ion-row>
@@ -135,6 +142,7 @@ import ButtonAdd from "@/components/ButtonAdd.vue";
 import { useRouter } from "vue-router";
 import CardMapContainer from "@/components/CardMapContainer.vue";
 import CreateGardenModal from "@/components/CreateGardenModal.vue";
+import PlantFormModal from "@/components/PlantFormModal.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import {
   ref,
@@ -172,6 +180,7 @@ export default {
     ButtonAdd,
     CreateGardenModal,
     IonLabel,
+    PlantFormModal,
   },
   props: {
     id: {
@@ -202,6 +211,7 @@ export default {
     const { proxy } = getCurrentInstance();
     const store = useStore();
     const showModal = ref(false);
+    const showModalPlant = ref(false);
 
     const filteredPlants = computed(() => {
       return plants.value.filter((plant) =>
@@ -238,6 +248,11 @@ export default {
     const closeModal = async () => {
       await loadGarden();
       showModal.value = false;
+    };
+
+    const closeModalPlant = async () => {
+      await loadGarden();
+      showModalPlant.value = false;
     };
     // Redirection vers la page  ajouter plante avec l'id du jardin en paramètre /AjouterPlante/:id
     const redirectToPlante = () => {
@@ -299,6 +314,12 @@ export default {
       showModal.value = true;
     };
 
+    const openCreatePlantModal = async () => {
+      //console.log(await store.dispatch('fetchGardens'));
+      console.log(showModalPlant.value);
+      showModalPlant.value = true;
+    };
+
     // watch gardenLocation to update the gardenToEdit object
     watch(gardenLocation, (newLocation) => {
       console.log("changement de localisation");
@@ -337,8 +358,11 @@ export default {
       filteredPlants,
       searchText,
       closeModal,
+      closeModalPlant,
       redirectToPlante,
       redirectToPlanteDetails,
+      openCreatePlantModal,
+      showModalPlant
     };
   },
 };
