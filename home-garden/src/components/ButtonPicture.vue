@@ -27,7 +27,6 @@ const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (input.files) {
     const file = input.files[0];
-    console.log(file);
     input.value = "";
   }
 };

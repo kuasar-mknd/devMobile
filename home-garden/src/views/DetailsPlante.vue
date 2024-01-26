@@ -183,8 +183,6 @@ export default defineComponent({
         if (loadPlant) {
           plants.value = loadPlant;
           plantToEdit.value = loadPlant;
-          console.log(plantToEdit.value);
-          console.log(loadPlant)
         }
       } catch (error) {
         console.error("Erreur lors du chargement du jardin", error);
@@ -198,13 +196,10 @@ export default defineComponent({
 
     const editPlant = async () => {
       await loadPlant();
-      console.log(plantToEdit.value);
-      console.log(showModal.value);
       showModal.value = true;
     };
 
     const deletePlant = async () => {
-      console.log(props.id);
       try {
         await store.dispatch("deletePlant", props.id);
         // Redirigez ou actualisez la vue comme nécessaire

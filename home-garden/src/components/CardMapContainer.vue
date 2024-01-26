@@ -42,7 +42,6 @@ export default {
     };
 
     const updateUserLocationAddress = (userLocation) => {
-      console.log(userLocation);
       emit('update:userLocation', userLocation);
     };
 
@@ -65,10 +64,8 @@ export default {
       // Retarder l'initialisation de la carte
       if (mapContainer.value) {
         const userCoords = await getCurrentLocation();
-        console.log(userCoords);
         setTimeout(() => {
           map.value = L.map(mapContainer.value).setView(userCoords, 13);
-          console.log(props.gardenLocation)
           const hasValidLocation = props.gardenLocation && props.gardenLocation.length === 2;
           const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : userCoords; // Coordonnées par défaut si gardenLocation n'est pas valide
 
@@ -147,7 +144,6 @@ export default {
             });
             this.map.eachLayer(function (layer) {
               if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options.customIconId === 'gardenIcon') {
-                console.log('remove')
                 layer.remove();
               }
             });

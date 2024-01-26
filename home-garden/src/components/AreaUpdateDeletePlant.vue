@@ -47,7 +47,6 @@ export default defineComponent({
         role: "destructive",
 
         handler: () => {
-          console.log("handler delete");
           emit("delete-plant");
           router.back();
         },
@@ -66,7 +65,6 @@ export default defineComponent({
     ];
 
     const logResult = (ev: CustomEvent) => {
-      console.log(JSON.stringify(ev.detail, null, 2));
     };
 
     const closeEditForm = () => {

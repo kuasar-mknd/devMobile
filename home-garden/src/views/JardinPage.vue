@@ -137,7 +137,6 @@ export default {
       try {
         await store.dispatch("getGardensByUserId");
         store.state.garden.gardens.forEach((garden: any) => {
-          console.log(garden.name);
         });
         gardens.value = store.state.garden.gardens;
       } catch (error) {
@@ -156,8 +155,6 @@ export default {
     onUnmounted(() => {});
 
     const openCreateGardenModal = async () => {
-      //console.log(await store.dispatch('fetchGardens'));
-      console.log(showModal.value);
       showModal.value = true;
     };
 

@@ -93,7 +93,6 @@ const actions = {
   },
   async updUser({ commit }, userData) {
     try {
-      console.log("userData:", JSON.stringify(userData, null, 2));
 
       const data = await updateUser(userData);
       commit("setUser", data);

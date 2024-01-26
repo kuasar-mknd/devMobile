@@ -121,17 +121,14 @@ export default defineComponent({
 
     const submitGarden = async () => {
       let locationCoordinates;
-      console.log(userLocation.value);
 
       if (props.isEditMode && !updateLocation.value) {
         // En mode édition, mais l'utilisateur ne souhaite pas mettre à jour la localisation
         locationCoordinates =
           props.existingGarden?.location?.coordinates || gardenLocation.value;
       } else {
-        console.log("update location");
         // En mode création ou l'utilisateur souhaite mettre à jour la localisation
         locationCoordinates = userLocation.value;
-        console.log(locationCoordinates);
       }
 
       const gardenData = {
@@ -163,7 +160,6 @@ export default defineComponent({
     };
 
     const updateUserLocation = (newLocation) => {
-      console.log("update user location");
       //if gardenLocation is not set, set it to the user location
       if (!gardenLocation.value) {
         gardenLocation.value = newLocation;
@@ -172,7 +168,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      console.log(props.existingGarden);
       // Utilisez nextTick pour s'assurer que tous les enfants sont montés
       nextTick(() => {
         if (cardMapContainerRef.value) {

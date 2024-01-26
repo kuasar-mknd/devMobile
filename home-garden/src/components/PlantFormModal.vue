@@ -275,8 +275,6 @@ export default defineComponent({
         width: 600,
       });
 
-      console.log(image);
-
       const response = await fetch(image.webPath);
       const blob = await response.blob();
 
@@ -314,7 +312,6 @@ export default defineComponent({
     const submissionInProgress = ref(false);
 
     const submitPlant = async () => {
-      console.log("Clic sur le bouton Ajouter");
       error2.value = null;
       formValid.value = true; // Réinitialiser la valeur à true avant chaque soumission
 
@@ -340,8 +337,6 @@ export default defineComponent({
         use: use.value,
         garden: gardenId.value ? gardenId.value : props.gardenId,
       };
-
-      console.log(plantData);
 
       if (!plantData.commonName) {
         error2.value = "";
@@ -405,7 +400,6 @@ export default defineComponent({
     watch(
       () => props.existingPlant,
       (newValue) => {
-        console.log(props.existingPlant);
         if (newValue) {
           commonName.value = newValue.commonName;
           scientificName.value = newValue.scientificName;
@@ -422,10 +416,7 @@ export default defineComponent({
           imageUrl.value = newValue.imageUrl;
           use.value = newValue.use;
           gardenId.value = newValue.garden;
-          console.log(props.gardenId);
-          console.log(props.existingPlant);
           gardenId.value = props.isEditMode ? newValue.garden : props.gardenId;
-          console.log(gardenId.value);
         }
       },
       {

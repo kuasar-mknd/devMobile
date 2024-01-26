@@ -109,7 +109,6 @@ export const gardenService = {
         }
       );
       if (response.data.length > 0) {
-        // console.log(response.data[0].numberOfPlants)
         return response.data[0].numberOfPlants; // Renvoie le nombre de plantes
       }
       return 0;
