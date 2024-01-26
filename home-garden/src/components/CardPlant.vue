@@ -1,6 +1,6 @@
 <template>
   <ion-card>
-    <img :src="imageSrc" />
+    <img :src="imageSrc" class="imagePlante" />
     <ion-card-content>
       {{ name }}
       <br>
@@ -29,3 +29,12 @@
     },
   });
 </script>
+
+<style scoped>
+  .imagePlante {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
+
+  </style>
