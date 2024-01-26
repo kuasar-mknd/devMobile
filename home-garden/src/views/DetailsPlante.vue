@@ -1,27 +1,39 @@
 <template>
   <ion-page>
-    <ion-header>
+    <!-- <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
       </ion-toolbar>
-    </ion-header>
+    </ion-header> -->
     <ion-content>
-      <ion-toolbar>
-        <div class="logo-container">
-          <ion-img class="logo" src="/icon.png"></ion-img>
-        </div>
-      </ion-toolbar>
-      <ion-label>
-        <ion-buttons slot="end" class="ion-justify-content-end">
-          <AreaUpdateDeletePlant
-            :plantId="id"
+      <ion-grid>
+        <ion-row class="ion-justify-content-between">
+          <ion-col>
+            <ion-button class="custom-button" @click="goBack">
+              <ion-icon :icon="arrowBack"> </ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-img
+              src="/homegardenLogo_transparent-resize.png"
+              alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous"
+            />
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              <ion-buttons slot="end">
+                <AreaUpdateDeletePlant
+                :plantId="id"
             @delete-plant="deletePlant"
             @edit-plant="editPlant"
-            class="btnUpdDel"
-          />
-        </ion-buttons>
+            class="btnUpdDel"/>
+              </ion-buttons>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
         <PlantFormModal
           :isOpen="showModal"
           @close="closeModal"
@@ -88,8 +100,13 @@ import {
   IonButtons,
   IonBackButton,
   IonImg,
+  IonButton,
+  IonIcon,
   IonLabel,
-  IonText
+  IonText,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from "@ionic/vue";
 import { defineComponent, ref, onMounted } from "vue";
 import DetailPlantBloom from "@/components/DetailPlantBloom.vue";
@@ -100,6 +117,7 @@ import DetailPlantExposition from "@/components/DetailPlantExposition.vue";
 import DetailPlantColor from "@/components/DetailPlantColor.vue";
 import AreaUpdateDeletePlant from "@/components/AreaUpdateDeletePlant.vue";
 import AreaInfoPlant from "@/components/AreaInfoPlant.vue";
+import { arrowBack } from "ionicons/icons";
 import PlantFormModal from "@/components/PlantFormModal.vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
@@ -124,6 +142,13 @@ export default defineComponent({
     DetailPlantColor,
     AreaUpdateDeletePlant,
     AreaInfoPlant,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonText,
+    IonGrid,
+    IonRow,
+    IonCol,
     PlantFormModal,
   },
   props: {
@@ -137,6 +162,9 @@ export default defineComponent({
       const txt = document.createElement("textarea");
       txt.innerHTML = html;
       return txt.value;
+    },
+    goBack() {
+      this.$router.go(-1); // Ou utilisez une autre logique de navigation si nécessaire
     },
   },
   setup(props, { emit }) {
@@ -226,6 +254,7 @@ export default defineComponent({
       plants,
       translateUse,
       translateExposure,
+      arrowBack,
       editPlant,
       closeModal,
       showModal,
@@ -246,7 +275,7 @@ export default defineComponent({
 }
 
 .image-container {
-  margin-top: 20px; /* Ajustez la marge comme nécessaire */
+  margin-top: 25px; /* Ajustez la marge comme nécessaire */
 }
 
 .image {
@@ -269,6 +298,11 @@ export default defineComponent({
   @media (min-width: 1200px) {
     height: 300px;
   }
+}
+
+.custom-button {
+  --background: #ffffff; /* Couleur de fond personnalisée */
+  --color: rgb(77, 77, 77); /* Couleur du texte */
 }
 
 .commonName {
@@ -340,5 +374,18 @@ export default defineComponent({
   justify-content: flex-end;
   margin-right: 25px;
   margin-top: 20px;
+}
+.btnUpdDel {
+  margin-left: 80%;
+  margin-top: 15%;
+  height: 7%;
+  width: 7%;
+}
+
+ion-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 </style>
