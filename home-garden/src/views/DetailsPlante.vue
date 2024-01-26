@@ -1,18 +1,11 @@
 <template>
   <ion-page>
-    <!-- <ion-header>
+    <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header> -->
-    <ion-content>
-      <ion-grid>
         <ion-row class="ion-justify-content-between">
           <ion-col>
-            <ion-button class="custom-button" @click="goBack">
-              <ion-icon :icon="arrowBack"> </ion-icon>
+            <ion-button @click="goBack" color="light" shape="round" fill="clear">
+              <ion-icon slot="icon-only" :icon="arrowBack"> </ion-icon>
             </ion-button>
           </ion-col>
           <ion-col>
@@ -33,7 +26,9 @@
             </ion-label>
           </ion-col>
         </ion-row>
-      </ion-grid>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true" class="content ion-margin-horizontal ion-padding">
         <PlantFormModal
           :isOpen="showModal"
           @close="closeModal"
@@ -273,8 +268,6 @@ export default defineComponent({
 }
 
 .image {
-  margin-right: 20px;
-  margin-left: 20px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

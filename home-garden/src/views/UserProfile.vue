@@ -1,7 +1,19 @@
 <template>
   <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-row class="ion-justify-content-center">
+          <ion-col>
+            <ion-img
+              src="/homegardenLogo_transparent-resize.png"
+              alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous"
+            >
+            </ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-toolbar>
+    </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense"> </ion-header>
       <!--<ion-label>
         <ion-buttons slot="end">
           <AreaUpdateDelete class="btnUpdDel" />

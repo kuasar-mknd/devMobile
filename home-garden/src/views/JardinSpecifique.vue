@@ -1,18 +1,11 @@
 <template>
-  <ion-page class="ion-margin-horizontal">
+  <ion-page>
     <ion-header>
-      <!-- <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-back-button></ion-back-button>
-                </ion-buttons>
-            </ion-toolbar> -->
-    </ion-header>
-    <ion-content :fullscreen="true" class="content">
-      <ion-grid>
+      <ion-toolbar>
         <ion-row class="ion-justify-content-between">
           <ion-col>
-            <ion-button class="custom-button" @click="goBack">
-              <ion-icon :icon="arrowBack"> </ion-icon>
+            <ion-button @click="goBack" color="light" shape="round" fill="clear">
+              <ion-icon slot="icon-only" :icon="arrowBack"> </ion-icon>
             </ion-button>
           </ion-col>
           <ion-col>
@@ -34,8 +27,9 @@
             </ion-label>
           </ion-col>
         </ion-row>
-      </ion-grid>
-
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true" class="content ion-margin-horizontal ion-padding">
       <ion-text class="colorTitre">
         <h1 class="titre">{{ gardenName }}</h1>
       </ion-text>
@@ -48,26 +42,20 @@
       />
 
       <PlantFormModal
-          :isOpen="showModalPlant"
-          @close="closeModalPlant"
-          :isEditMode="false"
-          :gardenId="id"
-        />
+        :isOpen="showModalPlant"
+        @close="closeModalPlant"
+        :isEditMode="false"
+        :gardenId="id"
+      />
 
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <div class="map-container">
-              <CardMapContainer
-                ref="cardMapContainerRef"
-                :gardenLocation="gardenLocation"
-                :gardenName="gardenName"
-                @update:location="updateGardenLocation"
-              />
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <div class="map-container">
+        <CardMapContainer
+          ref="cardMapContainerRef"
+          :gardenLocation="gardenLocation"
+          :gardenName="gardenName"
+          @update:location="updateGardenLocation"
+        />
+      </div>
 
       <ion-text>
         <h1 class="titre">Mes plantes ({{ numberPlants }})</h1>
@@ -137,6 +125,7 @@ import {
   IonContent,
   IonText,
   IonLabel,
+  IonToolbar
 } from "@ionic/vue";
 import ButtonAdd from "@/components/ButtonAdd.vue";
 import { useRouter } from "vue-router";
@@ -181,6 +170,7 @@ export default {
     CreateGardenModal,
     IonLabel,
     PlantFormModal,
+    IonToolbar,
   },
   props: {
     id: {
@@ -285,7 +275,6 @@ export default {
           // totalPlant.value = loadedGarden.plants.length;
         }
         getTotalPlants();
-
       } catch (error) {
         console.error("Erreur lors du chargement du jardin", error);
       }
@@ -366,7 +355,7 @@ export default {
       redirectToPlante,
       redirectToPlanteDetails,
       openCreatePlantModal,
-      showModalPlant
+      showModalPlant,
     };
   },
 };

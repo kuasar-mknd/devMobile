@@ -1,9 +1,9 @@
 <template>
-  <ion-page class="ion-margin-horizontal">
-    <ion-content :fullscreen="true" class="content">
-      <ion-grid>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
         <ion-row class="ion-justify-content-center">
-          <ion-col size="3">
+          <ion-col>
             <ion-img
               src="/homegardenLogo_transparent-resize.png"
               alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous"
@@ -11,8 +11,10 @@
             </ion-img>
           </ion-col>
         </ion-row>
-      </ion-grid>
+      </ion-toolbar>
+    </ion-header>
 
+    <ion-content :fullscreen="true" class="content ion-margin-horizontal ion-padding">
       <ion-grid>
         <ion-row class="ion-justify-content-center">
           <ion-text class="ion-text-center">
@@ -136,8 +138,7 @@ export default {
     const loadGardens = async () => {
       try {
         await store.dispatch("getGardensByUserId");
-        store.state.garden.gardens.forEach((garden: any) => {
-        });
+        store.state.garden.gardens.forEach((garden: any) => {});
         gardens.value = store.state.garden.gardens;
       } catch (error) {
         console.error("Erreur lors du chargement des jardins:", error);

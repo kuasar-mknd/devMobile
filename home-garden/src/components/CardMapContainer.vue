@@ -54,7 +54,7 @@ export default {
 
     const customUserIcon = L.icon({
       iconUrl: '/icons/person.png', // Chemin vers l'image de l'icône
-      iconSize: [50, 50], // Taille de l'icône
+      iconSize: [80, 80], // Taille de l'icône
       iconAnchor: [25, 50],
       popupAnchor: [0, -25],
       customIconId: 'userIcon' 
@@ -70,10 +70,11 @@ export default {
           const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : userCoords; // Coordonnées par défaut si gardenLocation n'est pas valide
 
           // Initialisation de la carte avec les coordonnées de gardenLocation si elles sont disponibles
-          map.value.setView(defaultCoords, 13);
+          map.value.setView(defaultCoords, 16);
 
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+          L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', {
+            maxZoom: 16,
+            attribution: '&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
           }).addTo(map.value);
 
           // Ajouter un marqueur pour gardenLocation
@@ -147,7 +148,7 @@ export default {
                 layer.remove();
               }
             });
-        this.map.setView(newValue, 13);
+        this.map.setView(newValue, 16);
         L.marker(newValue, { icon: customIcon, zIndexOffset: -1 }).addTo(this.map);
       }
     }
@@ -163,3 +164,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+ion-card-content {
+  padding: 0 !important;
+}
+</style>

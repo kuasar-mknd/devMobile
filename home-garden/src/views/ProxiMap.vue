@@ -1,10 +1,18 @@
 <template>
-  <ion-page>
-    <ion-header>
+  <ion-header>
       <ion-toolbar>
-        <ion-title>Carte</ion-title>
+        <ion-row class="ion-justify-content-center">
+          <ion-col>
+            <ion-img
+              src="/homegardenLogo_transparent-resize.png"
+              alt="logo de homegarden, plante centrale à 3 feuilles avec le titre homegarden dessous"
+            >
+            </ion-img>
+          </ion-col>
+        </ion-row>
       </ion-toolbar>
     </ion-header>
+  <ion-page>
     <ion-content :fullscreen="true">
       <CardMapContainer ref="cardMapContainerRef" />
     </ion-content>
