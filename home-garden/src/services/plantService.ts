@@ -40,7 +40,11 @@ export const plantService = {
 
   async updatePlant(id, plantData) {
     try {
-      const response = await axios.put(`${API_URL}${id}`, plantData);
+      const response = await axios.put(`${API_URL}${id}`, plantData, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
+      });
       return response.data;
     } catch (error) {
       return Promise.reject(error);

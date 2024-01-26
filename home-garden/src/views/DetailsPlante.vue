@@ -22,6 +22,12 @@
             class="btnUpdDel"
           />
         </ion-buttons>
+        <PlantFormModal
+          :isOpen="showModal"
+          @close="closeModal"
+          :isEditMode="true"
+          :existingPlant="plantToEdit"
+        />
       </ion-label>
       <div class="image-container">
         <ion-img class="image" :src="decodeHtml(plants.imageUrl)"></ion-img>
@@ -92,6 +98,7 @@ import DetailPlantExposition from "@/components/DetailPlantExposition.vue";
 import DetailPlantColor from "@/components/DetailPlantColor.vue";
 import AreaUpdateDeletePlant from "@/components/AreaUpdateDeletePlant.vue";
 import AreaInfoPlant from "@/components/AreaInfoPlant.vue";
+import PlantFormModal from "@/components/PlantFormModal.vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -113,6 +120,7 @@ export default defineComponent({
     DetailPlantColor,
     AreaUpdateDeletePlant,
     AreaInfoPlant,
+    PlantFormModal,
   },
   props: {
     id: {
@@ -129,9 +137,11 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const route = useRoute();
-    console.log(route.params.id);
+    const isOpen = ref(true);
+    const plantToEdit = ref({});
     const store = useStore();
     const plants = ref([]);
+    const showModal = ref(false);
 
     const loadPlant = async () => {
       try {
@@ -141,10 +151,25 @@ export default defineComponent({
         );
         if (loadPlant) {
           plants.value = loadPlant;
+          plantToEdit.value = loadPlant;
+          console.log(plantToEdit.value);
+          console.log(loadPlant)
         }
       } catch (error) {
         console.error("Erreur lors du chargement du jardin", error);
       }
+    };
+
+    const closeModal = async () => {
+      await loadPlant();
+      showModal.value = false;
+    };
+
+    const editPlant = async () => {
+      await loadPlant();
+      console.log(plantToEdit.value);
+      console.log(showModal.value);
+      showModal.value = true;
     };
 
     const deletePlant = async () => {
@@ -156,8 +181,6 @@ export default defineComponent({
         console.error("Erreur lors de la suppression de la plante", error);
       }
     };
-
-    const editPlant = async () => {};
 
     const translateUse = (use) => {
       switch (use) {
@@ -199,6 +222,10 @@ export default defineComponent({
       plants,
       translateUse,
       translateExposure,
+      editPlant,
+      closeModal,
+      showModal,
+      plantToEdit
     };
   },
 });
