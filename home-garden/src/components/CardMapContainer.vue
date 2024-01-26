@@ -32,7 +32,7 @@ export default {
 
     const getCurrentLocation = async () => {
       try {
-        const coordinates = await Geolocation.getCurrentPosition();
+        const coordinates = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
         updateUserLocationAddress([coordinates.coords.latitude, coordinates.coords.longitude]);
         return [coordinates.coords.latitude, coordinates.coords.longitude];
       } catch (e) {
@@ -97,7 +97,7 @@ export default {
     });
 
     const watchPosition = async () => {
-      watchId = Geolocation.watchPosition({}, (position, err) => {
+      watchId = Geolocation.watchPosition({ enableHighAccuracy: true }, (position, err) => {
         if (err) {
           console.error('Erreur de suivi de position :', err);
           return;
