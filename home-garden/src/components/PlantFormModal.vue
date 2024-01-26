@@ -2,11 +2,13 @@
   <IonModal :is-open="isOpen" @ionModalDidDismiss="handleDismiss">
     <ion-header>
       <ion-toolbar>
-        <IonTitle
+        <IonTitle class="ajouter-plant-text"
           >{{ isEditMode ? "Modifier" : "Ajouter" }} une Plante</IonTitle
         >
         <IonButtons slot="end">
-          <IonButton @click="handleDismiss">Fermer</IonButton>
+          <IonButton @click="handleDismiss" class="close-button">
+            <ion-icon :icon="closeCircleOutline"></ion-icon>
+</IonButton>
         </IonButtons>
       </ion-toolbar>
     </ion-header>
@@ -179,6 +181,7 @@ import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import InputNumber from "@/components/InputNumber.vue";
 import InputText from "@/components/InputText.vue";
 import InputUrl from "@/components/InputUrl.vue";
+import { closeCircleOutline } from "ionicons/icons";
 import {
   IonToolbar,
   IonContent,
@@ -190,6 +193,7 @@ import {
   IonModal,
   IonTitle,
   IonButton,
+  IonIcon,
 } from "@ionic/vue";
 import { useStore } from "vuex";
 import {
@@ -218,6 +222,7 @@ export default defineComponent({
     IonModal,
     IonTitle,
     IonButton,
+    IonIcon,
   },
   props: {
     isEditMode: Boolean, // Détermine si le modal est en mode édition
@@ -456,6 +461,7 @@ export default defineComponent({
       use,
       error2,
       formValid,
+      closeCircleOutline
     };
   },
 });
@@ -463,6 +469,13 @@ export default defineComponent({
 
 <style>
 /* Style personnalisé pour la carte, si nécessaire */
+.close-button {
+  position: absolute;
+  top: -16px;
+  right: +1px;
+  --color: #353535 !important; /* Couleur du bouton */
+  font-size: 1.5rem;
+}
 
 .logo {
   max-width: 200px; /* Ajustez la taille de votre logo */
@@ -474,10 +487,9 @@ export default defineComponent({
 .ajouter-plant-text {
   text-align: left;
   color: #37aa9f;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-left: 2rem;
-  font-family: "otomanopee_one" !important;
 }
 
 .button-picture {
