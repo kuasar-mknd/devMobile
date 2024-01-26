@@ -59,7 +59,7 @@
           <ion-col>
             <div class="map-container">
               <CardMapContainer
-                ref="cardMapContainer"
+                ref="cardMapContainerRef"
                 :gardenLocation="gardenLocation"
                 :gardenName="gardenName"
                 @update:location="updateGardenLocation"
@@ -294,7 +294,9 @@ export default {
     onMounted(() => {
       loadGarden().then(() => {
         nextTick(() => {
+          console.log("cardMapContainerRef.value", cardMapContainerRef);
           if (cardMapContainerRef.value) {
+            console.log("cardMapContainerRef.value", cardMapContainerRef.value);
             cardMapContainerRef.value.invalidateMapSize();
           }
         });
@@ -302,27 +304,29 @@ export default {
     });
 
     onUpdated(() => {
-      loadGarden();
+      loadGarden().then(() => {
+        console.log("cardMapContainerRef.value", cardMapContainerRef);
+        nextTick(() => {
+          if (cardMapContainerRef.value) {
+            cardMapContainerRef.value.invalidateMapSize();
+          }
+        });
+      });
     });
 
     onUnmounted(() => {});
 
     const openCreateGardenModal = async () => {
       await loadGarden();
-      console.log(gardenToEdit.value);
-      console.log(showModal.value);
       showModal.value = true;
     };
 
     const openCreatePlantModal = async () => {
-      //console.log(await store.dispatch('fetchGardens'));
-      console.log(showModalPlant.value);
       showModalPlant.value = true;
     };
 
     // watch gardenLocation to update the gardenToEdit object
     watch(gardenLocation, (newLocation) => {
-      console.log("changement de localisation");
       gardenToEdit.value = {
         ...gardenToEdit.value,
         location: {
