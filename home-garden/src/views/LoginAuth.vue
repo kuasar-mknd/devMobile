@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content class="ion-padding login-content">
+    <ion-content :fullscreen="true" class="content ion-margin-horizontal ion-padding login-content">
       <div class="logo-container">
         <ion-img class="logo" src="/icon.png"></ion-img>
       </div>
@@ -8,27 +8,27 @@
         <h1>Login</h1>
       </div>
       <form @submit.prevent="loginUser">
-        <ion-list class="auth-form">
           <ion-item>
-            <ion-label position="stacked">Identifiant</ion-label>
             <ion-input
               type="email"
               v-model="userData.identifier"
               required
+              label="Identifiant"
+              labelPlacement="floating"
             ></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">Mot de passe</ion-label>
             <ion-input
               type="password"
               v-model="userData.password"
               required
+              label="Mot de passe"
+              labelPlacement="floating"
             ></ion-input>
           </ion-item>
           <div v-if="authError" class="error-message">
             {{ authError }}
           </div>
-        </ion-list>
         <div class="button-container">
           <ButtonCTAPrimary
             buttonText="Se connecter"
@@ -100,7 +100,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .button-container {
   display: flex;
   align-items: center;
@@ -155,6 +155,12 @@ ion-item {
   --inner-padding-start: 0;
   --min-height: 40px;
   margin-bottom: 1rem;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 2px solid #fdae36;
+  border-radius: 5px;
 }
 
 ion-button {
@@ -163,13 +169,7 @@ ion-button {
 
 /* You may need to adjust the width of ion-input if you want them to be less than 100% */
 ion-input {
-  --padding-start: 0;
-  --padding-end: 0;
-  --inner-padding-end: 0;
-  --inner-padding-start: 0;
-  margin-top: 5px;
-  border: 2px solid #fdae36;
-  border-radius: 5px;
+  
 }
 
 .button-cta-primary {
@@ -186,8 +186,4 @@ ion-input {
   width: 100%;
 }
 
-/* Additional global styles if needed */
-:root {
-  --ion-background-color: #fff;
-}
 </style>

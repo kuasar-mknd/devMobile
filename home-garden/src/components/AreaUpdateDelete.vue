@@ -7,7 +7,6 @@
       trigger="open-action-sheet"
       class="my-custom-class"
       :buttons="actionSheetButtons"
-      @didDismiss="logResult($event)"
     ></ion-action-sheet>
     <EditForm v-if="showEditForm" @close="closeEditForm" />
   </div>

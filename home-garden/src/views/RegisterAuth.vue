@@ -8,39 +8,49 @@
         <h1>S'inscrire</h1>
       </div>
       <form @submit.prevent="registerUser">
-        <ion-list class="register-form">
-          <ion-item>
-            <ion-label position="stacked">Email</ion-label>
-            <ion-input
-              type="email"
-              v-model="userData.identifier"
-              required
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked">Prénom</ion-label>
-            <ion-input v-model="userData.firstName"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked">Nom</ion-label>
-            <ion-input v-model="userData.lastName"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked">Date de Naissance</ion-label>
-            <ion-input type="date" v-model="userData.birthDate"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked">Mot de Passe</ion-label>
-            <ion-input
-              type="password"
-              v-model="userData.password"
-              required
-            ></ion-input>
-          </ion-item>
-          <div v-if="authError" class="error-message">
-            {{ authError }}
-          </div>
-        </ion-list>
+        <ion-item>
+          <ion-input
+            type="email"
+            v-model="userData.identifier"
+            required
+            label="Email"
+            labelPlacement="floating"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            v-model="userData.firstName"
+            label="Prénom"
+            labelPlacement="floating"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            v-model="userData.lastName"
+            label="Nom"
+            labelPlacement="floating"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="date"
+            v-model="userData.birthDate"
+            label="Date de naissance"
+            labelPlacement="floating"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="password"
+            v-model="userData.password"
+            required
+            label="Mot de passe"
+            labelPlacement="floating"
+          ></ion-input>
+        </ion-item>
+        <div v-if="authError" class="error-message">
+          {{ authError }}
+        </div>
         <div class="button-container">
           <ButtonCTAPrimary
             buttonText="S'inscrire"
@@ -65,10 +75,8 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import {
   IonPage,
-  IonList,
   IonContent,
   IonItem,
-  IonLabel,
   IonInput,
 } from "@ionic/vue";
 import ButtonCTASecondary from "@/components/ButtonCTASecondary.vue";
@@ -78,10 +86,8 @@ export default {
   name: "RegisterAuth",
   components: {
     IonPage,
-    IonList,
     IonContent,
     IonItem,
-    IonLabel,
     IonInput,
     ButtonCTASecondary,
     ButtonCTAPrimary,
@@ -136,9 +142,9 @@ export default {
 .register-form {
   width: 100%;
   padding-left: 15%;
-  padding-top: 5%;
+  padding-top: 1%;
   padding-right: 15%;
-  gap: 10px;
+  gap: 5px;
 }
 
 .logo-container {
@@ -146,7 +152,6 @@ export default {
   align-items: center;
   justify-content: center;
   margin-top: 2rem;
-  margin-bottom: 2rem;
 }
 
 .logo-container ion-img {
@@ -165,6 +170,12 @@ ion-item {
   --inner-padding-start: 0;
   --min-height: 40px;
   margin-bottom: 1rem;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 2px solid #fdae36;
+  border-radius: 5px;
 }
 
 ion-button {
@@ -173,13 +184,6 @@ ion-button {
 
 /* You may need to adjust the width of ion-input if you want them to be less than 100% */
 ion-input {
-  --padding-start: 0;
-  --padding-end: 0;
-  --inner-padding-end: 0;
-  --inner-padding-start: 0;
-  margin-top: 5px;
-  border: 2px solid #fdae36;
-  border-radius: 5px;
 }
 
 .button-cta-primary {

@@ -13,26 +13,10 @@
         </ion-row>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <!--<ion-label>
-        <ion-buttons slot="end">
-          <AreaUpdateDelete class="btnUpdDel" />
-        </ion-buttons>
-        <h1 class="titrePage">Profil</h1>
-        <ProfilUser
-          class="profilUsr"
-          :name="dataUser.username"
-          imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399"
-        />
-      </ion-label>-->
-      <!--<div class="profile-section">
-        <div class="profile-detail">
-          <label>Identifiant</label>
-          <div class="profile-name">
-            {{ dataUser.identifier }}
-          </div>
-        </div>
-      </div>-->
+    <ion-content
+      :fullscreen="true"
+      class="content ion-margin-horizontal ion-padding"
+    >
       <ion-grid class="custom-grille">
         <ion-row class="ion-justify-content-center">
           <ion-col size="auto">
@@ -41,22 +25,16 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="auto" class="delBtn">
-            <!--<ion-button @click="showEditForm"
-              >Changer de mot de passe</ion-button
-            >-->
-            <AreaUpdateDelete class="delBtn"/>
+            <AreaUpdateDelete class="delBtn" />
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-content>
-    
-    <EditForm v-if="isEditFormVisible" @close="closeEditForm" />
   </ion-page>
 </template>
 
 <script lang="ts">
 import {
-  IonLabel,
   IonPage,
   IonGrid,
   IonCol,
@@ -64,20 +42,17 @@ import {
   IonHeader,
   IonContent,
   IonButton,
-  IonButtons,
+  IonToolbar,
+  IonImg,
 } from "@ionic/vue";
-import AreaUpdateDelete from '../components/AreaUpdateDelete.vue';
+import AreaUpdateDelete from "../components/AreaUpdateDelete.vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { ref, getCurrentInstance } from "vue";
-//import ProfilUser from "@/components/ProfilUser.vue";
-import EditForm from "@/components/EditForm.vue";
 
 export default {
   name: "UserProfile",
   components: {
-    IonButtons,
-    IonLabel,
     IonGrid,
     IonCol,
     IonRow,
@@ -86,31 +61,24 @@ export default {
     IonContent,
     IonButton,
     AreaUpdateDelete,
-    /*ProfilUser,*/
-    EditForm,
+    IonToolbar,
+    IonImg,
   },
   setup() {
     const store = useStore();
     const router = useRouter();
-    const isEditFormVisible = ref(false);
-    const dataUser = ref(
-      {
-        identifier: localStorage
+    const dataUser = ref({
+      identifier: localStorage
         .getItem("email")
         ?.substring(1, localStorage.getItem("email").length - 1),
-        username: localStorage.getItem("email")?.substring(1, localStorage.getItem("email").indexOf("@")),
-        name : null,
-        surname : null,
-        birthdate : null
-      }
-    );
+      username: localStorage
+        .getItem("email")
+        ?.substring(1, localStorage.getItem("email").indexOf("@")),
+      name: null,
+      surname: null,
+      birthdate: null,
+    });
 
-    const showEditForm = () => {
-      isEditFormVisible.value = true;
-    };
-    const closeEditForm = () => {
-      isEditFormVisible.value = false;
-    };
     const logout = async () => {
       await store.dispatch("logout");
       localStorage.removeItem("token");
@@ -119,26 +87,22 @@ export default {
       router.push("/login");
     };
     const internalInstance = getCurrentInstance();
-      const isMenuVisible = ref(false);
-  
-      function toggleMenu() {
-        isMenuVisible.value = !isMenuVisible.value;
-        if (isMenuVisible.value) {
-          internalInstance?.emit('open-action-sheet');
-        }
+    const isMenuVisible = ref(false);
+
+    function toggleMenu() {
+      isMenuVisible.value = !isMenuVisible.value;
+      if (isMenuVisible.value) {
+        internalInstance?.emit("open-action-sheet");
       }
+    }
     return {
       logout,
-      showEditForm,
-      isEditFormVisible,
-      closeEditForm,
       dataUser,
       toggleMenu,
-      isMenuVisible
+      isMenuVisible,
     };
   },
 };
-
 </script>
 <style scoped>
 .delBtn {
