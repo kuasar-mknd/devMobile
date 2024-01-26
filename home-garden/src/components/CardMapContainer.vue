@@ -27,6 +27,8 @@ export default {
   setup(props, { emit }) {
     const map = ref(null);
     const mapContainer = ref(null);
+    const userMarker = ref(null); // Référence pour le marqueur de l'utilisateur
+    let watchId;
 
     const getCurrentLocation = async () => {
       try {
@@ -84,7 +86,9 @@ export default {
 
           // Ajouter un marqueur pour la position de l'utilisateur
           L.marker(userCoords, { icon: customUserIcon }).addTo(map.value);
+          
         }, 500);
+        watchId = await watchPosition();
       }
     });
 
@@ -92,7 +96,31 @@ export default {
       if (map.value) {
         map.value.remove();
       }
+      Geolocation.clearWatch({ id: watchId });
     });
+
+    const watchPosition = async () => {
+      watchId = Geolocation.watchPosition({}, (position, err) => {
+        if (err) {
+          console.error('Erreur de suivi de position :', err);
+          return;
+        }
+        const newPos = [position.coords.latitude, position.coords.longitude];
+        if (userMarker.value) {
+          userMarker.value.setLatLng(newPos);
+        } else if (map.value) {
+          //clear user marker
+          map.value.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options.customIconId === 'userIcon') {
+              layer.remove();
+            }
+          });
+          userMarker.value = L.marker(newPos, { icon: customUserIcon }).addTo(map.value);
+          updateUserLocationAddress(newPos);
+        }
+      });
+      return watchId;
+    };
 
     watch(map, (newMap) => {
       if (newMap) {
