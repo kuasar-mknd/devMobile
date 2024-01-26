@@ -76,9 +76,10 @@ import {
   IonRow,
   IonCol,
   IonImg,
-  IonTitle,
   IonContent,
   IonText,
+  IonHeader,
+  IonToolbar
 } from "@ionic/vue";
 import SearchBar from "../components/SearchBar.vue";
 import CardGarden from "../components/CardGarden.vue";
@@ -97,13 +98,14 @@ export default {
     IonCol,
     IonImg,
     IonPage,
-    IonTitle,
     IonContent,
     SearchBar,
     CardGarden,
     ButtonAdd,
     IonText,
     CreateGardenModal,
+    IonHeader,
+    IonToolbar
   },
   data() {
     return {
