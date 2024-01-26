@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const state = {
   user: JSON.parse(localStorage.getItem('user')),
+  data: null,
   authError: null,
 };
 
@@ -79,7 +80,6 @@ const actions = {
   async updUser({ commit }, userData) {
     try {
       console.log("userData:", JSON.stringify(userData, null, 2));
-
       const data = await updateUser(userData);
       commit('setUser', data);
       commit('setAuthError', null);
@@ -150,6 +150,12 @@ const mutations = {
   setUser(state, user) {
     state.user = user;
     state.authError = null;  // Clear any errors upon successful authentication
+    state.data = {
+      identifier: user.identifier,
+      firstname: user.firstName,
+      surname: user.surname,
+      birthdate: user.birthdate
+    }
   },
   setAuthError(state, errorMessage) {
     state.authError = errorMessage;

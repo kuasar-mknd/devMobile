@@ -30,10 +30,5 @@
   
   
   <style>
-  .button-container {
-    width: 10%;
-    height: 5%;
-  }
-
   </style>
   

@@ -1,10 +1,7 @@
 <template>
   <div class="container">
-    <!-- Ion Button avec une image -->
     <ion-button class="buttonUpdateDelete" id="open-action-sheet">
-      <div class="imgTroisPoints">
-      <img class="button-image" src="/dots_menu.png" alt="Description de l'image">
-    </div>
+        Supprimer le compte
     </ion-button>
     <ion-action-sheet
       trigger="open-action-sheet"
@@ -42,15 +39,9 @@
 
       const actionSheetButtons = [
         {
-          text: 'Supprimer',
+          text: 'Confirmer la suppression du compte',
           role: 'destructive',
           handler: deleteUser // Utilisez `handler` ici
-        },
-        {
-          text: 'Modifier',
-          handler: () => {
-            showEditForm.value = true;
-          }
         },
         {
           text: 'Annuler',
@@ -66,7 +57,7 @@
       const closeEditForm = () => {
         showEditForm.value = false;
       };
-
+  
       return {
         actionSheetButtons,
         showEditForm,
@@ -79,11 +70,12 @@
 
 <style>
 .imgTroisPoints{
-  width: 25px;
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: red;
+  color: white;
 }
 .container {
     display: flex;
@@ -91,10 +83,11 @@
     justify-content: center;
     height: 100%;
     flex-direction: column;
+    
   }
-  .buttonUpdateDelete .button-image {
-    width: 100%; /* Ajuster selon vos besoins */
-    height: 100%; /* Ajuster selon vos besoins */
+  .buttonUpdateDelete ion-button {
+    background: red; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte du bouton */
   }
 ion-action-sheet.my-custom-class .action-sheet-cancel {
   color: #A99F9F !important; /* Change text color */
@@ -112,7 +105,7 @@ ion-action-sheet.my-custom-class .action-sheet-cancel {
     height: 100%;
   }
   ion-action-sheet.my-custom-class .action-sheet-group {
-    background: rgba(212, 230, 219, 1);
+    background: rgb(255, 33, 33);
   }
 
   ion-action-sheet.my-custom-class .action-sheet-title {
@@ -133,6 +126,10 @@ ion-action-sheet.my-custom-class .action-sheet-cancel {
 
   ion-action-sheet.my-custom-class ion-backdrop {
     opacity: 0.6;
+  }
+  AreaUpdateDelete ion-button {
+      background-color: red;
+      color: white;
   }
 </style>
 

@@ -2,40 +2,42 @@
   <ion-page>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense"> </ion-header>
-      <ion-label>
+      <!--<ion-label>
         <ion-buttons slot="end">
           <AreaUpdateDelete class="btnUpdDel" />
         </ion-buttons>
         <h1 class="titrePage">Profil</h1>
         <ProfilUser
           class="profilUsr"
-          :name="dataUser.identifier"
+          :name="dataUser.username"
           imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399"
         />
-      </ion-label>
-      <div class="profile-section">
+      </ion-label>-->
+      <!--<div class="profile-section">
         <div class="profile-detail">
           <label>Identifiant</label>
           <div class="profile-name">
             {{ dataUser.identifier }}
           </div>
         </div>
-      </div>
+      </div>-->
       <ion-grid class="custom-grille">
-        <ion-row class="ion-justify-content-center">
-          <ion-col size="auto">
-            <ion-button @click="showEditForm"
-              >Changer de mot de passe</ion-button
-            >
-          </ion-col>
-        </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="auto">
             <ion-button @click="logout">Se déconnecter</ion-button>
           </ion-col>
         </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="auto" class="delBtn">
+            <!--<ion-button @click="showEditForm"
+              >Changer de mot de passe</ion-button
+            >-->
+            <AreaUpdateDelete class="delBtn"/>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-content>
+    
     <EditForm v-if="isEditFormVisible" @close="closeEditForm" />
   </ion-page>
 </template>
@@ -47,16 +49,14 @@ import {
   IonCol,
   IonRow,
   IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonButton,
 } from "@ionic/vue";
+import AreaUpdateDelete from '../components/AreaUpdateDelete.vue';
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { ref, computed } from "vue";
-import AreaUpdateDelete from "@/components/AreaUpdateDelete.vue";
-import ProfilUser from "@/components/ProfilUser.vue";
+import { ref, getCurrentInstance } from "vue";
+//import ProfilUser from "@/components/ProfilUser.vue";
 import EditForm from "@/components/EditForm.vue";
 
 export default {
@@ -67,12 +67,10 @@ export default {
     IonRow,
     IonPage,
     IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonButton,
     AreaUpdateDelete,
-    ProfilUser,
+    /*ProfilUser,*/
     EditForm,
   },
   setup() {
@@ -84,9 +82,10 @@ export default {
         identifier: localStorage
         .getItem("email")
         ?.substring(1, localStorage.getItem("email").length - 1),
-        username : localStorage
-          .getItem("email")
-          ?.substring(0, localStorage.getItem("email").indexOf("@")),
+        username: localStorage.getItem("email")?.substring(1, localStorage.getItem("email").indexOf("@")),
+        name : null,
+        surname : null,
+        birthdate : null
       }
     );
 
@@ -101,19 +100,36 @@ export default {
       localStorage.removeItem("token");
       localStorage.removeItem("email");
       localStorage.removeItem("user");
-      router.push("/login"); // Redirigez vers la page de connexion après déconnexion
+      router.push("/login");
     };
+    const internalInstance = getCurrentInstance();
+      const isMenuVisible = ref(false);
+  
+      function toggleMenu() {
+        isMenuVisible.value = !isMenuVisible.value;
+        if (isMenuVisible.value) {
+          internalInstance?.emit('open-action-sheet');
+        }
+      }
     return {
       logout,
       showEditForm,
       isEditFormVisible,
       closeEditForm,
       dataUser,
+      toggleMenu,
+      isMenuVisible
     };
   },
 };
+
 </script>
 <style scoped>
+.delBtn {
+  --background: red;
+  --color: white;
+}
+
 .btnUpdDel {
   margin-left: 80%;
   margin-top: 15%;
