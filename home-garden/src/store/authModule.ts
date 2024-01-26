@@ -9,6 +9,7 @@ import axios from "axios";
 
 const state = {
   user: JSON.parse(localStorage.getItem("user")),
+  data: null,
   authError: null,
 };
 
