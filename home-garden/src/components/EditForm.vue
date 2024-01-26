@@ -86,12 +86,14 @@ export default defineComponent({
       emit("close");
     };
 
-    const updateUser = async () => {
-      await store.dispatch("updUser", userData.value);
-      if (!authError.value) {
-        handleDismiss();
-      }
-    };
+        const updateUser = async () => {
+            await store.dispatch('updUser', userData.value);
+            localStorage.setItem('email', JSON.stringify(userData.value.identifier));
+            //window.location.reload();
+            if (!authError.value) {
+                handleDismiss();
+            }
+        };
 
     return {
       isOpen,

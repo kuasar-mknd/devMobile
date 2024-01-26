@@ -1,14 +1,7 @@
 <template>
   <div class="container">
-    <!-- Ion Button avec une image -->
     <ion-button class="buttonUpdateDelete" id="open-action-sheet">
-      <div class="imgTroisPoints">
-        <img
-          class="button-image"
-          src="/dots_menu.png"
-          alt="Description de l'image"
-        />
-      </div>
+        Supprimer le compte
     </ion-button>
     <ion-action-sheet
       trigger="open-action-sheet"
@@ -43,80 +36,76 @@ export default defineComponent({
       router.push("/login");
     };
 
-    const actionSheetButtons = [
-      {
-        text: "Supprimer",
-        role: "destructive",
-        handler: deleteUser, // Utilisez `handler` ici
-      },
-      {
-        text: "Modifier",
-        handler: () => {
-          showEditForm.value = true;
+      const actionSheetButtons = [
+        {
+          text: 'Confirmer la suppression du compte',
+          role: 'destructive',
+          handler: deleteUser // Utilisez `handler` ici
         },
-      },
-      {
-        text: "Annuler",
-        role: "cancel",
-        class: "action-sheet-cancel",
-      },
-    ];
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          class: 'action-sheet-cancel'
+        },
+      ];
 
     const logResult = (ev: CustomEvent) => {
       
     };
 
-    const closeEditForm = () => {
-      showEditForm.value = false;
-    };
-
-    return {
-      actionSheetButtons,
-      showEditForm,
-      logResult,
-      closeEditForm,
-    };
-  },
-});
+      const closeEditForm = () => {
+        showEditForm.value = false;
+      };
+  
+      return {
+        actionSheetButtons,
+        showEditForm,
+        logResult,
+        closeEditForm
+      };
+    },
+  });
 </script>
 
 <style>
-.imgTroisPoints {
-  width: 25px;
+.imgTroisPoints{
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: red;
+  color: white;
 }
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  flex-direction: column;
-}
-.buttonUpdateDelete .button-image {
-  width: 100%; /* Ajuster selon vos besoins */
-  height: 100%; /* Ajuster selon vos besoins */
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+    
+  }
+  .buttonUpdateDelete ion-button {
+    background: red; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte du bouton */
+  }
 ion-action-sheet.my-custom-class .action-sheet-cancel {
   color: #a99f9f !important; /* Change text color */
 }
 
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  flex-direction: column;
-}
-.button-container {
-  width: 100%;
-  height: 100%;
-}
-ion-action-sheet.my-custom-class .action-sheet-group {
-  background: rgba(212, 230, 219, 1);
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+  }
+  .button-container {
+    width: 100%;
+    height: 100%;
+  }
+  ion-action-sheet.my-custom-class .action-sheet-group {
+    background: rgb(255, 33, 33);
+  }
 
 ion-action-sheet.my-custom-class .action-sheet-title {
   color: #fff;
@@ -133,7 +122,11 @@ ion-action-sheet.my-custom-class .action-sheet-button.ion-focused {
   }
 }
 
-ion-action-sheet.my-custom-class ion-backdrop {
-  opacity: 0.6;
-}
+  ion-action-sheet.my-custom-class ion-backdrop {
+    opacity: 0.6;
+  }
+  AreaUpdateDelete ion-button {
+      background-color: red;
+      color: white;
+  }
 </style>
