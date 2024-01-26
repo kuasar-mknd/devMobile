@@ -2,11 +2,13 @@
   <IonModal :is-open="isOpen" @ionModalDidDismiss="handleDismiss">
     <ion-header>
       <ion-toolbar>
-        <IonTitle
+        <IonTitle class="ajouter-plant-text"
           >{{ isEditMode ? "Modifier" : "Ajouter" }} une Plante</IonTitle
         >
         <IonButtons slot="end">
-          <IonButton @click="handleDismiss">Fermer</IonButton>
+          <IonButton @click="handleDismiss" class="close-button">
+            <ion-icon :icon="closeCircleOutline"></ion-icon>
+</IonButton>
         </IonButtons>
       </ion-toolbar>
     </ion-header>
@@ -63,7 +65,7 @@
           labelText=" Origine"
           v-model="origin"
         />
-        <IonItem>
+        <IonItem  style="width: 100% !important;">
           <ion-select
             label="Exposition*"
             label-placement="floating"
@@ -95,7 +97,7 @@
       <IonItem>
         <InputText
           class="input-text-type-de-sol input-container"
-          labelText="Type de sol"
+          labelText="Type de sol pad"
           v-model="soilType"
         />
       </IonItem>
@@ -143,14 +145,15 @@
         />
       </IonItem>
 
-      <IonItem>
-        <IonItem>
+      <IonItem class="item-use">
+        <IonItem  style="width: 100% !important;">
           <ion-select
             label="Utilisation*"
             label-placement="floating"
             fill="outline"
             v-model="use"
             class="input-list-utilisation"
+
           >
             <ion-select-option value="Ornamental">Ornemental</ion-select-option>
             <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
@@ -179,6 +182,7 @@ import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import InputNumber from "@/components/InputNumber.vue";
 import InputText from "@/components/InputText.vue";
 import InputUrl from "@/components/InputUrl.vue";
+import { closeCircleOutline } from "ionicons/icons";
 import {
   IonToolbar,
   IonContent,
@@ -190,6 +194,7 @@ import {
   IonModal,
   IonTitle,
   IonButton,
+  IonIcon,
 } from "@ionic/vue";
 import { useStore } from "vuex";
 import {
@@ -218,6 +223,7 @@ export default defineComponent({
     IonModal,
     IonTitle,
     IonButton,
+    IonIcon,
   },
   props: {
     isEditMode: Boolean, // Détermine si le modal est en mode édition
@@ -447,6 +453,8 @@ export default defineComponent({
       use,
       error2,
       formValid,
+      closeCircleOutline
+        
     };
   },
 });
@@ -454,6 +462,13 @@ export default defineComponent({
 
 <style>
 /* Style personnalisé pour la carte, si nécessaire */
+.close-button {
+  position: absolute;
+  top: -16px;
+  right: +1px;
+  --color: #353535 !important; /* Couleur du bouton */
+  font-size: 1.5rem;
+}
 
 .logo {
   max-width: 200px; /* Ajustez la taille de votre logo */
@@ -465,10 +480,9 @@ export default defineComponent({
 .ajouter-plant-text {
   text-align: left;
   color: #37aa9f;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-left: 2rem;
-  font-family: "otomanopee_one" !important;
 }
 
 .button-picture {
@@ -484,22 +498,17 @@ export default defineComponent({
 
 .input-container {
   margin-bottom: 10px; /* Ajoutez l'espace souhaité en bas de chaque input */
-
   margin-left: 15px;
-}
+  padding: 8px 16px; /* Ajoutez le padding autour du champ */
 
-.input-list-exposition {
-  margin-bottom: 10px;
 }
 
 .input-text-commonName {
   margin-top: 20px;
+  
 }
 
-IonItem {
-  margin-left: 10px;
-  margin-right: 10px;
-}
+
 
 .red-text {
   color: red;
@@ -511,4 +520,8 @@ IonItem {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+
+
+
 </style>
