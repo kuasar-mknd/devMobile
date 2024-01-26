@@ -21,13 +21,6 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
-    path: "/DetailPlante/:id",
-    name: "DetailPlante",
-    props: true,
-    component: () => import("@/views/DetailsPlante.vue"), // Ajouter la route d'inscription
-  },
-
-  {
     path: "/tabs/",
     component: TabsPage,
     children: [
@@ -46,10 +39,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/JardinSpecifique.vue"),
       },
       {
-        path: "/AjouterPlante/:id",
-        name: "AjouterPlante",
+        path: "/DetailPlante/:id",
+        name: "DetailPlante",
         props: true,
-        component: () => import("@/views/PlantPage.vue"), // Ajouter la route d'inscription
+        component: () => import("@/views/DetailsPlante.vue"), // Ajouter la route d'inscription
       },
       {
         path: "user",
