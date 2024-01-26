@@ -40,7 +40,6 @@
           :isEditMode="true"
           :existingPlant="plantToEdit"
         />
-      </ion-label>
       <div class="image-container">
         <ion-img class="image" :src="decodeHtml(plants.imageUrl)"></ion-img>
       </div>

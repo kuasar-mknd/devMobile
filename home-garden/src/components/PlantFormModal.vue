@@ -254,6 +254,12 @@ export default defineComponent({
       close();
     };
 
+    const decodeHtml = (html) => {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = html;
+      return txt.value;
+    }
+
     const close = () => {
       isOpen.value = false;
       if (proxy) {
@@ -330,7 +336,7 @@ export default defineComponent({
         bloomingSeason: bloomingSeason.value,
         plantingSeason: plantingSeason.value,
         care: care.value,
-        imageUrl: imageUrl.value,
+        imageUrl: decodeHtml(imageUrl.value),
         use: use.value,
         garden: gardenId.value ? gardenId.value : props.gardenId,
       };
@@ -379,7 +385,6 @@ export default defineComponent({
             error.value = error.message || "Une erreur inconnue est survenue.";
           } finally {
             submissionInProgress.value = false;
-            close();
           }
         } else {
           try {
@@ -389,8 +394,10 @@ export default defineComponent({
             error.value = error.message || "Une erreur inconnue est survenue.";
           } finally {
             submissionInProgress.value = false; // Réinitialiser l'état de la soumission
-            close();
           }
+        }
+        if(!error.value) {
+          close();
         }
       }
     };
