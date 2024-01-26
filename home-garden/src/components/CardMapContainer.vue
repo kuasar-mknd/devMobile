@@ -4,7 +4,7 @@
     </ion-card-content>
 </template>
 
-<script>
+<script lang="ts">
 import { IonCardContent } from '@ionic/vue';
 import L from 'leaflet';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
@@ -27,10 +27,12 @@ export default {
   setup(props, { emit }) {
     const map = ref(null);
     const mapContainer = ref(null);
+    const userMarker = ref(null); // Référence pour le marqueur de l'utilisateur
+    let watchId;
 
     const getCurrentLocation = async () => {
       try {
-        const coordinates = await Geolocation.getCurrentPosition();
+        const coordinates = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
         updateUserLocationAddress([coordinates.coords.latitude, coordinates.coords.longitude]);
         return [coordinates.coords.latitude, coordinates.coords.longitude];
       } catch (e) {
@@ -40,7 +42,6 @@ export default {
     };
 
     const updateUserLocationAddress = (userLocation) => {
-      console.log(userLocation);
       emit('update:userLocation', userLocation);
     };
 
@@ -63,10 +64,8 @@ export default {
       // Retarder l'initialisation de la carte
       if (mapContainer.value) {
         const userCoords = await getCurrentLocation();
-        console.log(userCoords);
         setTimeout(() => {
           map.value = L.map(mapContainer.value).setView(userCoords, 13);
-          console.log(props.gardenLocation)
           const hasValidLocation = props.gardenLocation && props.gardenLocation.length === 2;
           const defaultCoords = hasValidLocation ? [props.gardenLocation[0], props.gardenLocation[1]] : userCoords; // Coordonnées par défaut si gardenLocation n'est pas valide
 
@@ -84,7 +83,9 @@ export default {
 
           // Ajouter un marqueur pour la position de l'utilisateur
           L.marker(userCoords, { icon: customUserIcon }).addTo(map.value);
+          
         }, 500);
+        watchId = await watchPosition();
       }
     });
 
@@ -92,7 +93,31 @@ export default {
       if (map.value) {
         map.value.remove();
       }
+      Geolocation.clearWatch({ id: watchId });
     });
+
+    const watchPosition = async () => {
+      watchId = Geolocation.watchPosition({ enableHighAccuracy: true }, (position, err) => {
+        if (err) {
+          console.error('Erreur de suivi de position :', err);
+          return;
+        }
+        const newPos = [position.coords.latitude, position.coords.longitude];
+        if (userMarker.value) {
+          userMarker.value.setLatLng(newPos);
+        } else if (map.value) {
+          //clear user marker
+          map.value.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options.customIconId === 'userIcon') {
+              layer.remove();
+            }
+          });
+          userMarker.value = L.marker(newPos, { icon: customUserIcon }).addTo(map.value);
+          updateUserLocationAddress(newPos);
+        }
+      });
+      return watchId;
+    };
 
     watch(map, (newMap) => {
       if (newMap) {
@@ -119,7 +144,6 @@ export default {
             });
             this.map.eachLayer(function (layer) {
               if (layer instanceof L.Marker && layer.options.icon && layer.options.icon.options.customIconId === 'gardenIcon') {
-                console.log('remove')
                 layer.remove();
               }
             });

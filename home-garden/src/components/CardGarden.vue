@@ -1,15 +1,12 @@
 <template>
-
-    <ion-list class="card" :inset="true">
-      <div @click="navigateToGarden" >
+  <ion-list class="card" :inset="true">
+    <div @click="navigateToGarden">
       <ion-item :button="true" :detail="true" class="custom-detail-icon">
         <ion-img slot="start" :src="imageSrc"></ion-img>
-        <ion-label>{{ label }}
-        </ion-label>
+        <ion-label>{{ label }} </ion-label>
       </ion-item>
     </div>
-    </ion-list>
-
+  </ion-list>
 
   <!--       
     <CardGarden
@@ -20,46 +17,37 @@
 </template>
 
 <script lang="ts">
-  import {
+import { IonItem, IonLabel, IonList, IonImg } from "@ionic/vue";
+import { defineComponent, PropType } from "vue";
+import { chevronForward, listCircle } from "ionicons/icons";
 
+export default defineComponent({
+  name: "CardGarden",
+  components: {
     IonItem,
     IonLabel,
     IonList,
     IonImg,
-
-  } from '@ionic/vue';
-  import { defineComponent,PropType } from 'vue';
-  import { chevronForward, listCircle  } from 'ionicons/icons';
-
-  export default defineComponent({
-    name: 'CardGarden',
-    components: {
-      IonItem,
-      IonLabel,
-      IonList,
-      IonImg,
-
-    },
-    props: {
+  },
+  props: {
     label: String as PropType<string>,
     imageSrc: String as PropType<string>,
-    localisation: Array as PropType<string[]>,
-    },
-    methods: {
-    navigateToGarden() {
-      this.$emit('navigate');
-    }
+    localisation: String as PropType<string>,
   },
-    setup() {
-      return { chevronForward, listCircle };
+  methods: {
+    navigateToGarden() {
+      this.$emit("navigate");
     },
-  });
+  },
+  setup() {
+    return { chevronForward, listCircle };
+  },
+});
 </script>
 
 <style scoped>
-
 .card {
-  border: 1.5px solid #FDAE36;
+  border: 1.5px solid #fdae36;
   padding-top: 2%;
   padding-bottom: 2%;
   margin-left: 1%;
@@ -70,44 +58,43 @@
   --detail-icon-color: rgb(253, 174, 54); /* Solid color for the detail icon */
   --detail-icon-opacity: 1; /* Remove transparency */
 }
-  .unread-indicator {
-    background: var(--ion-color-primary);
+.unread-indicator {
+  background: var(--ion-color-primary);
 
-    width: 10px;
-    height: 10px;
+  width: 10px;
+  height: 10px;
 
-    border-radius: 100%;
+  border-radius: 100%;
 
-    position: absolute;
+  position: absolute;
 
-    inset-inline-start: 12px;
-    top: 12px;
-  }
-  
+  inset-inline-start: 12px;
+  top: 12px;
+}
 
-  .metadata-end-wrapper {
-    position: absolute;
+.metadata-end-wrapper {
+  position: absolute;
 
-    top: 10px;
-    inset-inline-end: 10px;
+  top: 10px;
+  inset-inline-end: 10px;
 
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+}
 
-  ion-label strong {
-    display: block;
+ion-label strong {
+  display: block;
 
-    max-width: calc(100% - 60px);
+  max-width: calc(100% - 60px);
 
-    overflow: hidden;
+  overflow: hidden;
 
-    text-overflow: ellipsis;
-  }
+  text-overflow: ellipsis;
+}
 
-  ion-label ion-note {
-    font-size: 0.9rem;
-  }
+ion-label ion-note {
+  font-size: 0.9rem;
+}
 </style>

@@ -1,10 +1,10 @@
 <template>
   <ion-card>
-    <img :src="imageSrc" />
+    <img :src="imageSrc" class="imagePlante" />
     <ion-card-content>
       {{ name }}
-      <br>
-     <b>Watering :</b> {{ watering }}
+      <br />
+      <b>Watering :</b> {{ watering }}
     </ion-card-content>
   </ion-card>
   <!--
@@ -16,16 +16,24 @@
 </template>
 
 <script lang="ts">
-  import { IonCard, IonCardContent } from '@ionic/vue';
-  import { defineComponent } from 'vue';
+import { IonCard, IonCardContent } from "@ionic/vue";
+import { defineComponent } from "vue";
 
-  export default defineComponent({
-    name: 'CardPlant',
-    components: { IonCard, IonCardContent},
-    props: {
-      imageSrc: String,
-      watering: String,
-      name: String,
-    },
-  });
+export default defineComponent({
+  name: "CardPlant",
+  components: { IonCard, IonCardContent },
+  props: {
+    imageSrc: String,
+    watering: String,
+    name: String,
+  },
+});
 </script>
+
+<style scoped>
+.imagePlante {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+</style>

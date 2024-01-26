@@ -12,7 +12,11 @@
           border-radius: 5px;
         "
       >
-        <option v-for="(option, index) in options" :key="index" :value="option.value">
+        <option
+          v-for="(option, index) in options"
+          :key="index"
+          :value="option.value"
+        >
           {{ option.label }}
         </option>
       </select>
@@ -21,16 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref, defineProps } from "vue";
 
-const { labelText, id } = defineProps(['labelText', 'id']);
+const { labelText, id } = defineProps(["labelText", "id"]);
 const options = ref([
-  { label: 'Hiver', value: 'Hiver' },
-  { label: 'Printemps', value: 'Printemps' },
-  { label: 'Été', value: 'Été' },
-  { label: 'Automne', value: 'Automne' },
+  { label: "Hiver", value: "Hiver" },
+  { label: "Printemps", value: "Printemps" },
+  { label: "Été", value: "Été" },
+  { label: "Automne", value: "Automne" },
 ]);
-
 </script>
 
 <style scoped>

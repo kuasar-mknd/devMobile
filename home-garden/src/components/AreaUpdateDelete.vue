@@ -13,29 +13,28 @@
   </div>
 </template>
 
-
 <script lang="ts">
-  import { IonActionSheet, IonButton } from '@ionic/vue';
-  import { defineComponent, ref } from 'vue';
-  import EditForm from './EditForm.vue';
-  import { useStore } from 'vuex';
-  import { useRouter } from 'vue-router';
+import { IonActionSheet, IonButton } from "@ionic/vue";
+import { defineComponent, ref } from "vue";
+import EditForm from "./EditForm.vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-  export default defineComponent({
-    components: { IonActionSheet, IonButton, EditForm },
-    name: "AreaUpdateDelete",
-    setup() {
-      const store = useStore();
-      const router = useRouter();
-      const showEditForm = ref(false);
+export default defineComponent({
+  components: { IonActionSheet, IonButton, EditForm },
+  name: "AreaUpdateDelete",
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    const showEditForm = ref(false);
 
-      const deleteUser = async () => {
-        await store.dispatch('delUser');
-        localStorage.removeItem('token');
-        localStorage.removeItem('email');
-        localStorage.removeItem('user');
-        router.push('/login');
-      };
+    const deleteUser = async () => {
+      await store.dispatch("delUser");
+      localStorage.removeItem("token");
+      localStorage.removeItem("email");
+      localStorage.removeItem("user");
+      router.push("/login");
+    };
 
       const actionSheetButtons = [
         {
@@ -50,9 +49,9 @@
         },
       ];
 
-      const logResult = (ev: CustomEvent) => {
-        console.log(JSON.stringify(ev.detail, null, 2));
-      };
+    const logResult = (ev: CustomEvent) => {
+      
+    };
 
       const closeEditForm = () => {
         showEditForm.value = false;
@@ -90,7 +89,7 @@
     color: white; /* Couleur du texte du bouton */
   }
 ion-action-sheet.my-custom-class .action-sheet-cancel {
-  color: #A99F9F !important; /* Change text color */
+  color: #a99f9f !important; /* Change text color */
 }
 
 .container {
@@ -108,21 +107,20 @@ ion-action-sheet.my-custom-class .action-sheet-cancel {
     background: rgb(255, 33, 33);
   }
 
-  ion-action-sheet.my-custom-class .action-sheet-title {
-    color: #fff;
-  }
+ion-action-sheet.my-custom-class .action-sheet-title {
+  color: #fff;
+}
 
-  ion-action-sheet.my-custom-class .action-sheet-button,
-  ion-action-sheet.my-custom-class .action-sheet-button.ion-focused {
+ion-action-sheet.my-custom-class .action-sheet-button,
+ion-action-sheet.my-custom-class .action-sheet-button.ion-focused {
+  color: #000000;
+}
+
+@media (any-hover: hover) {
+  ion-action-sheet.my-custom-class .action-sheet-button:hover {
     color: #000000;
-
   }
-
-  @media (any-hover: hover) {
-    ion-action-sheet.my-custom-class .action-sheet-button:hover {
-      color: #000000;
-    }
-  }
+}
 
   ion-action-sheet.my-custom-class ion-backdrop {
     opacity: 0.6;
@@ -132,4 +130,3 @@ ion-action-sheet.my-custom-class .action-sheet-cancel {
       color: white;
   }
 </style>
-

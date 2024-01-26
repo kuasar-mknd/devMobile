@@ -1,196 +1,238 @@
 <template>
-    <ion-modal :is-open="isOpen" @ionModalDidDismiss="handleDismiss" class="modal-garden">
-      <ion-header translucent>
-        <ion-toolbar>
-          <ion-title>{{ isEditMode ? 'Mettre à jour un jardin' : 'Créer un jardin' }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button @click="handleDismiss">Fermer</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-  
-      <ion-content class="ion-padding">
-        <ion-list class="gardenCreate-form">
+  <ion-modal
+    :is-open="isOpen"
+    @ionModalDidDismiss="handleDismiss"
+    class="modal-garden"
+  >
+    <ion-header translucent>
+      <ion-toolbar>
+        <ion-title>{{
+          isEditMode ? "Mettre à jour un jardin" : "Créer un jardin"
+        }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="handleDismiss">Fermer</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-list class="gardenCreate-form">
         <ion-item>
           <ion-label position="stacked">Nom du jardin</ion-label>
           <ion-input v-model="gardenName" type="text"></ion-input>
         </ion-item>
         <ion-item v-if="isEditMode">
-          <ion-checkbox v-model="updateLocation" label-placement="start">Mettre à jour la localisation</ion-checkbox>
+          <ion-checkbox v-model="updateLocation" label-placement="start"
+            >Mettre à jour la localisation</ion-checkbox
+          >
         </ion-item>
         <div v-if="error" class="error-message">
-            {{ error }}
+          {{ error }}
         </div>
       </ion-list>
-        <div class="map-container">
-            <CardMapContainer ref="cardMapContainer" :gardenLocation="gardenLocation" @update:location="updateGardenLocation" @update:userLocation="updateUserLocation"/>
-        </div>
-        <ion-button expand="block" @click="submitGarden">
-          {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
-        </ion-button>
-      </ion-content>
-    </ion-modal>
-  </template>
+      <div class="map-container">
+        <CardMapContainer
+          ref="cardMapContainer"
+          :gardenLocation="gardenLocation"
+          @update:location="updateGardenLocation"
+          @update:userLocation="updateUserLocation"
+        />
+      </div>
+      <ion-button expand="block" @click="submitGarden">
+        {{ isEditMode ? "Mettre à jour" : "Créer" }}
+      </ion-button>
+    </ion-content>
+  </ion-modal>
+</template>
 
 <script lang="ts">
-import { 
-  IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-  IonContent, IonItem, IonLabel, IonInput, IonList, IonCheckbox
-} from '@ionic/vue';
+import {
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonButton,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonInput,
+  IonList,
+  IonCheckbox,
+} from "@ionic/vue";
 
-import { ref, getCurrentInstance, defineComponent, onMounted, nextTick, computed, watch } from 'vue';
+import {
+  ref,
+  getCurrentInstance,
+  defineComponent,
+  onMounted,
+  nextTick,
+  computed,
+  watch,
+} from "vue";
 
-import CardMapContainer from '@/components/CardMapContainer.vue';
+import CardMapContainer from "@/components/CardMapContainer.vue";
 
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation } from "@capacitor/geolocation";
 
 export default defineComponent({
-    components: {
-        IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, 
-        IonContent, IonItem, IonLabel, IonInput, CardMapContainer, IonList, IonCheckbox
-    },
-    props: {
-      isEditMode: Boolean, // Détermine si le modal est en mode édition
-      existingGarden: Object // Les données du jardin existant pour la mise à jour
-    },
-    setup(props, { emit }) {
-        const isOpen = ref(true); // You can control the visibility with this ref
-        const gardenName = ref(props.existingGarden?.name || '');
-        const gardenLocation = ref(props.existingGarden?.location?.coordinates);
-        const cardMapContainerRef = ref(null);
-        const { proxy } = getCurrentInstance();
-        const store = useStore();
-        const error = computed(() => store.state.garden.error);
-        const updateLocation = ref(false);
-        const userLocation = ref(null);
+  components: {
+    IonModal,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonButton,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonInput,
+    CardMapContainer,
+    IonList,
+    IonCheckbox,
+  },
+  props: {
+    isEditMode: Boolean, // Détermine si le modal est en mode édition
+    existingGarden: Object, // Les données du jardin existant pour la mise à jour
+  },
+  setup(props, { emit }) {
+    const isOpen = ref(true); // You can control the visibility with this ref
+    const gardenName = ref(props.existingGarden?.name || "");
+    const gardenLocation = ref(props.existingGarden?.location?.coordinates);
+    const cardMapContainerRef = ref(null);
+    const { proxy } = getCurrentInstance();
+    const store = useStore();
+    const error = computed(() => store.state.garden.error);
+    const updateLocation = ref(false);
+    const userLocation = ref(null);
 
-        const handleDismiss = () => {
-            close(); 
-        };
+    const handleDismiss = () => {
+      close();
+    };
 
-        const close = () => {
-            isOpen.value = false;
-            if (proxy) {
-                proxy.$emit('close'); // Émet l'événement 'close'
-            }
-        };
+    const close = () => {
+      isOpen.value = false;
+      if (proxy) {
+        proxy.$emit("close"); // Émet l'événement 'close'
+      }
+    };
 
-        const submitGarden = async () => {
-          let locationCoordinates;
-          console.log(userLocation.value)
+    const submitGarden = async () => {
+      let locationCoordinates;
 
-          if (props.isEditMode && !updateLocation.value) {
-                // En mode édition, mais l'utilisateur ne souhaite pas mettre à jour la localisation
-                locationCoordinates = props.existingGarden?.location?.coordinates || gardenLocation.value;
-              } else {
-                console.log('update location')
-                // En mode création ou l'utilisateur souhaite mettre à jour la localisation
-                locationCoordinates = userLocation.value;
-                console.log(locationCoordinates)
-              }
+      if (props.isEditMode && !updateLocation.value) {
+        // En mode édition, mais l'utilisateur ne souhaite pas mettre à jour la localisation
+        locationCoordinates =
+          props.existingGarden?.location?.coordinates || gardenLocation.value;
+      } else {
+        // En mode création ou l'utilisateur souhaite mettre à jour la localisation
+        locationCoordinates = userLocation.value;
+      }
 
-              const gardenData = {
-                name: gardenName.value,
-                location: {
-                  type: 'Point',
-                  coordinates: locationCoordinates,
-                },
-              };
+      const gardenData = {
+        name: gardenName.value,
+        location: {
+          type: "Point",
+          coordinates: locationCoordinates,
+        },
+      };
 
-          if (props.isEditMode) {
-            await store.dispatch('editGarden', { id: props.existingGarden._id, gardenData });
-            gardenLocation.value = locationCoordinates;
-            // refresh the map component
-
-
-          } else {
-            await store.dispatch('addGarden', gardenData);
-          }
-
-          if (!error.value) {
-            close();
-          }
-        };
-
-        const updateGardenLocation = (newLocation) => {
-          gardenLocation.value = newLocation;
-        };
-
-        const updateUserLocation = (newLocation) => {
-          console.log('update user location')
-          //if gardenLocation is not set, set it to the user location
-          if (!gardenLocation.value) {
-            gardenLocation.value = newLocation;
-          }
-          userLocation.value = newLocation;
-        };
-
-        onMounted(() => {
-          console.log(props.existingGarden)
-        // Utilisez nextTick pour s'assurer que tous les enfants sont montés
-            nextTick(() => {
-                if (cardMapContainerRef.value) {
-                cardMapContainerRef.value.invalidateMapSize();
-                }
-            });
+      if (props.isEditMode) {
+        await store.dispatch("editGarden", {
+          id: props.existingGarden._id,
+          gardenData,
         });
+        gardenLocation.value = locationCoordinates;
+        // refresh the map component
+      } else {
+        await store.dispatch("addGarden", gardenData);
+      }
 
-        watch(() => props.existingGarden, (newValue) => {
-          if (newValue) {
-            gardenName.value = newValue.name;
-            gardenLocation.value = newValue.location?.coordinates || [0, 0];
-          }
-        }, {
-          immediate: true, // Exécute le watcher dès l'initialisation du composant
-          deep: true // Surveille les changements profonds dans l'objet
-        });
+      if (!error.value) {
+        close();
+      }
+    };
 
-        return {
-        isOpen,
-        gardenName,
-        gardenLocation,
-        handleDismiss,
-        submitGarden,
-        close,
-        cardMapContainerRef,
-        updateGardenLocation,
-        updateUserLocation,
-        error,
-        updateLocation, 
-        };
-    }
+    const updateGardenLocation = (newLocation) => {
+      gardenLocation.value = newLocation;
+    };
+
+    const updateUserLocation = (newLocation) => {
+      //if gardenLocation is not set, set it to the user location
+      if (!gardenLocation.value) {
+        gardenLocation.value = newLocation;
+      }
+      userLocation.value = newLocation;
+    };
+
+    onMounted(() => {
+      // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+      nextTick(() => {
+        if (cardMapContainerRef.value) {
+          cardMapContainerRef.value.invalidateMapSize();
+        }
+      });
+    });
+
+    watch(
+      () => props.existingGarden,
+      (newValue) => {
+        if (newValue) {
+          gardenName.value = newValue.name;
+          gardenLocation.value = newValue.location?.coordinates || [0, 0];
+        }
+      },
+      {
+        immediate: true, // Exécute le watcher dès l'initialisation du composant
+        deep: true, // Surveille les changements profonds dans l'objet
+      }
+    );
+
+    return {
+      isOpen,
+      gardenName,
+      gardenLocation,
+      handleDismiss,
+      submitGarden,
+      close,
+      cardMapContainerRef,
+      updateGardenLocation,
+      updateUserLocation,
+      error,
+      updateLocation,
+    };
+  },
 });
 </script>
 
 <style scoped>
-
-.map-container{
-    height: 300px;
+.map-container {
+  height: 300px;
 }
 
-.gardenCreate-form{
+.gardenCreate-form {
   width: 100%;
   padding-top: 5%;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .error-message {
   font-size: small;
-    color: red;
-  }
-
-  ion-item {
---padding-start: 0;
---padding-end: 0;
---inner-padding-end: 0;
---inner-padding-start: 0;
---min-height: 40px;
-margin-bottom: 1rem;
+  color: red;
 }
 
-.modal-garden{
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+  --min-height: 40px;
+  margin-bottom: 1rem;
+}
+
+.modal-garden {
   height: auto;
 }
 </style>

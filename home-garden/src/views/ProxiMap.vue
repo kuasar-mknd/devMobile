@@ -6,12 +6,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <CardMapContainer ref="cardMapContainer" />
+      <CardMapContainer ref="cardMapContainerRef" />
     </ion-content>
   </ion-page>
 </template>
 
-<script>
+<script lang="ts">
 import {
   IonPage,
   IonHeader,
@@ -20,7 +20,7 @@ import {
   IonContent,
 } from "@ionic/vue";
 import CardMapContainer from "@/components/CardMapContainer.vue";
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, onUpdated, onUnmounted } from "vue";
 
 export default {
   components: {
@@ -35,6 +35,15 @@ export default {
     const cardMapContainerRef = ref(null);
 
     onMounted(() => {
+      // Utilisez nextTick pour s'assurer que tous les enfants sont montés
+      nextTick(() => {
+        if (cardMapContainerRef.value) {
+          cardMapContainerRef.value.invalidateMapSize();
+        }
+      });
+    });
+
+    onUpdated(() => {
       // Utilisez nextTick pour s'assurer que tous les enfants sont montés
       nextTick(() => {
         if (cardMapContainerRef.value) {

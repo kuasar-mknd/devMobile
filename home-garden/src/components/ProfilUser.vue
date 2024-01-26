@@ -12,30 +12,37 @@
 </template>
 
 <script lang="ts">
+import { IonGrid, IonRow, IonCol, IonAvatar } from "@ionic/vue";
 export default {
-  name: 'ProfilUser',
+  name: "ProfilUser",
+  components: {
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonAvatar,
+  },
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     imgURL: {
       type: String,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>
-.customName{
+.customName {
   justify-content: left;
 }
 
-.custom-row{
+.custom-row {
   margin-right: 7%;
 }
-.helloName{
+.helloName {
   text-align: left;
 }
 .profilPicture {

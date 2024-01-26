@@ -44,6 +44,7 @@
 
 <script lang="ts">
 import {
+  IonLabel,
   IonPage,
   IonGrid,
   IonCol,
@@ -51,6 +52,7 @@ import {
   IonHeader,
   IonContent,
   IonButton,
+  IonButtons,
 } from "@ionic/vue";
 import AreaUpdateDelete from '../components/AreaUpdateDelete.vue';
 import { useStore } from "vuex";
@@ -62,6 +64,8 @@ import EditForm from "@/components/EditForm.vue";
 export default {
   name: "UserProfile",
   components: {
+    IonButtons,
+    IonLabel,
     IonGrid,
     IonCol,
     IonRow,

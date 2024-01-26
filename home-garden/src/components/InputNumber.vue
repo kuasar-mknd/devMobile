@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
-import { IonInput } from '@ionic/vue';
+import { ref, defineProps } from "vue";
+import { IonInput } from "@ionic/vue";
 
-const props = defineProps(['labelText']);
+const props = defineProps(["labelText"]);
 const placeholderText = ref("Entrez le nombre"); // Modifiez le texte du placeholder ici
 const internalLabelText = props.labelText || "Nom"; // Utilisez la prop ou une valeur par défaut
-const inputValue = ref('');
+const inputValue = ref("");
 </script>
 
 <style scoped>

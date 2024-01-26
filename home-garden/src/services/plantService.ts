@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL + 'plants/';
+const API_URL = import.meta.env.VITE_API_URL + "plants/";
 
 export const plantService = {
   async fetchPlants() {
@@ -14,11 +14,11 @@ export const plantService = {
 
   async getPlant(id) {
     try {
-      const response = await axios.get(`${API_URL}${id}`,{
+      const response = await axios.get(`${API_URL}${id}`, {
         headers: {
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
-        });
+      });
       return response.data;
     } catch (error) {
       return Promise.reject(error);
@@ -27,9 +27,9 @@ export const plantService = {
 
   async createPlant(plantData) {
     try {
-      const response = await axios.post(API_URL, plantData ,{
+      const response = await axios.post(API_URL, plantData, {
         headers: {
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       return response.data;
@@ -40,7 +40,11 @@ export const plantService = {
 
   async updatePlant(id, plantData) {
     try {
-      const response = await axios.put(`${API_URL}${id}`, plantData);
+      const response = await axios.put(`${API_URL}${id}`, plantData, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
+      });
       return response.data;
     } catch (error) {
       return Promise.reject(error);
@@ -49,14 +53,14 @@ export const plantService = {
 
   async deletePlant(id) {
     try {
-      const response = await axios.delete(`${API_URL}${id}`,{
+      const response = await axios.delete(`${API_URL}${id}`, {
         headers: {
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       return response.data;
     } catch (error) {
       return Promise.reject(error);
     }
-  }
+  },
 };

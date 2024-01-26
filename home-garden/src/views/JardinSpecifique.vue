@@ -36,7 +36,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-text color="tertiary">
+      <ion-text class="colorTitre">
         <h1 class="titre">{{ gardenName }}</h1>
       </ion-text>
 
@@ -47,12 +47,19 @@
         :existingGarden="gardenToEdit"
       />
 
+      <PlantFormModal
+          :isOpen="showModalPlant"
+          @close="closeModalPlant"
+          :isEditMode="false"
+          :gardenId="id"
+        />
+
       <ion-grid>
         <ion-row>
           <ion-col>
             <div class="map-container">
               <CardMapContainer
-                ref="cardMapContainer"
+                ref="cardMapContainerRef"
                 :gardenLocation="gardenLocation"
                 :gardenName="gardenName"
                 @update:location="updateGardenLocation"
@@ -73,7 +80,7 @@
           </ion-col>
           <ion-col size="auto">
             <div style="width: 80px">
-              <ButtonAdd @click="redirectToPlante"> </ButtonAdd>
+              <ButtonAdd @click="openCreatePlantModal"> </ButtonAdd>
             </div>
           </ion-col>
         </ion-row>
@@ -135,6 +142,7 @@ import ButtonAdd from "@/components/ButtonAdd.vue";
 import { useRouter } from "vue-router";
 import CardMapContainer from "@/components/CardMapContainer.vue";
 import CreateGardenModal from "@/components/CreateGardenModal.vue";
+import PlantFormModal from "@/components/PlantFormModal.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import {
   ref,
@@ -172,6 +180,7 @@ export default {
     ButtonAdd,
     CreateGardenModal,
     IonLabel,
+    PlantFormModal,
   },
   props: {
     id: {
@@ -202,6 +211,7 @@ export default {
     const { proxy } = getCurrentInstance();
     const store = useStore();
     const showModal = ref(false);
+    const showModalPlant = ref(false);
 
     const filteredPlants = computed(() => {
       return plants.value.filter((plant) =>
@@ -239,6 +249,11 @@ export default {
       await loadGarden();
       showModal.value = false;
     };
+
+    const closeModalPlant = async () => {
+      await loadGarden();
+      showModalPlant.value = false;
+    };
     // Redirection vers la page  ajouter plante avec l'id du jardin en paramètre /AjouterPlante/:id
     const redirectToPlante = () => {
       router.push(`/AjouterPlante/${props.id}`);
@@ -266,16 +281,31 @@ export default {
             },
           };
           plants.value = loadedGarden.plants;
+
           // totalPlant.value = loadedGarden.plants.length;
         }
+        getTotalPlants();
+
       } catch (error) {
         console.error("Erreur lors du chargement du jardin", error);
       }
     };
 
     onMounted(() => {
-      getTotalPlants();
       loadGarden().then(() => {
+        nextTick(() => {
+          console.log("cardMapContainerRef.value", cardMapContainerRef);
+          if (cardMapContainerRef.value) {
+            console.log("cardMapContainerRef.value", cardMapContainerRef.value);
+            cardMapContainerRef.value.invalidateMapSize();
+          }
+        });
+      });
+    });
+
+    onUpdated(() => {
+      loadGarden().then(() => {
+        console.log("cardMapContainerRef.value", cardMapContainerRef);
         nextTick(() => {
           if (cardMapContainerRef.value) {
             cardMapContainerRef.value.invalidateMapSize();
@@ -284,23 +314,19 @@ export default {
       });
     });
 
-    onUpdated(() => {
-      getTotalPlants();
-      loadGarden();
-    });
-
     onUnmounted(() => {});
 
     const openCreateGardenModal = async () => {
       await loadGarden();
-      console.log(gardenToEdit.value);
-      console.log(showModal.value);
       showModal.value = true;
+    };
+
+    const openCreatePlantModal = async () => {
+      showModalPlant.value = true;
     };
 
     // watch gardenLocation to update the gardenToEdit object
     watch(gardenLocation, (newLocation) => {
-      console.log("changement de localisation");
       gardenToEdit.value = {
         ...gardenToEdit.value,
         location: {
@@ -336,8 +362,11 @@ export default {
       filteredPlants,
       searchText,
       closeModal,
+      closeModalPlant,
       redirectToPlante,
       redirectToPlanteDetails,
+      openCreatePlantModal,
+      showModalPlant
     };
   },
 };
@@ -373,6 +402,7 @@ ion-col {
 
 .titre {
   margin-left: 25px;
+  color: #37aa9f;
 }
 
 .plant-image {
@@ -385,5 +415,8 @@ ion-col {
   margin-top: 15%;
   height: 7%;
   width: 7%;
+}
+.colorTitre {
+  color: #37aa9f;
 }
 </style>
