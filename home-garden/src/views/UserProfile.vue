@@ -9,7 +9,7 @@
         <h1 class="titrePage">Profil</h1>
         <ProfilUser
           class="profilUsr"
-          :name="username"
+          :name="dataUser.identifier"
           imgURL="https://s.yimg.com/ny/api/res/1.2/HJrbLM56ZSZRmYQeDcAtuw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTYxODtoPTQxMg--/https://media.zenfs.com/en_US/News/TheWrap/Mom_Turns_Herself_Into_Evil-99f50dd3df2549fe02d0a55ad3f7b399"
         />
       </ion-label>
@@ -17,7 +17,7 @@
         <div class="profile-detail">
           <label>Identifiant</label>
           <div class="profile-name">
-            {{ email }}
+            {{ dataUser.identifier }}
           </div>
         </div>
       </div>
@@ -79,16 +79,16 @@ export default {
     const store = useStore();
     const router = useRouter();
     const isEditFormVisible = ref(false);
-    const email = ref(
-      localStorage
+    const dataUser = ref(
+      {
+        identifier: localStorage
         .getItem("email")
-        ?.substring(1, localStorage.getItem("email").length - 1)
+        ?.substring(1, localStorage.getItem("email").length - 1),
+        username : localStorage
+          .getItem("email")
+          ?.substring(0, localStorage.getItem("email").indexOf("@")),
+      }
     );
-    const username = computed(() => {
-      return email.value
-        ? email.value.substring(0, email.value.indexOf("@"))
-        : "";
-    });
 
     const showEditForm = () => {
       isEditFormVisible.value = true;
@@ -107,9 +107,8 @@ export default {
       logout,
       showEditForm,
       isEditFormVisible,
-      email,
-      username,
       closeEditForm,
+      dataUser,
     };
   },
 };

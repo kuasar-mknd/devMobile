@@ -7,8 +7,6 @@
           <h1>{{ name }}</h1>
         </div>
       </ion-col>
-<<<<<<< HEAD
-=======
       <ion-col>
         <div class="profilPicture">
           <ion-avatar slot="start">
@@ -16,7 +14,6 @@
         </ion-avatar>
         </div>
       </ion-col>
->>>>>>> main
     </ion-row>
   </ion-grid>
 </template>
