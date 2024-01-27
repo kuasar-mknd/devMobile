@@ -100,5 +100,7 @@ export default {
   --background: transparent; /* Example to set a transparent background */
   --color: #fdae36; /* Example to change the text color */
   --border-color: #fdae36; /* Example to change the border color */
+  font-weight: bold;
+
 }
 </style>

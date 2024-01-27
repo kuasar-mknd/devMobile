@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <ion-button class="buttonUpdateDelete" id="open-action-sheet">
+    <ion-button  class="buttonUpdateDelete" id="open-action-sheet">
         Supprimer le compte
     </ion-button>
     <ion-action-sheet
@@ -63,12 +63,25 @@ export default defineComponent({
 </script>
 
 <style scoped>
+ ion-button {
+  --border-radius: 10px;
+  --border-color: #fdae36 !important;
+  --color: #fdae36; /* Example to change the text color */
+  --background: transparent;
+  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+  --ripple-color: rgb(233, 221, 188);
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  text-transform: none;
+  font-weight: bold;
+  }
 .imgTroisPoints{
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .container {
     display: flex;
     align-items: center;
@@ -78,7 +91,7 @@ export default defineComponent({
     
   }
   .buttonUpdateDelete ion-button {
-    background: red;
+    background: red ;
     color: #fff;
   }
 ion-action-sheet.my-custom-class .action-sheet-cancel {
