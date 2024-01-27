@@ -15,7 +15,7 @@
   </ion-header>
   
     <ion-content :fullscreen="true">
-      <CardMapContainer ref="cardMapContainerRef" />
+      <CardMapContainer ref="cardMapContainerRef" :gardenMap="true"/>
     </ion-content>
   </ion-page>
 </template>
@@ -31,7 +31,8 @@ import {
   IonImg,
 } from "@ionic/vue";
 import CardMapContainer from "@/components/CardMapContainer.vue";
-import { ref, onMounted, nextTick, onUpdated, onUnmounted } from "vue";
+import { ref, onMounted, nextTick, onUpdated } from "vue";
+import { useStore } from "vuex";
 
 export default {
   components: {
@@ -46,8 +47,19 @@ export default {
   },
   setup() {
     const cardMapContainerRef = ref(null);
+    const store = useStore();
+
+    const loadGardens = async () => {
+      try {
+        await store.dispatch("getGardensByUserId");
+        store.state.garden.gardens.forEach((garden: any) => {});
+      } catch (error) {
+        console.error("Erreur lors du chargement des jardins:", error);
+      }
+    };
 
     onMounted(() => {
+      loadGardens();
       // Utilisez nextTick pour s'assurer que tous les enfants sont montés
       nextTick(() => {
         if (cardMapContainerRef.value) {
@@ -57,6 +69,7 @@ export default {
     });
 
     onUpdated(() => {
+      loadGardens();
       // Utilisez nextTick pour s'assurer que tous les enfants sont montés
       nextTick(() => {
         if (cardMapContainerRef.value) {
