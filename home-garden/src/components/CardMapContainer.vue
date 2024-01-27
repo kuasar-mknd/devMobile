@@ -103,7 +103,6 @@ export default {
 
           // Ajouter un marqueur pour la position de l'utilisateur
           L.marker(userCoords, { icon: customUserIcon }).addTo(map.value);
-          console.log(userCoords);
 
           if (props.gardenMap) {
             const gardens = store.state.garden.gardens;

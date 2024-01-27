@@ -37,7 +37,6 @@ const updateUser = async (userData) => {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
     });
-    console.log(response.data)
     return response.data;
   } catch (error) {
     return Promise.reject(error);

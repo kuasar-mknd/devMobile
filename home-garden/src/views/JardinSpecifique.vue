@@ -283,9 +283,7 @@ export default {
     onMounted(() => {
       loadGarden().then(() => {
         nextTick(() => {
-          console.log("cardMapContainerRef.value", cardMapContainerRef);
           if (cardMapContainerRef.value) {
-            console.log("cardMapContainerRef.value", cardMapContainerRef.value);
             cardMapContainerRef.value.invalidateMapSize();
           }
         });
@@ -294,7 +292,6 @@ export default {
 
     onUpdated(() => {
       loadGarden().then(() => {
-        console.log("cardMapContainerRef.value", cardMapContainerRef);
         nextTick(() => {
           if (cardMapContainerRef.value) {
             cardMapContainerRef.value.invalidateMapSize();
