@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-row class="ion-justify-content-between">
           <ion-col>
-            <ion-button @click="goBack" color="light" shape="round" fill="clear">
+            <ion-button @click="goBack" color="medium" shape="round" fill="clear">
               <ion-icon slot="icon-only" :icon="arrowBack"> </ion-icon>
             </ion-button>
           </ion-col>
