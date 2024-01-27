@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package xyz.kuasar.homegarden;
 
 import com.getcapacitor.BridgeActivity;
 
