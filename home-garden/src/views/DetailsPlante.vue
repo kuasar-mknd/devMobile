@@ -57,6 +57,14 @@
       <ion-text label="Utilisation">
         <p class="use">{{ translateUse(plants.use) }}</p>
       </ion-text>
+      <ion-label class="label"> Type de sol </ion-label>
+      <ion-text label="TypeSol">
+        <p class="typeSol">{{ plants.soilType}}</p>
+      </ion-text>
+      <ion-label class="label"> Origine </ion-label>
+      <ion-text label="Origine">
+        <p class="origine">{{ plants.origin }}</p>
+      </ion-text>
       <DetailPlantSeason
         :season="plants.plantingSeason"
         class="season"
@@ -321,6 +329,20 @@ export default defineComponent({
   font-size: 20px;
   font-weight: medium !important;
 }
+
+.typeSol {
+  margin-left: 15px;
+  font-size: 20px;
+  font-weight: medium !important;
+}
+
+.origine {
+  margin-left: 15px;
+  font-size: 20px;
+  font-weight: medium !important;
+}
+
+
 
 .season {
   font-size: 20px;
