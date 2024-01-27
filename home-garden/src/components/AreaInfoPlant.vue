@@ -19,17 +19,16 @@
         </ion-card-header>
         <ion-card-content>
           <!-- Contenu de votre modal -->
-          <p>Informations sur la plante</p>
           <DetailPlantSeason
-            season="saison de plantation exemple : printemps"
+            season="Saison de plantation exemple : printemps"
           />
-          <DetailPlantHeight height="Hauteur exemple : 20 cm " />
+          <DetailPlantHeight height="Hauteur exemple : 20 " />
           <DetailPlantWatering
-            watering="arrosage exemple : 1 fois par semaine"
+            watering="Arrosage exemple : 1 fois par semaine"
           />
-          <DetailPlantExposition exposure="exposition exemple : Soleil" />
-          <DetailPlantColor color="couleur exemple : Rouge" />
-          <DetailPlantBloom bloomSeason="saison de récolte exemple : Été" />
+          <DetailPlantExposition exposure="Exposition exemple : Soleil" />
+          <DetailPlantColor color="Couleur exemple : Rouge" />
+          <DetailPlantBloom bloomSeason="Saison de floraison exemple : Été" />
         </ion-card-content>
       </ion-card>
     </ion-modal>
@@ -107,7 +106,7 @@ export default defineComponent({
   left: 0;
   width: 100%;
   height: 100%;
-  background: #d4e6db70; /* Couleur du voile */
+  background: #F7F7F7; /* Couleur du voile */
   filter: blur(10px); /* Ajustez la valeur de flou selon vos préférences */
   pointer-events: none; /* Permet aux événements de souris de passer à travers */
 }
@@ -116,10 +115,9 @@ export default defineComponent({
 .modal-card {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 45%;
   transform: translate(-50%, -50%);
   width: 80%; /* Ajustez la largeur selon vos préférences */
-  background-color: #f0f5f2; /* Ajoutez une couleur de fond à votre modal */
   padding: 16px;
   border-radius: 10px;
 }
