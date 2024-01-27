@@ -17,6 +17,9 @@
       :fullscreen="true"
       class="content ion-margin-horizontal ion-padding"
     >
+      <h1 class="ion-justify-content-center">Bienvenue dans HomeGarden</h1>
+      {{ dataUser.identifier }}
+
       <ion-grid class="custom-grille">
         <ion-row class="ion-justify-content-center">
           <ion-col size="auto">
