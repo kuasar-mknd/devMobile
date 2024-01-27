@@ -108,6 +108,10 @@ export default {
 };
 </script>
 <style scoped>
+ ion-button {
+  --background: #fdae36; /* Example to change the background color */
+  --color: #ffffff;
+ }
 .delBtn {
   --background: red;
   --color: white;
