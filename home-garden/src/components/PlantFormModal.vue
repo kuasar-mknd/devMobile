@@ -6,9 +6,9 @@
           >{{ isEditMode ? "Modifier" : "Ajouter" }} une Plante</IonTitle
         >
         <IonButtons slot="end">
-          <IonButton @click="handleDismiss" class="close-button">
-            <ion-icon :icon="closeCircleOutline"></ion-icon>
-</IonButton>
+          <IonButton @click="handleDismiss">
+            Fermer
+          </IonButton>
         </IonButtons>
       </ion-toolbar>
     </ion-header>
@@ -65,7 +65,7 @@
           labelText=" Origine"
           v-model="origin"
         />
-        <IonItem  style="width: 100% !important;">
+        <IonItem style="width: 100% !important">
           <ion-select
             label="Exposition*"
             label-placement="floating"
@@ -146,17 +146,18 @@
       </IonItem>
 
       <IonItem class="item-use">
-        <IonItem  style="width: 100% !important;">
+        <IonItem style="width: 100% !important">
           <ion-select
             label="Utilisation*"
             label-placement="floating"
             fill="outline"
             v-model="use"
             class="input-list-utilisation"
-
           >
             <ion-select-option value="Ornamental">Ornemental</ion-select-option>
-            <ion-select-option value="Groundcover">Couvre-sol</ion-select-option>
+            <ion-select-option value="Groundcover"
+              >Couvre-sol</ion-select-option
+            >
             <ion-select-option value="Food">Alimentaire</ion-select-option>
             <ion-select-option value="Medicinal">Médicinal</ion-select-option>
             <ion-select-option value="Fragrance">Parfum</ion-select-option>
@@ -264,7 +265,7 @@ export default defineComponent({
       const txt = document.createElement("textarea");
       txt.innerHTML = html;
       return txt.value;
-    }
+    };
 
     const close = () => {
       isOpen.value = false;
@@ -311,9 +312,7 @@ export default defineComponent({
       imageUrl.value = await uploadImageToCloudinary(photoPath);
     };
 
-    onMounted(() => {
-      
-    });
+    onMounted(() => {});
 
     const submissionInProgress = ref(false);
 
@@ -397,7 +396,7 @@ export default defineComponent({
             submissionInProgress.value = false; // Réinitialiser l'état de la soumission
           }
         }
-        if(!error.value) {
+        if (!error.value) {
           close();
         }
       }
@@ -453,8 +452,7 @@ export default defineComponent({
       use,
       error2,
       formValid,
-      closeCircleOutline
-        
+      closeCircleOutline,
     };
   },
 });
@@ -500,15 +498,11 @@ export default defineComponent({
   margin-bottom: 10px; /* Ajoutez l'espace souhaité en bas de chaque input */
   margin-left: 15px;
   padding: 8px 16px; /* Ajoutez le padding autour du champ */
-
 }
 
 .input-text-commonName {
   margin-top: 20px;
-  
 }
-
-
 
 .red-text {
   color: red;
@@ -520,8 +514,4 @@ export default defineComponent({
   margin-top: 5px;
   margin-bottom: 5px;
 }
-
-
-
-
 </style>
