@@ -2,8 +2,6 @@
 
 ## Versions supportées
 
-Utilisez ce tableau pour montrer les versions de votre projet qui sont actuellement supportées avec des mises à jour de sécurité.
-
 | Version | Supporté          |
 | ------- | ------------------|
 | 1.0   | :white_check_mark:|
