@@ -3,7 +3,11 @@
 
 HomeGarden est une application mobile conçue pour aider les passionnés de jardinage à créer et gérer leurs jardins. Elle offre des fonctionnalités pour ajouter des plantes, visualiser des jardins sur une carte, et bien plus encore. Ce projet utilise Vue.js, Ionic, et une API REST avec MongoDB.
 
-Le backend est disponible [ici](https://github.com/kuasar-mknd/archiOweb-api)
+Le repository du backend est disponible [ici](https://github.com/kuasar-mknd/archiOweb-api)
+
+La documentation du backend est disponible sur [homegarden.onrender.com/api-docs](https://homegarden.onrender.com/api-docs/)
+
+L'API est disponbile sur https://homegarden.onrender.com/api/
 
 ## Prérequis
 
